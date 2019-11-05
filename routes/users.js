@@ -37,9 +37,4 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-
-router.get('/dashboard', (req, res) => {
-  res.render('user/dashboard');
-});
-
 module.exports = router;

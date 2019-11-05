@@ -9,13 +9,13 @@
 
 	<meta name="author" content="Themefisher.com">
 
-	<title>Aviato | E-commerce template</title>
+	<title>Aviato | E-commerce</title>
 
 	<!-- Mobile Specific Meta-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
+	<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.png" />
 
 	<!-- Themefisher Icon font -->
 	<link rel="stylesheet" href="/static/plugins/themefisher-font/style.css">
@@ -70,22 +70,10 @@
 				<div class="col-md-4 col-xs-12 col-sm-4">
 					<ul class="top-menu text-right list-inline">
 
-						{{!-- Login/Register/Profile --}}
-						<li class="dropdown cart-nav dropdown-slide">
-							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
-								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Dang nhap{{/if}}</a>
-							<ul class="dropdown-menu login-dropdown">
-								<li><a href="/user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
-								<li><a href="/user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
-								<li><a href="/user/profile" class="btn btn-small btn-solid-border">Tai khoan</a></li>
-								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
-							</ul>
-						</li>
-						</li>
 						<!-- Search -->
 						<li class="dropdown search dropdown-slide">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
-									class="tf-ion-ios-search-strong"></i> Tim kiem</a>
+									class="tf-ion-ios-search-strong"></i></a>
 							<ul class="dropdown-menu search-dropdown">
 								<li>
 									<form action="post"><input type="search" class="form-control"
@@ -94,6 +82,22 @@
 								</li>
 							</ul>
 						</li>
+
+
+						{{!-- Login/Register/Profile --}}
+						<li class="dropdown cart-nav dropdown-slide">
+							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
+								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Dang nhap{{/if}}</a>
+							<ul class="dropdown-menu login-dropdown">
+								<li><a href="/user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
+								<li><a href="/user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
+								<li><a href="/dashboard/history" class="btn btn-small btn-solid-border">Lich su mua hang</a></li>
+								<li><a href="/dashboard/profile" class="btn btn-small btn-solid-border">Thong tin ca nhan</a></li>
+								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
+							</ul>
+						</li>
+						</li>
+
 
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
@@ -139,7 +143,7 @@
 
 								<ul class="text-center cart-buttons">
 									<li><a href="/checkout/cart" class="btn btn-small">Chi tiet</a></li>
-									<li><a href="/checkout/checkout" class="btn btn-small btn-solid-border">Mua hang</a>
+									<li><a href="/checkout/payment" class="btn btn-small btn-solid-border">Mua hang</a>
 									</li>
 								</ul>
 							</div>
@@ -179,7 +183,7 @@
 
 						<!-- Pages -->
 						<li class="dropdown full-width dropdown-slide">
-							<a href="product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
 								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Do Nam <span
 									class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
@@ -234,7 +238,7 @@
 
 <!-- Pages -->
 						<li class="dropdown full-width dropdown-slide">
-							<a href="product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
 								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Do Nu <span
 									class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
@@ -288,7 +292,7 @@
 						</li><!-- / Pages -->
 <!-- Pages -->
 						<li class="dropdown full-width dropdown-slide">
-							<a href="product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
 								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Phu Kien <span
 									class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
