@@ -72,15 +72,15 @@
 
 						{{!-- Login/Register/Profile --}}
 						<li class="dropdown cart-nav dropdown-slide">
-							<a href={{#if user}}"user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
+							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
 								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Dang nhap{{/if}}</a>
 							<ul class="dropdown-menu login-dropdown">
 								{{#if user}}
-								<li><a href="user/profile" class="btn btn-small btn-solid-border">Tai khoan</a></li>
-								<li><a href="user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
+								<li><a href="/user/profile" class="btn btn-small btn-solid-border">Tai khoan</a></li>
+								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
 								{{else}}
-								<li><a href="user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
-								<li><a href="user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
+								<li><a href="/user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
+								<li><a href="/user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
 								{{/if}}
 							</ul>
 						</li>
@@ -100,7 +100,7 @@
 
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
-							<a href="checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
+							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
 								data-hover="dropdown"><i class="tf-ion-android-cart"></i> Gio hang</a>
 
 							{{!-- Cart items --}}
@@ -141,8 +141,8 @@
 								</div>
 
 								<ul class="text-center cart-buttons">
-									<li><a href="checkout/cart" class="btn btn-small">Xem gio hang</a></li>
-									<li><a href="checkout/checkout" class="btn btn-small btn-solid-border">Mua hang</a>
+									<li><a href="/checkout/cart" class="btn btn-small">Chi tiet</a></li>
+									<li><a href="/checkout/checkout" class="btn btn-small btn-solid-border">Mua hang</a>
 									</li>
 								</ul>
 							</div>
@@ -358,7 +358,7 @@
 											<li class="dropdown-header">Pages</li>
 											<li role="separator" class="divider"></li>
 											<li><a href="shop.html">Shop</a></li>
-											<li><a href="checkout.html">Checkout</a></li>
+											<li><a href="/checkout.html">Checkout</a></li>
 											<li><a href="cart.html">Cart</a></li>
 											<li><a href="pricing.html">Pricing</a></li>
 											<li><a href="confirmation.html">Confirmation</a></li>
