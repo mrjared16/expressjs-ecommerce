@@ -2528,7 +2528,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   color: #555;
 }
 
-.login-dropdown{
+.search-dropdown, .login-dropdown{
   right:auto!important;
 }
 .login-dropdown .btn{

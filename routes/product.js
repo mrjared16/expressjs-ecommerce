@@ -4,7 +4,7 @@ const data = require('./data');
 
 /* GET home page. */
 router.get('/list', function(req, res, next) {
-    res.render('product/list', {products: data('array'), column});
+    res.render('product/list', {products: data('list')});
 });
 
 router.get('/detail', function(req, res, next) {
