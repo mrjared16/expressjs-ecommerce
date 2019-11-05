@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const data = require('./data').array;
+const data = require('./data');
 
 /* GET home page. */
 router.get('/list', function(req, res, next) {
-    console.log('list');
-    res.render('product/list', {products: data});
+    res.render('product/list', {products: data('array'), column});
+});
+
+router.get('/detail', function(req, res, next) {
+    res.render('product/detail', {relate: data('relate'), detail: data('detail')});
 });
 
 module.exports = router;
