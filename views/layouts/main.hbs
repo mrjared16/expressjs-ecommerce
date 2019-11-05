@@ -75,13 +75,10 @@
 							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
 								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Dang nhap{{/if}}</a>
 							<ul class="dropdown-menu login-dropdown">
-								{{#if user}}
-								<li><a href="/user/profile" class="btn btn-small btn-solid-border">Tai khoan</a></li>
-								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
-								{{else}}
 								<li><a href="/user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
 								<li><a href="/user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
-								{{/if}}
+								<li><a href="/user/profile" class="btn btn-small btn-solid-border">Tai khoan</a></li>
+								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
 							</ul>
 						</li>
 						</li>
