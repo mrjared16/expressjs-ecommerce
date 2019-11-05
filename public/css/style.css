@@ -2214,7 +2214,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   background-color: #fff;
   border: 1px solid #dedede;
   padding: 30px;
-  margin: 100px 0;
+  margin: 0;
 }
 
 .account .block .logo {
@@ -2229,7 +2229,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   font-weight: 400;
   font-size: 25px;
   text-transform: uppercase;
-  margin-top: 40px;
+  margin-top: 5px;
 }
 
 .account .block form {
