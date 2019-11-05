@@ -33,7 +33,7 @@
 .rev-colorpicker .rev-colorbox {
 	border-right: 1px solid #ddd;
 	width: 32px;
-	background: url(../static/images/tpcolorpicker/trans_tile.png);	
+	background: url(/static/images/tpcolorpicker/trans_tile.png);	
 	
 }
 
@@ -326,7 +326,7 @@
 	height: 16px;
 	opacity: 0.25;
 	cursor: pointer;
-	background: url(../static/images/tpcolorpicker/exit.png) center center no-repeat;
+	background: url(/static/images/tpcolorpicker/exit.png) center center no-repeat;
 	background-size: 14px 16px;
 
 }
@@ -442,14 +442,14 @@
 
 .rev-cpicker-arrow-down {
 	
-	background-image: url(../static/images/tpcolorpicker/arrow_down.png);
+	background-image: url(/static/images/tpcolorpicker/arrow_down.png);
 	
 }
 
 .rev-cpicker-arrow-up {
 	
 	display: none;
-	background-image: url(../static/images/tpcolorpicker/arrow_up.png);
+	background-image: url(/static/images/tpcolorpicker/arrow_up.png);
 	
 }
 
@@ -623,7 +623,7 @@
 	width: 12px;
 	height: 12px;
 	display: inline-block;
-	background: url(../static/images/tpcolorpicker/save.png) left top no-repeat;
+	background: url(/static/images/tpcolorpicker/save.png) left top no-repeat;
 	background-size: 12px 25px;
 	margin-right: 5px;
 	position: relative;
@@ -664,7 +664,7 @@
 
 .rev-cpicker-preset-tile {
 	
-	background: url(../static/images/tpcolorpicker/trans_tile.png);
+	background: url(/static/images/tpcolorpicker/trans_tile.png);
 	
 }
 
@@ -731,7 +731,7 @@
 	width: 8px;
 	height: 10px;
 	display: none;
-	background: url(../static/images/tpcolorpicker/delete.png) left top no-repeat;
+	background: url(/static/images/tpcolorpicker/delete.png) left top no-repeat;
 	background-size: 8px 20px;
 
 }
@@ -810,7 +810,7 @@
 	margin-left: -50px;
 	border-radius: 3px;
 	cursor: pointer;
-	background: #27ae60 url(../static/images/tpcolorpicker/check.png) left top no-repeat;
+	background: #27ae60 url(/static/images/tpcolorpicker/check.png) left top no-repeat;
 	
 }
 
@@ -860,7 +860,7 @@
 	
 	width: 31px;
 	height: 26px;
-	background: #333 url(../static/images/tpcolorpicker/check_small.png) left bottom no-repeat;
+	background: #333 url(/static/images/tpcolorpicker/check_small.png) left bottom no-repeat;
 	margin-left: 22px;
 	vertical-align: top;
 	
@@ -876,7 +876,7 @@
 	
 	width: 265px;
 	height: 60px;
-	background: url(../static/images/tpcolorpicker/trans_tile.png);
+	background: url(/static/images/tpcolorpicker/trans_tile.png);
 	margin-top: 31px;
 	
 }
@@ -953,14 +953,14 @@
 .rev-cpicker-point-top {
 	
 	top: -17px;
-	background: url(../static/images/tpcolorpicker/point_top.png) left top no-repeat;
+	background: url(/static/images/tpcolorpicker/point_top.png) left top no-repeat;
 	
 }
 
 .rev-cpicker-point-bottom {
 	
 	bottom: -17px;
-	background: url(../static/images/tpcolorpicker/point_bottom.png) left top no-repeat;
+	background: url(/static/images/tpcolorpicker/point_bottom.png) left top no-repeat;
 	
 }
 
@@ -1080,7 +1080,7 @@
 	position: relative;
 	top: 1px;
 	opacity: 0.5;
-	background: url(../static/images/tpcolorpicker/trans_tile.png);
+	background: url(/static/images/tpcolorpicker/trans_tile.png);
 	
 }
 
@@ -1115,7 +1115,7 @@
 
 #rev-cpicker-meta-reverse.checked {
 	
-	background: url(../static/images/tpcolorpicker/check_reverse.png) center center no-repeat;
+	background: url(/static/images/tpcolorpicker/check_reverse.png) center center no-repeat;
 
 }
 
@@ -1272,7 +1272,7 @@
 	border-radius: 4px;
 	box-sizing: border-box;
 	box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
-    background: url(../static/images/tpcolorpicker/trans_tile.png);
+    background: url(/static/images/tpcolorpicker/trans_tile.png);
 	
 }
 

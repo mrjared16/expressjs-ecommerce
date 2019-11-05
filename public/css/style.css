@@ -1919,12 +1919,12 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .bg-1 {
-  background-image: url(../static/images/backgrounds/bg-1.jpg);
+  background-image: url(/static/images/backgrounds/bg-1.jpg);
   background-size: cover;
 }
 
 .bg-2 {
-  background-image: url("../static/images/page-header-1.jpg");
+  background-image: url("/static/images/page-header-1.jpg");
   background-size: cover;
 }
 
@@ -1939,13 +1939,13 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .bg-coming-soon {
-  background: url("../static/images/backgrounds/coming-soon-bg.jpg");
+  background: url("/static/images/backgrounds/coming-soon-bg.jpg");
   background-size: cover;
   height: 100vh;
 }
 
 .bg-brand-identity {
-  background-image: url("../static/images/backgrounds/brand-identity-bg.jpg");
+  background-image: url("/static/images/backgrounds/brand-identity-bg.jpg");
   background-repeat: no-repeat;
 }
 
