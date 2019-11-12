@@ -77,7 +77,7 @@
 							<ul class="dropdown-menu search-dropdown">
 								<li>
 									<form action="post"><input type="search" class="form-control"
-											placeholder="Search...">
+											placeholder="Tìm...">
 									</form>
 								</li>
 							</ul>
@@ -87,13 +87,13 @@
 						{{!-- Login/Register/Profile --}}
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
-								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Dang nhap{{/if}}</a>
+								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i> {{#if user}}{{{user}}}{{else}}Đăng nhập{{/if}}</a>
 							<ul class="dropdown-menu login-dropdown">
-								<li><a href="/user/login" class="btn btn-small btn-solid-border">Dang nhap</a></li>
-								<li><a href="/user/register" class="btn btn-small btn-solid-border">Dang ky</a></li>
-								<li><a href="/dashboard/history" class="btn btn-small btn-solid-border">Lich su mua hang</a></li>
-								<li><a href="/dashboard/profile" class="btn btn-small btn-solid-border">Thong tin ca nhan</a></li>
-								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Dang xuat</a></li>
+								<li><a href="/user/login" class="btn btn-small btn-solid-border">Đăng nhập</a></li>
+								<li><a href="/user/register" class="btn btn-small btn-solid-border">Đăng kí</a></li>
+								<li><a href="/dashboard/history" class="btn btn-small btn-solid-border">Lịch sử mua hàng</a></li>
+								<li><a href="/dashboard/profile" class="btn btn-small btn-solid-border">Thông tin cá nhân</a></li>
+								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Đăng xuất</a></li>
 							</ul>
 						</li>
 						</li>
@@ -102,7 +102,7 @@
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
-								data-hover="dropdown"><i class="tf-ion-android-cart"></i> Gio hang</a>
+								data-hover="dropdown"><i class="tf-ion-android-cart"></i> Giỏ hàng</a>
 
 							{{!-- Cart items --}}
 							<div class="dropdown-menu cart-dropdown">
@@ -112,7 +112,7 @@
 										<img class="media-object" src="/static/images/shop/cart-1.jpg" alt="image" />
 									</a>
 									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mat kinh nam</a></h4>
+										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
 										<div class="cart-price">
 											<span>1 x</span>
 											<span>1,200,000</span>
@@ -127,7 +127,7 @@
 										<img class="media-object" src="/static/images/shop/cart-1.jpg" alt="image" />
 									</a>
 									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mat kinh nam</a></h4>
+										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
 										<div class="cart-price">
 											<span>1 x</span>
 											<span>800,000</span>
@@ -137,13 +137,13 @@
 								</div>
 
 								<div class="cart-summary">
-									<span>Tong cong</span>
-									<span class="total-price">2,000,000 dong</span>
+									<span>Tổng cộng</span>
+									<span class="total-price">2,000,000 đồng</span>
 								</div>
 
 								<ul class="text-center cart-buttons">
-									<li><a href="/checkout/cart" class="btn btn-small">Chi tiet</a></li>
-									<li><a href="/checkout/payment" class="btn btn-small btn-solid-border">Mua hang</a>
+									<li><a href="/checkout/cart" class="btn btn-small">Chi tiết</a></li>
+									<li><a href="/checkout/payment" class="btn btn-small btn-solid-border">Mua hàng</a>
 									</li>
 								</ul>
 							</div>
@@ -178,13 +178,68 @@
 
 						<!-- Home -->
 						<li class="dropdown ">
-							<a href="/">Trang chu</a>
+							<a href="/">Trang chủ</a>
 						</li><!-- / Home -->
 
 						<!-- Pages -->
 						<li class="dropdown full-width dropdown-slide">
 							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Do Nam <span
+								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Đồ Nam <span
+									class="tf-ion-ios-arrow-down"></span></a>
+							<div class="dropdown-menu">
+								<div class="row">
+
+									<!-- Introduction -->
+									<div class="col-sm-3 col-xs-12">
+										<ul>
+											<li class="dropdown-header">Giới thiệu</li>
+											<li role="separator" class="divider"></li>
+											<li><a href="contact.html">Liên hệ chúng tôi</a></li>
+											<li><a href="about.html">Thông tin thêm</a></li>
+											<li><a href="404.html">404 Page</a></li>
+											<li><a href="coming-soon.html">Sắp có</a></li>
+											<li><a href="faq.html">FAQ</a></li>
+										</ul>
+									</div>
+
+									<!-- Contact -->
+									<div class="col-sm-3 col-xs-12">
+										<ul>
+											<li class="dropdown-header">Dashboard</li>
+											<li role="separator" class="divider"></li>
+											<li><a href="dashboard.html">Giao diện người dùng</a></li>
+											<li><a href="order.html">Đơn hàng</a></li>
+											<li><a href="address.html">Địa chỉ</a></li>
+											<li><a href="profile-details.html">Chi tiết thêm</a></li>
+										</ul>
+									</div>
+
+									<!-- Utility -->
+									<div class="col-sm-3 col-xs-12">
+										<ul>
+											<li class="dropdown-header">Trang chức năng</li>
+											<li role="separator" class="divider"></li>
+											<li><a href="login.html">Trang đăng nhập</a></li>
+											<li><a href="signin.html">Trang đăng kí</a></li>
+											<li><a href="forget-password.html">Trang quên mật khẩu</a></li>
+										</ul>
+									</div>
+
+									<!-- Mega Menu -->
+									<div class="col-sm-3 col-xs-12">
+										<a href="shop.html">
+											<img class="img-responsive" src="/static/images/shop/header-img.jpg"
+												alt="menu image" />
+										</a>
+									</div>
+								</div><!-- / .row -->
+							</div><!-- / .dropdown-menu -->
+						</li><!-- / Pages -->
+
+<!-- Pages -->
+						<li class="dropdown full-width dropdown-slide">
+							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Đồ nam <span
 									class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
 								<div class="row">
@@ -235,65 +290,10 @@
 								</div><!-- / .row -->
 							</div><!-- / .dropdown-menu -->
 						</li><!-- / Pages -->
-
 <!-- Pages -->
 						<li class="dropdown full-width dropdown-slide">
 							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Do Nu <span
-									class="tf-ion-ios-arrow-down"></span></a>
-							<div class="dropdown-menu">
-								<div class="row">
-
-									<!-- Introduction -->
-									<div class="col-sm-3 col-xs-12">
-										<ul>
-											<li class="dropdown-header">Introduction</li>
-											<li role="separator" class="divider"></li>
-											<li><a href="contact.html">Contact Us</a></li>
-											<li><a href="about.html">About Us</a></li>
-											<li><a href="404.html">404 Page</a></li>
-											<li><a href="coming-soon.html">Coming Soon</a></li>
-											<li><a href="faq.html">FAQ</a></li>
-										</ul>
-									</div>
-
-									<!-- Contact -->
-									<div class="col-sm-3 col-xs-12">
-										<ul>
-											<li class="dropdown-header">Dashboard</li>
-											<li role="separator" class="divider"></li>
-											<li><a href="dashboard.html">User Interface</a></li>
-											<li><a href="order.html">Orders</a></li>
-											<li><a href="address.html">Address</a></li>
-											<li><a href="profile-details.html">Profile Details</a></li>
-										</ul>
-									</div>
-
-									<!-- Utility -->
-									<div class="col-sm-3 col-xs-12">
-										<ul>
-											<li class="dropdown-header">Utility</li>
-											<li role="separator" class="divider"></li>
-											<li><a href="login.html">Login Page</a></li>
-											<li><a href="signin.html">Signin Page</a></li>
-											<li><a href="forget-password.html">Forget Password</a></li>
-										</ul>
-									</div>
-
-									<!-- Mega Menu -->
-									<div class="col-sm-3 col-xs-12">
-										<a href="shop.html">
-											<img class="img-responsive" src="/static/images/shop/header-img.jpg"
-												alt="menu image" />
-										</a>
-									</div>
-								</div><!-- / .row -->
-							</div><!-- / .dropdown-menu -->
-						</li><!-- / Pages -->
-<!-- Pages -->
-						<li class="dropdown full-width dropdown-slide">
-							<a href="/product/list" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Phu Kien <span
+								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Phụ kiện <span
 									class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
 								<div class="row">
@@ -348,21 +348,20 @@
 						<!-- Shop -->
 						<li class="dropdown dropdown-slide">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Danh muc san
-								pham <span class="tf-ion-ios-arrow-down"></span></a>
+								data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Danh mục sản phẩm <span class="tf-ion-ios-arrow-down"></span></a>
 							<div class="dropdown-menu">
 								<div class="row">
 
 									<!-- Basic -->
 									<div class="col-lg-6 col-md-6 mb-sm-3">
 										<ul>
-											<li class="dropdown-header">Pages</li>
+											<li class="dropdown-header">Các trang khác</li>
 											<li role="separator" class="divider"></li>
-											<li><a href="shop.html">Shop</a></li>
-											<li><a href="/checkout.html">Checkout</a></li>
-											<li><a href="cart.html">Cart</a></li>
-											<li><a href="pricing.html">Pricing</a></li>
-											<li><a href="confirmation.html">Confirmation</a></li>
+											<li><a href="shop.html">Cửa hàng</a></li>
+											<li><a href="/checkout.html">Thanh toán</a></li>
+											<li><a href="cart.html">Giỏ hàng</a></li>
+											<li><a href="pricing.html">Giá cả</a></li>
+											<li><a href="confirmation.html">Xác nhận</a></li>
 
 										</ul>
 									</div>
@@ -370,10 +369,10 @@
 									<!-- Layout -->
 									<div class="col-lg-6 col-md-6 mb-sm-3">
 										<ul>
-											<li class="dropdown-header">Layout</li>
+											<li class="dropdown-header">Giao diện</li>
 											<li role="separator" class="divider"></li>
-											<li><a href="product-single.html">Product Details</a></li>
-											<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
+											<li><a href="product-single.html">Chi tiết sản phẩm</a></li>
+											<li><a href="shop-sidebar.html">Cửa hàng sidebar</a></li>
 
 										</ul>
 									</div>
@@ -419,19 +418,19 @@
 					</ul>
 					<ul class="footer-menu">
 						<li>
-							<a href="#">GIOI THIEU</a>
+							<a href="#">GIỚI THIỆU</a>
 						</li>
 						<li>
-							<a href="#">LIEN HE</a>
+							<a href="#">LIÊN HỆ</a>
 						</li>
 						<li>
-							<a href="#">CAU HOI THUONG GAP</a>
+							<a href="#">CÂU HỎI THƯỜNG GẶP</a>
 						</li>
 						<li>
-							<a href="#">DIEU KHOAN DICH VU</a>
+							<a href="#">ĐIỀU KHOẢN DỊCH VỤ</a>
 						</li>
 						<li>
-							<a href="#">CHINH SACH BAO MAT</a>
+							<a href="#">CHÍNH SÁCH BẢO MẬT</a>
 						</li>
 					</ul>
 					<p class="copyright-text">Powered by Bootstrap</p>
@@ -440,7 +439,7 @@
 		</div>
 	</footer>
 
-	<!-- 
+	<!--
     Essential Scripts
     =====================================-->
 
