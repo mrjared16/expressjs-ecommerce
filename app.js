@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,6 +12,11 @@ var checkoutRouter = require('./routes/checkout');
 var dashboardRouter = require('./routes/dashboard');
 
 var app = express();
+
+const mongoDB = 'mongodb+srv://admin:admin@ecommerce-u7894.mongodb.net/ecommerce?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+  console.log('connected database');
+});
 
 var handlebars = require('express-handlebars');
 app.engine('hbs', handlebars({ extname: '.hbs' }));
@@ -32,12 +38,12 @@ app.use('/checkout', checkoutRouter);
 app.use('/dashboard', dashboardRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
