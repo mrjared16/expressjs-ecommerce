@@ -6,7 +6,7 @@ const product = require('../models/product');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  product.find().then(result => {
+  product.aggregate().sample(6).then(result => {
 
     const query = result.map(item => ({
       hasBage: (item.sale | item.sale > 0) ? true : false,
