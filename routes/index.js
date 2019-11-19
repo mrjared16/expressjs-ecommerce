@@ -13,6 +13,7 @@ router.get('/', function (req, res, next) {
       imgpath: item.img_path[0],
       name: item.name,
       price: item.price,
+      id: item._id
     }));
     console.log(query);
 
