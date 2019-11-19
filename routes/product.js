@@ -6,8 +6,8 @@ const product = require('../models/product');
 /* GET home page. */
 router.get('/list', async (req, res, next) => {
     console.log(req.query);
-
-    const result = (Object.keys(req.query).length === 0) ? await product.find() : await product.find({brand: `${req.query.brand}/i`});
+    // category,  gender, group, 
+    const result = (Object.keys(req.query).length === 0) ? await product.find() : await product.find({brand: {"$regex": new RegExp(req.query.brand,  'i')}});
     console.log(result);
     const query = result.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
