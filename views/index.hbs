@@ -1,3 +1,4 @@
+{{!-- TODO: edit slider --}}
 <section class="main-slider">
 	<div id="home_slider_wrapper" class="rev_slider_wrapper fullscreen-container">
 		<div id="home_slider" class="rev_slider fullscreenbanner tiny_bullet_slider" data-version="5.4.1">
@@ -166,19 +167,19 @@
 			</div>
 			<div class="col-md-6">
 				<div class="category-box">
-					<a href="/product/list">
-						<img src="/static/images/shop/category/category-1.jpg" alt="" />
+					<a href="/product/list?category=footwear">
+						<img src="/static/images/category-1.jpg" alt="Giày dép" />
 						<div class="content">
-							<h3>Đồ nam</h3>
+							<h3>Giày dép</h3>
 							<p>Xem danh sách các sản phẩm</p>
 						</div>
 					</a>
 				</div>
 				<div class="category-box">
-					<a href="/product/list">
-						<img src="/static/images/shop/category/category-2.jpg" alt="" />
+					<a href="/product/list?category=wear">
+						<img src="/static/images/category-2.jpg" alt="Quần áo" />
 						<div class="content">
-							<h3>Đồ nữ</h3>
+							<h3>Quần áo</h3>
 							<p>Xem danh sách các sản phẩm</p>
 						</div>
 					</a>
@@ -186,8 +187,8 @@
 			</div>
 			<div class="col-md-6">
 				<div class="category-box category-box-2">
-					<a href="/product/list">
-						<img src="/static/images/shop/category/category-3.jpg" alt="" />
+					<a href="/product/list?category=accessories">
+						<img src="/static/images/category-3.jpg" alt="Phụ kiện" />
 						<div class="content">
 							<h3>Phụ kiện</h3>
 							<p>Xem danh sách các sản phẩm</p>
@@ -220,14 +221,14 @@ Start Call To Action
 			<div class="col-md-12 text-center">
 				<div class="title">
 					<h2>Đăng kí nhận ưu đãi</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, <br> facilis numquam impedit ut
-						sequi. Minus facilis vitae excepturi sit laboriosam.</p>
-				</div>
+						{{!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, <br> facilis numquam impedit ut
+							sequi. Minus facilis vitae excepturi sit laboriosam.</p>
+					</div> --}}
 				<div class="col-lg-6 col-md-offset-3">
 					<div class="input-group subscription-form">
-						<input type="text" class="form-control" placeholder="Enter Your Email Address">
+						<input type="text" class="form-control" placeholder="Nhập địa chỉ email">
 						<span class="input-group-btn">
-							<button class="btn btn-main" type="button">Đăng kí !</button>
+							<button class="btn btn-main" type="button">Đăng kí</button>
 						</span>
 					</div><!-- /input-group -->
 				</div><!-- /.col-lg-6 -->

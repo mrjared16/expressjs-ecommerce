@@ -13,7 +13,9 @@ var dashboardRouter = require('./routes/dashboard');
 
 var app = express();
 
-const mongoDB = 'mongodb+srv://admin:admin@ecommerce-u7894.mongodb.net/ecommerce?retryWrites=true&w=majority';
+// const mongoDB = 'mongodb+srv://admin:admin@ecommerce-u7894.mongodb.net/ecommerce?retryWrites=true&w=majority';
+
+const mongoDB = 'mongodb://localhost/ecommerce';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
   console.log('connected database');
 });
