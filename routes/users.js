@@ -1,40 +1,26 @@
 var express = require('express');
 var router = express.Router();
+const userController = require('../controller/userController');
 
 /* GET users listing. */
-router.get('/login', function (req, res, next) {
-  res.render('user/login');
-});
+router.get('/login', userController.getLogin);
 
-router.post('/login', (req, res) => {
-  res.redirect('/');
-});
+router.post('/login', userController.postLogin);
 
 
 
-router.get('/register', function (req, res, next) {
-  res.render('user/register');
-});
+router.get('/register', userController.getRegister);
 
-router.post('/register', (req, res) => {
-  res.redirect('/');
-});
+router.post('/register', userController.postRegister);
 
 
 
-router.get('/forget-password', function (req, res, next) {
-  res.render('user/forget-password');
-});
+router.get('/forget-password', userController.getForgetPass);
 
-router.post('/forget-password', (req, res) => {
-  res.redirect('/');
-});
+router.post('/forget-password', userController.postForgetPass);
 
 
 
-router.get('/logout', (req, res) => {
-  //res.logout();
-  res.redirect('/');
-});
+router.get('/logout', userController.logout);
 
 module.exports = router;
