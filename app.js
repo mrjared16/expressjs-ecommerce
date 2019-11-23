@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -13,10 +14,8 @@ var dashboardRouter = require('./routes/dashboard');
 
 var app = express();
 
-const mongoDB = 'mongodb+srv://admin:admin@ecommerce-u7894.mongodb.net/ecommerce?retryWrites=true&w=majority';
-
 //const mongoDB = 'mongodb://localhost/ecommerce';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
   console.log('connected database');
 });
 
