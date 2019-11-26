@@ -6,7 +6,8 @@ const product = require('../models/product');
 /* GET home page. */
 router.get('/list', async (req, res, next) => {
     console.log(req.query);
-    // category,  gender, group, 
+    // category,  gender, group, color, size
+    //order
     const result = await product.find({
             brand: { "$regex": new RegExp(req.query.brand, 'i') },
             category: { "$regex": new RegExp(req.query.category, 'i') },
