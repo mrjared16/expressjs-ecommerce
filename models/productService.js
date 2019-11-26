@@ -23,7 +23,7 @@ exports.queryIndex = async (req, res) => {
 }
 
 exports.queryDetail = async (req, res) => {
-    const detail = await product.findById(req.params.id);
+    const detail = await product.findByIdAndUpdate(req.params.id, {$inc : {'view' : 1}});
     const imgpath = detail.assert.img.map(item => detail.assert.path + item);
     const query = {
         active_img: imgpath[0],
@@ -31,9 +31,11 @@ exports.queryDetail = async (req, res) => {
         name: detail.name,
         description: detail.description,
         price: detail.price,
-        color: null,
+        color: detail.option.color,
+        size: detail.option.size,
         quantity: detail.quantity,
-        categories: detail.categories
+        categories: detail.categories,
+        view: detail.view
     }
     console.log(query);
     return query;
