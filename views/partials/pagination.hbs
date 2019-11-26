@@ -1,58 +1,10 @@
 {{#with pageOptions}}
+{{#if isPaginate}}
 <div class="row">
     <ul class="pagination post-pagination">
+        {{{createPagination this}}}
 
-        {{#if this.hasPrev}}
-        <li>
-            <a href="#">Prev</a>
-        </li>
-        {{/if}}
-        {{#if this.hasFirstPage}}
-        <li>
-            <a href="#">1</a>
-        </li>
-        {{/if}}
-        {{#if this.hasPrevDot}}
-        <li>
-            <a href="#">...</a>
-        </li>
-        {{/if}}
-
-        {{#if this.prevPage}}
-        <li>
-            <a href="#">{{this.prevPage}}</a>
-        </li>
-        {{/if}}
-
-        <li class="active">
-            <a href="#">{{this.currentPage}}</a>
-        </li>
-
-
-
-        {{#if this.nextPage}}
-        <li>
-            <a href="#">{{this.nextPage}}</a>
-        </li>
-        {{/if}}
-
-        {{#if this.hasNextDot}}
-        <li>
-            <a href="#">...</a>
-        </li>
-        {{/if}}
-
-        {{#if this.hasLastPage}}
-        <li>
-            <a href="#">{{this.totalPage}}</a>
-        </li>
-        {{/if}}
-
-        {{#if this.hasNext}}
-        <li>
-            <a href="#">Next</a>
-        </li>
-        {{/if}}
     </ul>
 </div>
+{{/if}}
 {{/with}}
