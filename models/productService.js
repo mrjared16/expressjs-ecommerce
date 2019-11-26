@@ -34,7 +34,7 @@ exports.queryDetail = async (req, res) => {
         color: detail.option.color,
         size: detail.option.size,
         quantity: detail.quantity,
-        categories: detail.categories,
+        tag: detail.tag,
         view: detail.view
     }
     console.log(query);
