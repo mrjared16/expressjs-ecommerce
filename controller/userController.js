@@ -1,30 +1,30 @@
-exports.getLogin = function(req, res) {
+exports.getLogin = (req, res) => {
     res.render('user/login');
 }
 
-exports.postLogin = function(req, res) {
+exports.postLogin = (req, res) => {
     res.redirect('/');
 }
 
 
-exports.getRegister = function(req, res) {
+exports.getRegister = (req, res) => {
     res.render('user/register');
 }
 
-exports.postRegister = function(req, res) {
+exports.postRegister = (req, res) => {
     res.redirect('/');
 }
 
 
-exports.getForgetPass = function(req, res) {
+exports.getForgetPass = (req, res) => {
     res.render('user/forget-password');
 }
 
-exports.postForgetPass = function(req, res) {
+exports.postForgetPass = (req, res) => {
     res.redirect('/');
 }
 
-exports.logout = function(req, res) {
+exports.logout = (req, res) => {
     res.redirect('/');
 }
 
