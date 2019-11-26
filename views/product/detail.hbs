@@ -28,14 +28,12 @@
                             <div class='carousel-inner '>
 
                                 <div class='item active'>
-                                    <img src='{{active_img}}' alt=''
-                                        data-zoom-image="{{active_img}}" />
+                                    <img src='{{active_img}}' alt='' data-zoom-image="{{active_img}}" />
                                 </div>
 
                                 {{#each img}}
                                 <div class='item'>
-                                    <img src='{{this}}' alt=''
-                                        data-zoom-image="{{this}}" />
+                                    <img src='{{this}}' alt='' data-zoom-image="{{this}}" />
                                 </div>
                                 {{/each}}
                             </div>
@@ -71,8 +69,16 @@
                     <p class="product-price mb-20">{{price}} đồng</p>
 
                     {{{description}}}
-                    {{#if color}}
 
+                    <div class="product-view">
+                        <span>Lượt xem:</span> {{view}}
+                    </div>
+
+                    <div class="product-stock">
+                        <span>Có sẵn:</span> {{quantity}}
+                    </div>
+
+                    {{#if color}}
                     <div class="color-swatches">
                         <span>Màu:</span>
                         <ul>
@@ -94,18 +100,18 @@
                         </ul>
                     </div>
                     {{/if}}
+
+                    {{#if size}}
                     <div class="product-size">
                         <span>Kích cỡ:</span>
                         <select class="form-control">
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
+                            {{#each size}}
+                            <option>{{this}}</option>
+                            {{/each}}
                         </select>
                     </div>
-                    <div class="product-quantity">
-                        <span>Có sẵn:</span> {{quantity}}
-                    </div>
+                    {{/if}}
+
                     <div class="product-quantity">
                         <span>Số lượng:</span>
                         <div class="product-quantity-slider">
@@ -113,14 +119,16 @@
                         </div>
                     </div>
 
+                    {{#if tag}}
                     <div class="product-category">
                         <span>Danh mục:</span>
                         <ul>
-                            {{#each categories}}
-                                <li><a href="#">{{this}}</a></li>
+                            {{#each tag}}
+                            <li><a href="#">{{this}}</a></li>
                             {{/each}}
                         </ul>
                     </div>
+                    {{/if}}
                     <a href="/checkout/cart" class="btn btn-main mt-20">Thêm vào giỏ</a>
                 </div>
             </div>
@@ -147,8 +155,8 @@
                                     <li class="media">
 
                                         <a class="pull-left" href="#">
-                                            <img class="media-object comment-avatar"
-                                                src="/static/images/avatar-1.jpg" alt="" width="50" height="50" />
+                                            <img class="media-object comment-avatar" src="/static/images/avatar-1.jpg"
+                                                alt="" width="50" height="50" />
                                         </a>
 
                                         <div class="media-body">
