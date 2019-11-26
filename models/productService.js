@@ -12,7 +12,7 @@ exports.queryIndex = async (req, res) => {
     console.log(result);
     const query = result.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
-        imgpath: item.img_path[0],
+        imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
         price: item.price,
         id: item._id
@@ -24,9 +24,10 @@ exports.queryIndex = async (req, res) => {
 
 exports.queryDetail = async (req, res) => {
     const detail = await product.findById(req.params.id);
+    const imgpath = detail.assert.img.map(item => detail.assert.path + item);
     const query = {
-        active_img: detail.img_path[0],
-        img: detail.img_path.slice(1, detail.img_path.length),
+        active_img: imgpath[0],
+        img: imgpath.slice(1, imgpath.length),
         name: detail.name,
         description: detail.description,
         price: detail.price,
@@ -42,7 +43,7 @@ exports.queryIndexHome = async (req, res) => {
     const result = await product.aggregate().sample(6);
     const query = result.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
-        imgpath: item.img_path[0],
+        imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
         price: item.price,
         id: item._id
