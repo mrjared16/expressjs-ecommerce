@@ -2,17 +2,37 @@ const product = require('./product');
 
 exports.queryIndex = async (req, res) => {
     console.log(req.query);
-    // category,  gender, group, 
-    const result = await product.find({
+    // category,  gender, group, color, size, order
+    const totalItems = await product.countDocuments({
         brand: { "$regex": new RegExp(req.query.brand, 'i') },
         category: { "$regex": new RegExp(req.query.category, 'i') },
         gender: { "$regex": new RegExp(req.query.gender, 'i') },
         group: { "$regex": new RegExp(req.query.group, 'i') },
     });
-    const totalPage = result.count();
-    console.log(`totalPage: ${totalPage}`);
+    console.log(totalItems);
+    const itemPerPage = 12;
+    const page = req.query.page;
+
+    const pageOptions = new function () {
+        this.totalPage = Math.ceil(totalItems / itemPerPage);
+        this.isPaginate = (this.totalPage > 1);
+        this.currentPage = page ? parseInt(page) : 1;
+        this.url = req.baseUrl + req.path;
+        this.queryParams = req.query;
+    };
+    console.log(pageOptions);
+
     //console.log(result);
-    const products = result.map(item => ({
+    const productsOnPage = await product.find({
+        brand: { "$regex": new RegExp(req.query.brand, 'i') },
+        category: { "$regex": new RegExp(req.query.category, 'i') },
+        gender: { "$regex": new RegExp(req.query.gender, 'i') },
+        group: { "$regex": new RegExp(req.query.group, 'i') }
+    })
+        .skip((pageOptions.currentPage - 1) * itemPerPage)
+        .limit(itemPerPage);
+
+    const products = productsOnPage.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
@@ -21,23 +41,8 @@ exports.queryIndex = async (req, res) => {
     }));
 
     console.log(products);
-    const itemPerPage = 12;
 
-    const pageOptions = new function () {
-        this.totalPage = Math.round(products.length / itemPerPage);
-        this.currentPage = req.params.page ? parseInt(req.params.page) : 1;
-        this.isPaginate = (this.totalPage > 1);
-        this.hasNext = (this.currentPage !== this.totalPage);
-        this.hasPrev = (this.currentPage !== 1);
-        this.nextPage = (this.hasNext) ? this.currentPage + 1 : null;
-        this.prevPage = (this.hasPrev) ? this.currentPage - 1 : null;
-        this.hasNextDot = (this.nextPage && this.totalPage - this.nextPage > 1);
-        this.hasPrevDot = (this.prevPage && this.prevPage - 1 > 1);
-        this.hasLastPage = (this.totalPage - this.currentPage > 1);
-        this.hasFirstPage = (this.currentPage - 1 > 1);
-        this.url = req.originalUrl;
-    };
-    console.log(pageOptions);
+
     return { products: products, pageOptions: pageOptions };
 }
 
