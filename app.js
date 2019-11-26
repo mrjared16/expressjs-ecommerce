@@ -15,6 +15,7 @@ var dashboardRouter = require('./routes/dashboard');
 var app = express();
 
 //const mongoDB = 'mongodb://localhost/ecommerce';
+mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
   console.log('connected database');
 });
