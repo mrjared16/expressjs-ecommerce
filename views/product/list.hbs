@@ -83,11 +83,17 @@
                 </div>
             </div>
             <div class="col-md-9">
-                {{> product_list}}
+                <div class="text-right">
+                    {{> pagination}}
+                </div>
+                {{> productList}}
+                <div class="text-right">
+                    {{> pagination}}
+                </div>
             </div>
         </div>
     </div>
 </section>
 {{else}}
-    <h2>Không có sản phẩm nào</h2>
+<h2>Không có sản phẩm nào</h2>
 {{/if}}
