@@ -9,6 +9,8 @@ exports.queryIndex = async (req, res) => {
         gender: { "$regex": new RegExp(req.query.gender, 'i') },
         group: { "$regex": new RegExp(req.query.group, 'i') },
     });
+    const totalPage = result.count();
+    console.log(`totalPage: ${totalPage}`);
     //console.log(result);
     const products = result.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
