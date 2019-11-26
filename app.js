@@ -15,12 +15,16 @@ var dashboardRouter = require('./routes/dashboard');
 var app = express();
 
 //const mongoDB = 'mongodb://localhost/ecommerce';
+mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
   console.log('connected database');
 });
 
 var handlebars = require('express-handlebars');
-app.engine('hbs', handlebars({ extname: '.hbs' }));
+app.engine('hbs', handlebars({
+  extname: '.hbs', 
+  helpers: require('./views/helpers/pagination') //only need this
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
