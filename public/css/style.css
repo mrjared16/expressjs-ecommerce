@@ -1500,7 +1500,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .single-product-details .product-category ul {
-  width: 140px;
+  /* width: 140px; */
   display: inline-block;
 }
 
@@ -1951,8 +1951,8 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .widget {
-  margin-bottom: 30px;
-  padding-bottom: 35px;
+  /* margin-bottom: 30px;
+  padding-bottom: 35px; */
 }
 
 .widget .widget-title {
@@ -2117,7 +2117,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-pagination {
-  margin-top: 70px;
+
 }
 
 .post-pagination > li {
