@@ -1,20 +1,13 @@
 var express = require('express');
 var router = express.Router();
+const userController = require('../controller/userController');
 
 
-router.get('/', (req, res) => {
-    res.redirect('dashboard/history');
-});
+router.get('/', userController.history);
 
-router.get('/history', (req, res) => {
-    res.render('dashboard/history');
-});
+router.get('/history', userController.history);
 
-router.get('/address', (req, res) => {
-    res.render('dashboard/address');
-});
+router.get('/address', userController.address);
 
-router.get('/profile', (req, res) => {
-    res.render('dashboard/profile');
-});
+router.get('/profile', userController.profile);
 module.exports = router;
