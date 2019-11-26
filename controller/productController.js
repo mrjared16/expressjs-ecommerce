@@ -1,8 +1,9 @@
 const productService = require('../models/productService') 
 
+
 exports.index = async (req, res) => {
-    const queryIndex = await productService.queryIndex(req, res);
-    res.render('product/list', { products: queryIndex} );
+    const {products, pageOptions} = await productService.queryIndex(req, res);
+    res.render('product/list', { products: products, pageOptions: pageOptions} );
 }
 
 exports.detail = async (req, res) => {
