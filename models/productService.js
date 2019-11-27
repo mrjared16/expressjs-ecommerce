@@ -36,6 +36,7 @@ exports.queryIndex = async (req, res) => {
         hasBage: (item.sale | item.sale > 0) ? true : false,
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
+        title: item.name.length > 30 ? item.name.substr(0, 29) + "..." : item.name,
         price: item.price,
         id: item._id
     }));
