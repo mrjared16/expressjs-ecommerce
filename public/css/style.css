@@ -1099,13 +1099,13 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   padding: 4px 12px;
   font-weight: 300;
   display: inline-block;
+  z-index: 100;
 }
 
 .product-item .product-thumb:before {
   -webkit-transition: .3s all;
   transition: .3s all;
   opacity: 0;
-  background: rgba(0, 0, 0, 0.6);
   content: '';
   position: absolute;
   top: 0;
@@ -2536,3 +2536,22 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   margin: 5px;
 }
 /*# sourceMappingURL=maps/style.css.map */
+.product-thumb{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:100%;
+}
+.product-thumb:hover img{
+  opacity: 0.3;
+}
+.product-thumb img{
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    transition: .5s ease;
+    backface-visibility: hidden;
+    opacity: 1;
+}
