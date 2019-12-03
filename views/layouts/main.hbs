@@ -87,17 +87,20 @@
 
 						{{!-- TODO: edit login --}}
 						<li class="dropdown cart-nav dropdown-slide">
-							<a href={{#if user}}"/user/profile"{{else}}"user/login"{{/if}} class="dropdown-toggle"
+							<a href={{#if user}}"/user/profile"{{else}}"/user/login"{{/if}} class="dropdown-toggle"
 								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i>
-								{{#if user}}{{{user}}}{{else}}Đăng nhập{{/if}}</a>
+								{{#if user}}{{{user.username}}}{{else}}Đăng nhập{{/if}}</a>
 							<ul class="dropdown-menu login-dropdown">
-								<li><a href="/user/login" class="btn btn-small btn-solid-border">Đăng nhập</a></li>
-								<li><a href="/user/register" class="btn btn-small btn-solid-border">Đăng kí</a></li>
+								{{#if user}}
 								<li><a href="/dashboard/history" class="btn btn-small btn-solid-border">Lịch sử mua
 										hàng</a></li>
 								<li><a href="/dashboard/profile" class="btn btn-small btn-solid-border">Thông tin cá
 										nhân</a></li>
 								<li><a href="/user/logout" class="btn btn-small btn-solid-border">Đăng xuất</a></li>
+								{{else}}
+								<li><a href="/user/login" class="btn btn-small btn-solid-border">Đăng nhập</a></li>
+								<li><a href="/user/register" class="btn btn-small btn-solid-border">Đăng kí</a></li>
+								{{/if}}
 							</ul>
 						</li>
 						</li>
