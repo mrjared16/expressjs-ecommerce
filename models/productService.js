@@ -4,10 +4,10 @@ exports.queryIndex = async (req, res) => {
     console.log(req.query);
     // category,  gender, group, color, size, order
     const totalItems = await product.countDocuments({
-        brand: { "$regex": new RegExp(req.query.brand, 'i') },
-        category: { "$regex": new RegExp(req.query.category, 'i') },
-        gender: { "$regex": new RegExp(req.query.gender, 'i') },
-        group: { "$regex": new RegExp(req.query.group, 'i') },
+        brand: { '$regex': new RegExp(req.query.brand, 'i') },
+        category: { '$regex': new RegExp(req.query.category, 'i') },
+        gender: { '$regex': new RegExp(req.query.gender, 'i') },
+        group: { '$regex': new RegExp(req.query.group, 'i') },
     });
     console.log(totalItems);
     const itemPerPage = 12;
@@ -24,10 +24,10 @@ exports.queryIndex = async (req, res) => {
 
     //console.log(result);
     const productsOnPage = await product.find({
-        brand: { "$regex": new RegExp(req.query.brand, 'i') },
-        category: { "$regex": new RegExp(req.query.category, 'i') },
-        gender: { "$regex": new RegExp(req.query.gender, 'i') },
-        group: { "$regex": new RegExp(req.query.group, 'i') }
+        brand: { '$regex': new RegExp(req.query.brand, 'i') },
+        category: { '$regex': new RegExp(req.query.category, 'i') },
+        gender: { '$regex': new RegExp(req.query.gender, 'i') },
+        group: { '$regex': new RegExp(req.query.group, 'i') }
     })
         .skip((pageOptions.currentPage - 1) * itemPerPage)
         .limit(itemPerPage);
@@ -36,7 +36,7 @@ exports.queryIndex = async (req, res) => {
         hasBage: (item.sale | item.sale > 0) ? true : false,
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + "..." : item.name,
+        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
         price: item.price,
         id: item._id
     }));
@@ -73,7 +73,7 @@ exports.queryIndexHome = async (req, res) => {
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
         price: item.price,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + "..." : item.name,
+        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
         id: item._id
     }));
     console.log(query);

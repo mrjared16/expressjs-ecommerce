@@ -4,21 +4,23 @@
       <div class="col-md-6 col-md-offset-3">
         <div class="block text-center">
           <h2 class="text-center">Tạo tài khoản</h2>
-          <form class="text-left clearfix" action="#">
+          {{#if this.alert}}
+          {{#with alert}}
+          {{{createAlert this}}}
+          {{/with}}
+          {{/if}}
+          <form method="POST" class="text-left clearfix" action="#">
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="Ho">
+              <input name="name" type="text" class="form-control"  placeholder="Ho ten">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="Ten">
+              <input name="username" type="text" class="form-control"  placeholder="Ten tai khoan">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="Tai tai khoan">
+              <input name="email" type="email" class="form-control"  placeholder="Email">
             </div>
             <div class="form-group">
-              <input type="email" class="form-control"  placeholder="Email">
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control"  placeholder="Mat khau">
+              <input name="password" type="password" class="form-control"  placeholder="Mat khau">
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center">Đăng kí</button>
