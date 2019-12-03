@@ -5,12 +5,7 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res) => {
-    if (userService.loginValidate(req.body)) {
-        res.render('/');
-    }
-    else {
-        res.render('user/login', { alert: { type: 'danger', message: 'Ten dang nhap hoac mat khau khong chinh xac!' } });
-    }
+    res.redirect('/');
 }
 
 
@@ -18,13 +13,12 @@ exports.getRegister = (req, res) => {
     res.render('user/register');
 }
 
-exports.postRegister = (req, res) => {
-
-    if (userService.registerValidate(req.body)) {
-        res.render('user/register', { alert: { type: 'success', message: 'Dang ky thanh cong!' } });
+exports.postRegister = async (req, res) => {
+    if (await userService.registerValidate(req.body)) {
+        res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
     }
     else {
-        res.render('user/register', { alert: { type: 'danger', message: 'Dang ky that bai!' } });
+        res.render('user/register', { alert: { type: 'danger', message: 'Đăng ký thất bại! Tên đăng nhập đã được sử dụng' } });
     }
 }
 
@@ -36,10 +30,11 @@ exports.getForgetPass = (req, res) => {
 //TODO
 exports.postForgetPass = (req, res) => {
     userService.forgetPassword(req.body);
-    res.render('user/register', { alert: { type: 'success', message: 'Da gui mail den email cua ban1' } });;
+    res.render('user/register', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
 }
 
 exports.logout = (req, res) => {
+    req.logout();
     res.redirect('/');
 }
 
