@@ -23,7 +23,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopolo
 var handlebars = require('express-handlebars');
 app.engine('hbs', handlebars({
   extname: '.hbs', 
-  helpers: require('./views/helpers/pagination') //only need this
+  helpers: require('./views/helpers') //only need this
 }));
 
 // view engine setup

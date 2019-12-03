@@ -7,17 +7,7 @@ const UserSchema = new mongoose.Schema({
     email: String,
     name: String,
     dob: Date,
-    avatar: String,
-    order: [{
-        status: String,
-        date: Date,
-        items: [{
-            item_id: String,
-            quantity: Number,
-            price: Number
-        }],
-        total_price: Number
-    }]
+    avatar: String
 });
 
 module.exports = mongoose.model('user', UserSchema, 'user');
