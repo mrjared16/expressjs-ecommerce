@@ -2,8 +2,8 @@ const qs = require('querystring');
 module.exports = {
     createAlert: ({ type, message }) => {
         // success, info, warning, danger
-        console.log(type);
-        console.log(message);
+        // console.log(type);
+        // console.log(message);
         const icon = {
             'success': `<i class='tf-ion-thumbsup'></i>`,
             'info': `<i class='tf-ion-android-checkbox-outline'></i>`,

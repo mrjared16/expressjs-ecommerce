@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+const passport = require('passport');
 const userController = require('../controller/userController');
 
 /* GET users listing. */
 router.get('/login', userController.getLogin);
 
-router.post('/login', userController.postLogin);
+router.post('/login', passport.authenticate('local'), userController.postLogin);
 
 
 
