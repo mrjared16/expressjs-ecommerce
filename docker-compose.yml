@@ -1,20 +1,24 @@
 version: '3'
 services:
-  mongodb:
+  mongo:
+    container_name: mongod
+    environment:
+      - MONGO_INITDB_DATABASE=shopdata
     image: mongo
     ports:
       - "27017:27017"
 
   mongo-seed:
+    container_name: seed
     build: ./database-seed
-    links:
-      - mongodb
+    depends_on:
+      - mongo
 
   app:
-    container_name: docker-ecommerce
+    container_name: shop
     restart: always
     build: .
     ports:
-      - '80:3000'
-    links:
-      - mongodb
+      - '80:4000'
+    depends_on:
+      - mongo-seed
