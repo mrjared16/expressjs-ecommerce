@@ -12,6 +12,13 @@ module.exports = {
         }
         return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
     },
+    HiddenFields: (obj) => {
+        let result = '';
+        Object.entries(obj).forEach(([key, value]) => {
+            result += `<input type="hidden" name="${key}" value="${value}"/>`;
+        })
+        return result;
+    },
     createPagination: (pageOptions) => {
         const { currentPage, url, totalPage } = pageOptions;
         let params = pageOptions.queryParams;
