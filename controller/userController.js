@@ -2,12 +2,25 @@ const userService = require('../models/userService');
 const passport = require('passport');
 
 exports.getLogin = (req, res) => {
+    
     res.render('user/login');
 }
 
-exports.postLogin = (req, res) => {
-    //passport.authenticate('local');
-    res.redirect('/');
+exports.postLogin = (req, res, next) => {
+    passport.authenticate('local', function (err, user, message) {
+        if (err) { 
+            return next(err); 
+        }
+        if (!user) {
+            return res.render('user/login', { alert: { type: 'danger', message: `${message}` } });
+        }
+        req.logIn(user, function (err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/');
+        });
+    })(req, res, next);
 }
 
 
@@ -22,7 +35,6 @@ exports.postRegister = async (req, res) => {
         res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
     }
     else {
-        console.log(validate.message);
         res.render('user/register', { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } });
     }
 }
