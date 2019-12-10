@@ -1,10 +1,12 @@
 const userService = require('../models/userService');
+const passport = require('passport');
 
 exports.getLogin = (req, res) => {
     res.render('user/login');
 }
 
 exports.postLogin = (req, res) => {
+    //passport.authenticate('local');
     res.redirect('/');
 }
 
@@ -14,11 +16,14 @@ exports.getRegister = (req, res) => {
 }
 
 exports.postRegister = async (req, res) => {
-    if (await userService.registerValidate(req.body)) {
+    const validate = await userService.registerValidate(req.body);
+    if (validate.result) {
+        await userService.createUser(req.body);
         res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
     }
     else {
-        res.render('user/register', { alert: { type: 'danger', message: 'Đăng ký thất bại! Tên đăng nhập đã được sử dụng' } });
+        console.log(validate.message);
+        res.render('user/register', { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } });
     }
 }
 
