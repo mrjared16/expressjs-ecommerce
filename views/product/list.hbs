@@ -2,95 +2,121 @@
 <section class="products section">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
-                <div class="widget">
-                    <h4 class="widget-title">Sắp xếp theo</h4>
-                    <form method="post" action="#">
-                        <select class="form-control">
-                            <option>Đồ nam</option>
-                            <option>Đồ nữ</option>
-                            <option>Phụ kiện</option>
-                            <option>Giày</option>
+            <form id="queryForm" method="get">
+                {{#if this.query}}
+                {{#with query}}
+                {{{HiddenFields this}}}
+                {{/with}}
+                {{/if}}
+                <div class="col-md-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Sắp xếp theo</h4>
+                        <select id="sort" name="sort" class="form-control filter-form">
+                            <option value="1">Giá tăng dần</option>
+                            <option value="2">Giá giảm dần</option>
                         </select>
-                    </form>
-                </div>
-                <div class="widget product-category">
-                    <h4 class="widget-title">Danh mục</h4>
-                    <div class="panel-group commonAccordion" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                        Giày
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                                aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Giày cao gót</a></li>
-                                        <li><a href="#">Giày thể thao</a></li>
-                                        <li><a href="#">Giày tây</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingTwo">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                        href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Quần áo
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                                aria-labelledby="headingTwo">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Brand & Twist</a></li>
-                                        <li><a href="#">Shoe Color</a></li>
-                                        <li><a href="#">Shoe Color</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingThree">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                        href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Phụ kiện
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                                aria-labelledby="headingThree">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Brand & Twist</a></li>
-                                        <li><a href="#">Shoe Color</a></li>
-                                        <li><a href="#">Gladian Shoes</a></li>
-                                        <li><a href="#">Swis Shoes</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
+                    </div>
+                    <div class="widget product-category">
+                        <h4 class="widget-title">Lọc</h4>
+                        <div class="panel-group commonAccordion" id="accordion" role="tablist"
+                            aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Danh mục
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                    aria-labelledby="headingOne">
+                                    <div class="filter-form custom-control panel-body ">
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="footwear"
+                                                name="category" value="footwear">
+                                            <label class="custom-control-label" for="footear">Giày</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="wear"
+                                                name="category" value="wear">
+                                            <label class="custom-control-label" for="wear">Quần áo</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="accessories"
+                                                name="category" value="accessories">
+                                            <label class="custom-control-label" for="accessories">Phụ kiện</label>
+                                        </div>
+                                    </div>
+                                    {{!-- <div class="panel-body">
+                                        <ul>
+                                            <li><a href="#">Giày cao gót</a></li>
+                                            <li><a href="#">Giày thể thao</a></li>
+                                            <li><a href="#">Giày tây</a></li>
+                                        </ul>
+                                    </div> --}}
+                                </div>
+                            </div>
+                            {{!-- TODO --}}
+                            {{!-- <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                            data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            Quần áo
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                    aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li><a href="#">Brand & Twist</a></li>
+                                            <li><a href="#">Shoe Color</a></li>
+                                            <li><a href="#">Shoe Color</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                            data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                            Phụ kiện
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                    aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li><a href="#">Brand & Twist</a></li>
+                                            <li><a href="#">Shoe Color</a></li>
+                                            <li><a href="#">Gladian Shoes</a></li>
+                                            <li><a href="#">Swis Shoes</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> --}}
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-9">
-                <div class="text-right">
-                    {{> pagination}}
+                <div class="col-md-9">
+                    <div class="text-right">
+                        {{> pagination}}
+                    </div>
+                    {{> productList}}
+                    <div class="text-right">
+                        {{> pagination}}
+                    </div>
                 </div>
-                {{> productList}}
-                <div class="text-right">
-                    {{> pagination}}
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </section>
