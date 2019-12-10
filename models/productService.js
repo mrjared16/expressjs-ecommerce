@@ -3,9 +3,22 @@ const product = require('./product');
 exports.queryIndex = async (req, res) => {
     // console.log(req.query);
     const query_object = {};
+    const sort_object = {};
+    if (req.query.sort) {
+        switch (parseInt(req.query.sort)) {
+            // price increasing
+            case 1:
+                sort_object['price'] = 1;
+                break;
+            // price descending
+            case 2:
+                sort_object['price'] = -1;
+                break;
+        }
+    }
+
     const addField = (field) => {
-        if (req.query[field])
-        {
+        if (req.query[field]) {
             query_object[field] = { "$regex": new RegExp('^' + req.query[field] + '$', 'i') };
         }
     }
@@ -30,7 +43,8 @@ exports.queryIndex = async (req, res) => {
     //console.log(result);
     const productsOnPage = await product.find(query_object)
         .skip((pageOptions.currentPage - 1) * itemPerPage)
-        .limit(itemPerPage);
+        .limit(itemPerPage)
+        .sort(sort_object);
 
     const products = productsOnPage.map(item => ({
         hasBage: (item.sale | item.sale > 0) ? true : false,
