@@ -1,19 +1,23 @@
-
 <section class="signin-page account">
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div class="block text-center">
-          <h2 class="text-center">Chào mừng bạn trở lại</h2>
-          <form class="text-left clearfix" action="#" >
+          <h2 class="text-center">Đăng nhập</h2>
+          {{#if this.alert}}
+          {{#with alert}}
+          {{{createAlert this}}}
+          {{/with}}
+          {{/if}}
+          <form method='POST' class="text-left clearfix" action="#">
             <div class="form-group">
-              <input type="email" class="form-control"  placeholder="Email">
+              <input name='username' type="text" class="form-control" placeholder="Ten dang nhap">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" placeholder="Mật khẩu">
+              <input name='password' type="password" class="form-control" placeholder="Mật khẩu">
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-main text-center" >Đăng nhập</button>
+              <button type="submit" class="btn btn-main text-center">Đăng nhập</button>
             </div>
           </form>
           <p class="mt-20">Chưa có tài khoản ?<a href="/user/register"> <u>Tạo tài khoản mới</u></a></p>

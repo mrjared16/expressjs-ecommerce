@@ -36,7 +36,7 @@ exports.queryIndex = async (req, res) => {
         hasBage: (item.sale | item.sale > 0) ? true : false,
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + "..." : item.name,
+        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
         price: item.price,
         id: item._id
     }));
@@ -73,7 +73,7 @@ exports.queryIndexHome = async (req, res) => {
         imgpath: item.assert.path + item.assert.img[0],
         name: item.name,
         price: item.price,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + "..." : item.name,
+        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
         id: item._id
     }));
     console.log(query);

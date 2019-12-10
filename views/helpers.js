@@ -1,5 +1,17 @@
 const qs = require('querystring');
 module.exports = {
+    createAlert: ({ type, message }) => {
+        // success, info, warning, danger
+        // console.log(type);
+        // console.log(message);
+        const icon = {
+            'success': `<i class='tf-ion-thumbsup'></i>`,
+            'info': `<i class='tf-ion-android-checkbox-outline'></i>`,
+            'warning': `<i class='tf-ion-alert-circled'></i>`,
+            'danger': `<i class='tf-ion-close-circled'></i>`
+        }
+        return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
+    },
     createPagination: (pageOptions) => {
         const { currentPage, url, totalPage } = pageOptions;
         let params = pageOptions.queryParams;
@@ -11,7 +23,7 @@ module.exports = {
             queryString = qs.stringify(params);
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">Prev</a>
+                    <a href='${url}?${queryString}'>Prev</a>
                 </li>`;
         }
 
@@ -19,7 +31,7 @@ module.exports = {
         if (currentPage === 1) {
             str +=
                 `<li class='active'>
-                    <a href="#">1</a>
+                    <a href='#'>1</a>
                 </li>`;
         }
         else {
@@ -27,7 +39,7 @@ module.exports = {
             queryString = qs.stringify(params);
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">${params.page}</a>
+                    <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
         }
 
@@ -43,7 +55,7 @@ module.exports = {
             }
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">${params.page}</a>
+                    <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
         }
 
@@ -51,7 +63,7 @@ module.exports = {
         if (currentPage !== 1 && currentPage !== totalPage) {
             str +=
                 `<li class='active'>
-                    <a href="#">${currentPage}</a>
+                    <a href='#'>${currentPage}</a>
                 </li>`;
         }
 
@@ -61,7 +73,7 @@ module.exports = {
             queryString = qs.stringify(params);
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">${params.page}</a>
+                    <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
             if (totalPage - currentPage > 2) {
                 str +=
@@ -75,7 +87,7 @@ module.exports = {
         if (currentPage === totalPage) {
             str +=
                 `<li class='active'>
-                    <a href="#">${totalPage}</a>
+                    <a href='#'>${totalPage}</a>
                 </li>`;
         }
         else {
@@ -83,7 +95,7 @@ module.exports = {
             queryString = qs.stringify(params);
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">${params.page}</a>
+                    <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
         }
 
@@ -93,7 +105,7 @@ module.exports = {
             queryString = qs.stringify(params);
             str +=
                 `<li>
-                    <a href="${url}?${queryString}">Next</a>
+                    <a href='${url}?${queryString}'>Next</a>
                 </li>`;
         }
         return str;

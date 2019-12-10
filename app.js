@@ -1,40 +1,61 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const session = require('express-session');
+const passport = require('passport');
+const passportConfig = require('./config/passport');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRouter = require('./routes/product');
-var checkoutRouter = require('./routes/checkout');
-var dashboardRouter = require('./routes/dashboard');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const productRouter = require('./routes/product');
+const checkoutRouter = require('./routes/checkout');
+const dashboardRouter = require('./routes/dashboard');
 
-var app = express();
 
-//const mongoDB = 'mongodb://localhost/ecommerce';
+const app = express();
+
+// static file first
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+// config mongoose
 mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+  //const mongoDB = 'mongodb://localhost/ecommerce';
   console.log('connected database');
 });
 
-var handlebars = require('express-handlebars');
+// config handle bars
+const handlebars = require('express-handlebars');
 app.engine('hbs', handlebars({
-  extname: '.hbs', 
-  helpers: require('./views/helpers/pagination') //only need this
+  extname: '.hbs',
+  helpers: require('./views/helpers')
 }));
 
-// view engine setup
+// config view engine 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+// config session
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+// config passport
+passportConfig(passport, app);
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
