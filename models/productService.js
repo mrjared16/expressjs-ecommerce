@@ -1,15 +1,20 @@
 const product = require('./product');
 
 exports.queryIndex = async (req, res) => {
-    console.log(req.query);
-    // category,  gender, group, color, size, order
-    const totalItems = await product.countDocuments({
-        brand: { '$regex': new RegExp(req.query.brand, 'i') },
-        category: { '$regex': new RegExp(req.query.category, 'i') },
-        gender: { '$regex': new RegExp(req.query.gender, 'i') },
-        group: { '$regex': new RegExp(req.query.group, 'i') },
-    });
-    console.log(totalItems);
+    // console.log(req.query);
+    const query_object = {};
+    const addField = (field) => {
+        if (req.query[field])
+        {
+            query_object[field] = { "$regex": new RegExp('^' + req.query[field] + '$', 'i') };
+        }
+    }
+    //TODO: category,  gender, group, color, size, order
+    ['brand', 'category', 'gender', 'group'].forEach(field => addField(field));
+    // console.log(query_object);
+
+    const totalItems = await product.countDocuments(query_object);
+    // console.log(`Total item: ${totalItems}`);
     const itemPerPage = 12;
     const page = req.query.page;
 
@@ -20,15 +25,10 @@ exports.queryIndex = async (req, res) => {
         this.url = req.baseUrl + req.path;
         this.queryParams = req.query;
     };
-    console.log(pageOptions);
+    // console.log(pageOptions);
 
     //console.log(result);
-    const productsOnPage = await product.find({
-        brand: { '$regex': new RegExp(req.query.brand, 'i') },
-        category: { '$regex': new RegExp(req.query.category, 'i') },
-        gender: { '$regex': new RegExp(req.query.gender, 'i') },
-        group: { '$regex': new RegExp(req.query.group, 'i') }
-    })
+    const productsOnPage = await product.find(query_object)
         .skip((pageOptions.currentPage - 1) * itemPerPage)
         .limit(itemPerPage);
 
@@ -41,7 +41,7 @@ exports.queryIndex = async (req, res) => {
         id: item._id
     }));
 
-    console.log(products);
+    // console.log(products);
 
 
     return { products: products, pageOptions: pageOptions };
