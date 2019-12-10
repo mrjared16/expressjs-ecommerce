@@ -44,7 +44,6 @@ exports.registerValidate = async (thongtin) => {
 // login
 exports.comparePassword = async (candidatePassword, hash) => {
     const result = await bcrypt.compare(candidatePassword, hash);
-    console.log(result);
     return result;
 }
 

@@ -5,40 +5,41 @@ module.exports = (passport, express) => {
     // Using LocalStrategy with passport
     passport.use(new LocalStrategy(
         async (username, password, done) => {
+            let user;
             try {
-                console.log(username, password);
-                const user = await userService.getUserByUsername(username);
-                console.log(user);
+                user = await userService.getUserByUsername(username);
                 if (!user) {
-                    return done(null, false, { message: 'Unknown User' });
-                }
-
-                if (await userService.comparePassword(password, user.password)) {
-                    console.log('success');
-
-                    return done(null, user);
-                }
-                else {
-                    console.log('fail');
-                    return done(null, false, { message: 'Invalid password' });
+                    return done(null, false, 'Không tìm thấy tên tài khoản');
                 }
             } catch (err) {
-                if (err) err;
+                if (err)
+                    return done(err);
             }
 
+            if (!await userService.comparePassword(password, user.password)) {
+                return done(null, false, 'Sai mật khẩu');
+            }
+            return done(null, user);
         }
     ));
 
     passport.serializeUser(function (user, done) {
-        console.log('set', user);
         done(null, user.username);
     });
 
     passport.deserializeUser(async (username, done) => {
-        const user = await userService.getUserByUsername(username);
-        done(null, user);
+        try {
+            const user = await userService.getUserByUsername(username);
+            if (!user) {
+                return done(new Error('user not found'));
+            }
+            done(null, user);
+        } catch (e) {
+            done(e);
+        }
+
     });
-    
+
     express.use((req, res, next) => {
         if (req.user)
             res.locals.user = req.user;
