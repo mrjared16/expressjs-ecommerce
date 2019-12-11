@@ -3,7 +3,7 @@ services:
   mongo:
     container_name: mongod
     environment:
-      - MONGO_INITDB_DATABASE=shopdata
+      - MONGO_INITDB_DATABASE=ecommerce
     image: mongo
     ports:
       - "27017:27017"
