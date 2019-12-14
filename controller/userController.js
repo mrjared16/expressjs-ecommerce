@@ -28,9 +28,15 @@ exports.getForgetPass = (req, res) => {
 }
 
 //TODO
-exports.postForgetPass = (req, res) => {
-    userService.forgetPassword(req.body);
-    res.render('user/register', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
+exports.postForgetPass = async (req, res) => {
+    req.session.email = req.body.email;
+    if (await userService.forgetPassword(req.body)) {
+        res.render('user/forget-password', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
+    }
+    else {
+        console.log('hit me alert');
+        res.render('user/forget-password', { alert: { type: 'danger', message: 'Email không tồn tại' } });;
+    }
 }
 
 exports.logout = (req, res) => {
@@ -50,6 +56,15 @@ exports.profile = (req, res) => {
     res.render('dashboard/profile');
 };
 
-exports.resetPass = (req, res) => {
+exports.getResetPass = (req, res) => {
     res.render('user/reset-password')
+}
+
+exports.postResetPass = async (req, res) => {
+    if (await userService.resetPassword(req.body, req.session.email)) {
+        res.render('user/reset-password', { alert: { type: 'success', message: 'Làm mới mật khẩu thành công' } });
+    }
+    else {
+        res.render('user/reset-password', { alert: { type: 'danger', message: 'Làm mới mật khẩu thất bại' } });
+    }
 }

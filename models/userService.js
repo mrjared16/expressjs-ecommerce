@@ -35,23 +35,26 @@ exports.registerValidate = async (thongtin) => {
 }
 
 
-exports.forgetPassword = (thongtin) => {
+exports.forgetPassword = async (thongtin) => {
     console.log(thongtin);
-    const mail = {
-        to: thongtin.email,
-        subject: 'Please reset your password',
-        html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
-        + 'But don’t worry! You can use the following link to reset your password:<br><br>'
-        + '<a href="http://localhost:4000/user/reset-password">Click here</a>'
-    }
-    mailerService.transporter.sendMail(mail, function(error, info){
-        if (error) {
-            console.log(error);
-        } 
-        else {
-            console.log('Email sent: ' + info.response);
+    if (await User.exists({email: thongtin.email})) {
+        const mail = {
+            to: thongtin.email,
+            subject: 'Please reset your password',
+            html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
+            + 'But don’t worry! You can use the following link to reset your password:<br><br>'
+            + '<a href="http://localhost:4000/user/reset-password">Click here</a>'
         }
-    });
+        mailerService.transporter.sendMail(mail, function(error, info){
+            if (error) {
+                console.log(error);
+            } 
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+        return true;
+    }
     return false;
 }
 
@@ -67,4 +70,19 @@ module.exports.comparePassword = function (candidatePassword, hash, callback) {
         if (err) throw err;
         callback(null, isMatch);
     });
+}
+
+module.exports.resetPassword = async (body, userEmail) => {
+    const userReset = await User.findOne({email: userEmail});
+    if (body.pass == body.confirmPass) {
+        userReset.password = body.pass;
+        await bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(userReset.password, salt, function (err, hash) {
+                userReset.password = hash;
+                userReset.save();
+            });
+        });
+        return true;
+    }
+    return false;
 }
