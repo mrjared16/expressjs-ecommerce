@@ -6,7 +6,7 @@ const userController = require('../controller/userController');
 /* GET users listing. */
 router.get('/login', userController.getLogin);
 
-router.post('/login', userController.postLogin);
+router.post('/login', passport.authenticate('local'), userController.postLogin);
 
 
 
@@ -23,5 +23,7 @@ router.post('/forget-password', userController.postForgetPass);
 
 
 router.get('/logout', userController.logout);
+
+router.get('/reset-password', userController.resetPass);
 
 module.exports = router;

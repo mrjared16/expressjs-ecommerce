@@ -1,117 +1,55 @@
 const userService = require('../models/userService');
-const passport = require('passport');
 
 exports.getLogin = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
     res.render('user/login');
 }
 
-exports.postLogin = (req, res, next) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
-
-    passport.authenticate('local', function (err, user, message) {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.render('user/login', { alert: { type: 'danger', message: `${message}` } });
-        }
-        req.logIn(user, function (err) {
-            if (err) {
-                return next(err);
-            }
-            return res.redirect('/');
-        });
-    })(req, res, next);
+exports.postLogin = (req, res) => {
+    res.redirect('/');
 }
 
 
 exports.getRegister = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
-
     res.render('user/register');
 }
 
 exports.postRegister = async (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
-
-    const validate = await userService.registerValidate(req.body);
-    if (validate.result) {
-        await userService.createUser(req.body);
+    if (await userService.registerValidate(req.body)) {
         res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
     }
     else {
-        res.render('user/register', { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } });
+        res.render('user/register', { alert: { type: 'danger', message: 'Đăng ký thất bại! Tên đăng nhập đã được sử dụng' } });
     }
 }
 
 
 exports.getForgetPass = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
-
     res.render('user/forget-password');
 }
 
 //TODO
 exports.postForgetPass = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
     userService.forgetPassword(req.body);
     res.render('user/register', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
 }
 
 exports.logout = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        req.logout();
-    }
+    req.logout();
     res.redirect('/');
 }
 
 exports.history = (req, res) => {
-    if (!isAuthenticated(req, res)) {
-        res.redirect('/');
-        return;
-    }
-
     res.render('dashboard/history');
 };
 
 exports.address = (req, res) => {
-    if (!isAuthenticated(req, res)) {
-        res.redirect('/');
-        return;
-    }
-
     res.render('dashboard/address');
 };
 
 exports.profile = (req, res) => {
-    if (!isAuthenticated(req, res)) {
-        res.redirect('/');
-        return;
-    }
-
     res.render('dashboard/profile');
 };
 
-const isAuthenticated = (req, res) => {
-    return (req.user) ? true : false;
+exports.resetPass = (req, res) => {
+    res.render('user/reset-password')
 }
-
