@@ -2,7 +2,7 @@ const mailer = require('nodemailer')
 require('dotenv').config();
 
 exports.transporter = mailer.createTransport({
-    host: 'smtp.yandex.com',
+    host: process.env.HOST_MAIL,
     port: 465,
     secure: true,
     auth: {
