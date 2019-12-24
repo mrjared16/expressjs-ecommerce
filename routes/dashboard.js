@@ -9,5 +9,8 @@ router.get('/history', userController.history);
 
 router.get('/address', userController.address);
 
-router.get('/profile', userController.profile);
+router.get('/profile', userController.getProfile);
+
+router.post('/profile', userController.postProfile);
+
 module.exports = router;

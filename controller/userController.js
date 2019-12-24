@@ -5,9 +5,9 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res) => {
+    req.session.username = req.body.username;
     res.redirect('/');
 }
-
 
 exports.getRegister = (req, res) => {
     res.render('user/register');
@@ -52,12 +52,30 @@ exports.address = (req, res) => {
     res.render('dashboard/address');
 };
 
-exports.profile = (req, res) => {
-    res.render('dashboard/profile');
+exports.getProfile = async (req, res) => {
+    const userInfo = await userService.getUserInfo(req.session.username);
+    if (userInfo != false) {
+      res.render('dashboard/profile', {fullname: userInfo.fullname, phone: userInfo.phone}); // address: userInfo.address
+    } else {
+      res.redirect('/');
+    }
+};
+
+exports.postProfile = async (req, res) => {
+    const userInfo = await userService.postUserInfo(req.session.username, {fullname: req.body.full_name, phone: req.body.phone_number}); //address: req.body.user_adress
+    if (userInfo != false) {
+      res.render('dashboard/profile', {fullname: req.body.full_name, phone: req.body.phone_number}); // address: req.body.user_adress
+    } else {
+      res.redirect('/');
+    }
 };
 
 exports.getResetPass = (req, res) => {
-    res.render('user/reset-password')
+    if (req.session.email != null) {
+      res.render('user/reset-password');
+    } else {
+      res.redirect('/');
+    }
 }
 
 exports.postResetPass = async (req, res) => {

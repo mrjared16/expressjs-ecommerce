@@ -48,7 +48,7 @@ exports.forgetPassword = async (thongtin) => {
         mailerService.transporter.sendMail(mail, function(error, info){
             if (error) {
                 console.log(error);
-            } 
+            }
             else {
                 console.log('Email sent: ' + info.response);
             }
@@ -85,4 +85,26 @@ module.exports.resetPassword = async (body, userEmail) => {
         return true;
     }
     return false;
+}
+
+module.exports.getUserInfo = async (usernameOfUser) => {
+    const userInfo = await User.findOne({username: usernameOfUser});
+    if (userInfo != null) {
+      return {
+        fullname: userInfo.name,
+        // address: userInfo.address,
+        phone: userInfo.phone
+      };
+    } else {
+      return false;
+    }
+}
+
+module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
+    const userUpdateInfo = await User.findOne({username: usernameOfUser})
+    userUpdateInfo.name = infoOfUser.fullname
+    // userUpdateInfo.address = infoOfUser.address
+    userUpdateInfo.phone = infoOfUser.phone
+    userUpdateInfo.save();
+    return true;
 }
