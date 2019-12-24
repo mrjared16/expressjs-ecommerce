@@ -24,24 +24,25 @@ exports.postRegister = async (req, res) => {
 
 
 exports.getForgetPass = (req, res) => {
-    res.render('user/forget-password');
+    res.render('user/forgetPassword');
 }
 
 //TODO
 exports.postForgetPass = async (req, res) => {
     req.session.email = req.body.email;
     if (await userService.forgetPassword(req.body)) {
-        res.render('user/forget-password', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
+        res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
     }
     else {
-        console.log('hit me alert');
-        res.render('user/forget-password', { alert: { type: 'danger', message: 'Email không tồn tại' } });;
+        res.render('user/forgetPassword', { alert: { type: 'danger', message: 'Email không tồn tại' } });;
     }
 }
 
 exports.logout = (req, res) => {
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(function(err) {
+      req.logout();
+      res.redirect('/');
+    })
 }
 
 exports.history = (req, res) => {
@@ -72,7 +73,7 @@ exports.postProfile = async (req, res) => {
 
 exports.getResetPass = (req, res) => {
     if (req.session.email != null) {
-      res.render('user/reset-password');
+      res.render('user/resetPassword');
     } else {
       res.redirect('/');
     }
@@ -80,9 +81,28 @@ exports.getResetPass = (req, res) => {
 
 exports.postResetPass = async (req, res) => {
     if (await userService.resetPassword(req.body, req.session.email)) {
-        res.render('user/reset-password', { alert: { type: 'success', message: 'Làm mới mật khẩu thành công' } });
+        res.render('user/resetPassword', { alert: { type: 'success', message: 'Làm mới mật khẩu thành công' } });
     }
     else {
-        res.render('user/reset-password', { alert: { type: 'danger', message: 'Làm mới mật khẩu thất bại' } });
+        res.render('user/resetPassword', { alert: { type: 'danger', message: 'Làm mới mật khẩu thất bại' } });
+    }
+}
+
+exports.getChangePass = (req, res) => {
+    if (req.session.username != null) {
+      res.render('dashboard/changePass');
+    } else {
+      res.redirect('/');
+    }
+}
+
+exports.postChangePass = async (req, res) => {
+    const isOk = await userService.postChangePassword(req.session.username, req.body.oldPass, req.body.newPass, req.body.comfirmPass);
+    if (isOk) {
+      req.session.destroy(function(err) {
+        res.redirect('/user/login');
+      });
+    } else {
+      res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
     }
 }

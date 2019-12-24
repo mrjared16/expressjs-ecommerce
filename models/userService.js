@@ -105,6 +105,31 @@ module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
     userUpdateInfo.name = infoOfUser.fullname
     // userUpdateInfo.address = infoOfUser.address
     userUpdateInfo.phone = infoOfUser.phone
+            //   await bcrypt.genSalt(10, function (err, salt) {
     userUpdateInfo.save();
     return true;
+}
+
+module.exports.postChangePassword = async (usernameOfUser, oldPass, newPass, confirmPass) => {
+    const userChangePass = await User.findOne({username: usernameOfUser});
+    var isSuccess = false;
+    const comparePass = await new Promise((resolve, reject) => {
+        bcrypt.compare(oldPass, userChangePass.password, async function(err, isMatch) {
+            if (isMatch) {
+              isSuccess = true;
+              await bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(newPass, salt, function (err, hash) {
+                    userChangePass.password = hash;
+                    userChangePass.save();
+                });
+              });
+            }
+            resolve(isSuccess);
+        });
+    });
+    if (isSuccess) {
+      return true;
+    } else {
+      return false;
+    }
 }

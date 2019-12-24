@@ -16,16 +16,16 @@ router.post('/register', userController.postRegister);
 
 
 
-router.get('/forget-password', userController.getForgetPass);
+router.get('/forgetPassword', userController.getForgetPass);
 
-router.post('/forget-password', userController.postForgetPass);
+router.post('/forgetPassword', userController.postForgetPass);
 
 
 
 router.get('/logout', userController.logout);
 
-router.get('/reset-password', userController.getResetPass);
-router.post('/reset-password', userController.postResetPass);
+router.get('/resetPassword', userController.getResetPass);
+router.post('/resetPassword', userController.postResetPass);
 
 
 module.exports = router;
