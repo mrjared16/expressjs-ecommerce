@@ -39,6 +39,7 @@ exports.forgetPassword = async (thongtin) => {
     console.log(thongtin);
     if (await User.exists({email: thongtin.email})) {
         const mail = {
+            from: process.env.USERNAME_YANDEX,
             to: thongtin.email,
             subject: 'Please reset your password',
             html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
