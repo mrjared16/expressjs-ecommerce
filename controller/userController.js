@@ -1,6 +1,7 @@
 const userService = require('../models/userService');
 const passport = require('passport');
 
+
 exports.getLogin = (req, res) => {
     if (isAuthenticated(req, res)) {
         res.redirect('/dashboard');
@@ -50,8 +51,9 @@ exports.postRegister = async (req, res) => {
 
     const validate = await userService.registerValidate(req.body);
     if (validate.result) {
-        await userService.createUser(req.body);
-        res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
+        const newUser = await userService.createUser(req.body);
+        await userService.sendMailActiveAccount(newUser._id, newUser.email);
+        res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản' } });
     }
     else {
         res.render('user/register', { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } });
@@ -165,6 +167,11 @@ exports.postChangePass = async (req, res) => {
     } else {
       res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
     }
+}
+
+exports.getActiveAccout = async (req, res) => {
+    await userService.activeAccout(req.params.id);
+    res.redirect('/user/login');
 }
 
 const isAuthenticated = (req, res) => {

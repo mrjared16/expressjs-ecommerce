@@ -27,4 +27,6 @@ router.get('/logout', userController.logout);
 router.get('/resetPassword', userController.getResetPass);
 router.post('/resetPassword', userController.postResetPass);
 
+router.get('/:id/active', userController.getActiveAccout);
+
 module.exports = router;
