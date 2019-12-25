@@ -1,5 +1,6 @@
 const User = require('./user');
 const bcrypt = require('bcryptjs');
+const mailerService = require('../models/mailerService');
 
 // services
 exports.getUserByUsername = async (username) => {
@@ -48,7 +49,87 @@ exports.comparePassword = async (candidatePassword, hash) => {
 }
 
 // forget password
-exports.forgetPassword = (thongtin) => {
-    console.log(thongtin);
+exports.forgetPassword = async (thongtin) => {
+  if (await User.exists({email: thongtin.email})) {
+      const mail = {
+          from: process.env.USERNAME_YANDEX,
+          to: thongtin.email,
+          subject: 'Please reset your password',
+          html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
+          + 'But don’t worry! You can use the following link to reset your password:<br><br>'
+          + '<a href="http://localhost:4000/user/reset-password">Click here</a>'
+      }
+      mailerService.transporter.sendMail(mail, function(error, info){
+          if (error) {
+              console.log(error);
+          }
+          else {
+              console.log('Email sent: ' + info.response);
+          }
+      });
+      return true;
+  }
+  return false;
+}
+
+module.exports.resetPassword = async (body, userEmail) => {
+    const userReset = await User.findOne({email: userEmail});
+    if (body.pass == body.confirmPass) {
+        userReset.password = body.pass;
+        await bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(userReset.password, salt, function (err, hash) {
+                userReset.password = hash;
+                userReset.save();
+            });
+        });
+        return true;
+    }
     return false;
+}
+
+module.exports.getUserInfo = async (usernameOfUser) => {
+    const userInfo = await User.findOne({username: usernameOfUser});
+    if (userInfo != null) {
+      return {
+        fullname: userInfo.name,
+        // address: userInfo.address,
+        phone: userInfo.phone
+      };
+    } else {
+      return false;
+    }
+}
+
+module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
+    const userUpdateInfo = await User.findOne({username: usernameOfUser})
+    userUpdateInfo.name = infoOfUser.fullname
+    // userUpdateInfo.address = infoOfUser.address
+    userUpdateInfo.phone = infoOfUser.phone
+            //   await bcrypt.genSalt(10, function (err, salt) {
+    userUpdateInfo.save();
+    return true;
+}
+
+module.exports.postChangePassword = async (usernameOfUser, oldPass, newPass, confirmPass) => {
+    const userChangePass = await User.findOne({username: usernameOfUser});
+    var isSuccess = false;
+    const comparePass = await new Promise((resolve, reject) => {
+        bcrypt.compare(oldPass, userChangePass.password, async function(err, isMatch) {
+            if (isMatch) {
+              isSuccess = true;
+              await bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(newPass, salt, function (err, hash) {
+                    userChangePass.password = hash;
+                    userChangePass.save();
+                });
+              });
+            }
+            resolve(isSuccess);
+        });
+    });
+    if (isSuccess) {
+      return true;
+    } else {
+      return false;
+    }
 }
