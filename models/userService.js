@@ -14,13 +14,15 @@ exports.createUser = async (thongtin) => {
         username: thongtin.username,
         password: thongtin.password,
         email: thongtin.email,
-        name: thongtin.name
+        name: thongtin.name,
+        active: false
     });
 
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(newUser.password, salt);
     newUser.password = hashPassword;
     await newUser.save();
+    return newUser;
 }
 
 exports.registerValidate = async (thongtin) => {
@@ -57,7 +59,7 @@ exports.forgetPassword = async (thongtin) => {
           subject: 'Please reset your password',
           html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
           + 'But don’t worry! You can use the following link to reset your password:<br><br>'
-          + '<a href="http://localhost:4000/user/reset-password">Click here</a>'
+          + '<a href="http://localhost:4000/user/resetPassword">Click here</a>'
       }
       mailerService.transporter.sendMail(mail, function(error, info){
           if (error) {
@@ -105,7 +107,6 @@ module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
     userUpdateInfo.name = infoOfUser.fullname
     // userUpdateInfo.address = infoOfUser.address
     userUpdateInfo.phone = infoOfUser.phone
-            //   await bcrypt.genSalt(10, function (err, salt) {
     userUpdateInfo.save();
     return true;
 }
@@ -132,4 +133,29 @@ module.exports.postChangePassword = async (usernameOfUser, oldPass, newPass, con
     } else {
       return false;
     }
+};
+
+exports.sendMailActiveAccount = async (userId, userEmail) => {
+    const mail = {
+        from: process.env.USERNAME_YANDEX,
+        to: userEmail,
+        subject: 'Turn on active account',
+        html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
+        + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
+        + `<u>http://localhost:4000/user/${userId}/active</u>`
+    }
+    mailerService.transporter.sendMail(mail, function(error, info){
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+
+exports.activeAccout = async (userId) => {
+    const newUser = await User.findOne({_id: userId});
+    newUser.active = true;
+    await newUser.save();
 }
