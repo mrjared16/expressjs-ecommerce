@@ -1,0 +1,41 @@
+<section class="user-dashboard page-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-inline dashboard-menu text-center">
+                    <li><a href="/dashboard/history">Lịch sử mua hàng</a></li>
+                    <li><a href="/dashboard/address">Địa chỉ giao hàng</a></li>
+                    <li><a href="/dashboard/profile">Thông tin cá nhân</a></li>
+                    <li><a class="active" href="/dashboard/changePass">Thay đổi mật khẩu</a></li>
+                </ul>
+                <div class="dashboard-wrapper dashboard-user-profile">
+                  {{#if this.alert}}
+                  {{#with alert}}
+                  {{{createAlert this}}}
+                  {{/with}}
+                  {{/if}}
+                    <div class="media">
+                        <div class="media-body">
+                            <form method="POST" class="checkout-form">
+                                <div class="form-group">
+                                    <label><strong>Mật khẩu cũ</strong></label>
+                                    <input name="oldPass" type="password" class="form-control" placeholder="Nhập mật khẩu cũ">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Mật khẩu mới</strong></label>
+                                    <input name="newPass" type="password" class="form-control" placeholder="Nhập mật khẩu mới">
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Xác nhận mật khẩu mới</strong></label>
+                                    <input name="confirmPass" type="password" class="form-control" placeholder="Nhập lại mật khẩu mới">
+                                </div>
+                             <!-- <a href="#" class="btn btn-main mt-20">Lưu và sửa đổi</a> -->
+                             <button type="submit" class="btn btn-main text-center">Thay đổi mật khẩu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
