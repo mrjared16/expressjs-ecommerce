@@ -67,7 +67,7 @@ exports.getForgetPass = (req, res) => {
         return;
     }
 
-    res.render('user/forget-password');
+    res.render('user/forgetPassword');
 }
 
 //TODO
