@@ -9,6 +9,11 @@
                     <li><a href="/dashboard/changePass">Thay đổi mật khẩu</a></li>
                 </ul>
                 <div class="dashboard-wrapper dashboard-user-profile">
+                    {{#if this.alert}}
+                    {{#with alert}}
+                    {{{createAlert this}}}
+                    {{/with}}
+                    {{/if}}
                     <div class="media">
                         <div class="pull-left text-center" href="#">
                             <img class="media-object user-img" src="/static/images/avatar.jpg" alt="Image">
