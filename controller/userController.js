@@ -127,7 +127,7 @@ exports.getProfile = async (req, res) => {
 exports.postProfile = async (req, res) => {
     const userInfo = await userService.postUserInfo(req.session.username, {fullname: req.body.full_name, phone: req.body.phone_number}); //address: req.body.user_adress
     if (userInfo != false) {
-      res.render('dashboard/profile', {fullname: req.body.full_name, phone: req.body.phone_number}); // address: req.body.user_adress
+      res.render('dashboard/profile', {fullname: req.body.full_name, phone: req.body.phone_number, alert: { type: 'success', message: 'Đã lưu lại thông tin' }}); // address: req.body.user_adress
     } else {
       res.redirect('/');
     }
