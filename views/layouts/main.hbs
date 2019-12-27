@@ -109,10 +109,10 @@
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
-								data-hover="dropdown"><i class="tf-ion-android-cart"></i> Giỏ hàng</a>
+								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if numberOfItemInCart}}({{{numberOfItemInCart}}}){{/if}}</a>
 
 							{{!-- Cart items --}}
-							<div class="dropdown-menu cart-dropdown">
+							<div class="dropdown-menu cart-dropdown" id="cart-items-main">
 								<!-- Cart Item -->
 								<div class="media">
 									<a class="pull-left" href="#">
@@ -431,15 +431,14 @@
 	<script type="text/javascript"
 		src="/static/plugins/revolution-slider/revolution/js/extensions/revolution.extension.video.min.js"></script>
 	<script type="text/javascript" src="/static/plugins/revolution-slider/assets/warning.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 
 	<!-- Custom js -->
 	{{!-- <script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBItRd4sQ_aXlQG_fvEzsxvuYyaWnJKETk&callback=initMap"></script> --}}
-
+	<script src="/static/js/cart.js"></script>
 	<script src="/static/js/script.js"></script>
-
 
 
 </body>
