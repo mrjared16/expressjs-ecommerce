@@ -8,7 +8,17 @@ const UserSchema = new mongoose.Schema({
     name: String,
     dob: Date,
     avatar: String,
-    active: Boolean
+    order: [{
+        status: String,
+        date: Date,
+        items: [{
+            item_id: String,
+            quantity: Number,
+            price: Number
+        }],
+        total_price: Number
+    }],
+    active: Boolean,
 });
 
 module.exports = mongoose.model('user', UserSchema, 'user');
