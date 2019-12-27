@@ -2,7 +2,7 @@ const productService = require('../models/productService');
 
 exports.index = async (req, res) => {
     const query = await productService.queryIndexHome(req, res);
-    res.render('index', { products: query, numberOfItemInCart: req.session.itemInCart});
+    res.render('index', { products: query});
 }
 exports.faq = (req, res) => {
     res.render('static/faq');

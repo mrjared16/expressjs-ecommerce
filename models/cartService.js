@@ -22,6 +22,7 @@ exports.itemsInCart = async (myCart) => {
   await Promise.all(myCart.map(async (item) => {
     let temp  = await Product.findOne({_id: item.id});
     let formatData = {
+        id: temp.id,
         name: temp.name,
         price: temp.price,
         img: temp.assert.path + temp.assert.img[0],
