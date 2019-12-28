@@ -1,4 +1,4 @@
-// const User = require('./user');
+const User = require('./user');
 const Product = require('./product')
 
 exports.addItemInCart = async (myCart, itemId) => {
@@ -54,5 +54,34 @@ exports.totalPriceInCart = async (myCart) => {
     };
     total = total + parseInt(temp.price) * parseInt(item.quantity);
   }));
+  if (total == 0) {
+    return null;
+  }
   return total;
+}
+
+exports.setItemsInOrderUser = async (myCart, userName) => {
+  const userItem = await User.findOne({username: userName});
+  let items = [];
+  let total = 0;
+  await Promise.all(myCart.map(async (item) => {
+    let temp  = await Product.findOne({_id: item.id});
+    let itemInfo = {
+      item_id: temp.id,
+      quantity: item.quantity,
+      price: temp.price
+    };
+    total = total + parseInt(temp.price) * parseInt(item.quantity);
+    items.push(itemInfo);
+  }));
+  console.log(items);
+  let order = {
+    status: "Chưa giao",
+    data: new Date(),
+    items: items,
+    total_price: total
+  };
+  console.log(order);
+  userItem.order.push(order);
+  await userItem.save();
 }

@@ -1,4 +1,5 @@
 const userService = require('../models/userService');
+const cartService = require('../models/cartService');
 const passport = require('passport');
 
 
@@ -11,7 +12,7 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res, next) => {
-    req.session.username = req.body.username;
+    // req.session.username = req.body.username;
     if (isAuthenticated(req, res)) {
         res.redirect('/dashboard');
         return;
@@ -24,7 +25,11 @@ exports.postLogin = (req, res, next) => {
         if (!user) {
             return res.render('user/login', { alert: { type: 'danger', message: `${message}` } });
         }
-        req.logIn(user, function (err) {
+        req.logIn(user, async function (err) {
+            req.session.username = req.body.username;
+            if (req.session.username != null && req.session.cart != null) {
+              await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+            }
             if (err) {
                 return next(err);
             }
@@ -84,6 +89,10 @@ exports.postForgetPass = async (req, res) => {
 exports.logout = (req, res) => {
     if (isAuthenticated(req, res)) {
         req.logout();
+        req.session.username = null;
+        req.session.cart = null;
+        req.app.locals.itemsInMyCart = null;
+        req.app.locals.totalPrice = null;
     }
     res.redirect('/');
 }
