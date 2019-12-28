@@ -8,6 +8,9 @@ exports.postAddItemInCart = async (req, res) => {
   }
   await cartService.addItemInCart(req.session.cart, req.params.id);
   let items = await cartService.itemsInCart(req.session.cart);
+  if (req.session.username != null) {
+    await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+  }
   req.app.locals.itemsInMyCart = items;
   req.app.locals.totalPrice = await cartService.totalPriceInCart(req.session.cart);
   res.send(items);
@@ -16,6 +19,9 @@ exports.postAddItemInCart = async (req, res) => {
 exports.postDeleteItemInCart = async (req, res) => {
   await cartService.deleteItemInCart(req.session.cart, req.params.id);
   let items = await cartService.itemsInCart(req.session.cart);
+  if (req.session.username != null) {
+    await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+  }
   req.app.locals.itemsInMyCart = items;
   req.app.locals.totalPrice = await cartService.totalPriceInCart(req.session.cart);
   res.send(items);

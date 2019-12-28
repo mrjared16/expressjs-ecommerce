@@ -38,7 +38,9 @@ function updateCart(items) {
   const spanTotalText = $("<span>");
   spanTotalText.text("Tổng cộng");
   const spanTotalPrice = $("<span>", {"class": "total-price"});
-  spanTotalPrice.text(`${totalPrice} đồng`);
+  if (totalPrice != 0) {
+    spanTotalPrice.text(`${totalPrice} đồng`);
+  }
   const ulCartButton = $("<ul>", {"class": "text-center cart-buttons"});
   const liDetail = $("<li>");
   const liBuy = $("<li>");
