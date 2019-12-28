@@ -9,16 +9,14 @@ exports.postAddItemInCart = async (req, res) => {
   await cartService.addItemInCart(req.session.cart, req.params.id);
   let items = await cartService.itemsInCart(req.session.cart);
   req.app.locals.itemsInMyCart = items;
+  req.app.locals.totalPrice = await cartService.totalPriceInCart(req.session.cart);
   res.send(items);
 }
 
-exports.deleteItemInCart = async (req, res) => {
-  console.log(req.session.cart.length);
-  await Promise.all(req.session.cart.map((item, index) => {
-    if (item.id == req.params.id) {
-      req.session.cart.splice(index, 1);
-    }
-  }))
+exports.postDeleteItemInCart = async (req, res) => {
+  await cartService.deleteItemInCart(req.session.cart, req.params.id);
   let items = await cartService.itemsInCart(req.session.cart);
+  req.app.locals.itemsInMyCart = items;
+  req.app.locals.totalPrice = await cartService.totalPriceInCart(req.session.cart);
   res.send(items);
 }

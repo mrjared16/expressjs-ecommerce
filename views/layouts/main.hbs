@@ -128,29 +128,14 @@
 											<span>{{this.price}}</span>
 										</div>
 									</div>
-									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
+									<a href="#" class="remove" onclick="deleteItem('{{this.id}}')"><i class="tf-ion-close"></i></a>
 								</div>
 								{{/each}}
 								{{/if}}
 
-								<!-- Cart Item -->
-								<!-- <div class="media">
-									<a class="pull-left" href="#">
-										<img class="media-object" src="/static/images/cart-1.jpg" alt="image" />
-									</a>
-									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
-										<div class="cart-price">
-											<span>1 x</span>
-											<span>800,000</span>
-										</div>
-									</div>
-									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
-								</div> -->
-
 								<div class="cart-summary">
 									<span>Tổng cộng</span>
-									<span class="total-price">2,000,000 đồng</span>
+									<span class="total-price">{{totalPrice}}</span>
 								</div>
 
 								<ul class="text-center cart-buttons">

@@ -32,3 +32,27 @@ exports.itemsInCart = async (myCart) => {
   }));
   return itemsInfo;
 }
+
+exports.deleteItemInCart = async (myCart, itemId) => {
+  await Promise.all(myCart.map((item, index) => {
+    if (item.id == itemId) {
+      myCart.splice(index, 1);
+    }
+  }))
+}
+
+exports.totalPriceInCart = async (myCart) => {
+  let total = 0;
+  await Promise.all(myCart.map(async (item) => {
+    let temp  = await Product.findOne({_id: item.id});
+    let formatData = {
+        id: temp.id,
+        name: temp.name,
+        price: temp.price,
+        img: temp.assert.path + temp.assert.img[0],
+        quantity: item.quantity
+    };
+    total = total + parseInt(temp.price) * parseInt(item.quantity);
+  }));
+  return total;
+}
