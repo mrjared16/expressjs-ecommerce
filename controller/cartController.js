@@ -1,4 +1,6 @@
-const cartService = require('../models/cartService')
+const cartService = require('../models/cartService');
+const express = require('express');
+const app = express();
 
 exports.postAddItemInCart = async (req, res) => {
   if (req.session.cart == null) {
@@ -6,6 +8,7 @@ exports.postAddItemInCart = async (req, res) => {
   }
   await cartService.addItemInCart(req.session.cart, req.params.id);
   let items = await cartService.itemsInCart(req.session.cart);
+  req.app.locals.itemsInMyCart = items;
   res.send(items);
 }
 
