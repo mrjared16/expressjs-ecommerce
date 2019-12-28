@@ -109,28 +109,32 @@
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
-								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng </a>
+								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if itemsInMyCart}} ({{itemsInMyCart.length}}) {{/if}} </a>
 
 							{{!-- Cart items --}}
 							<div class="dropdown-menu cart-dropdown" id="cart-items-main">
 								<!-- Cart Item -->
+								{{#if itemsInMyCart}}
+								{{#each itemsInMyCart}}
 								<div class="media">
 									<a class="pull-left" href="#">
-										<img class="media-object" src="/static/images/cart-1.jpg" alt="image" />
+										<img class="media-object" src="{{this.img}}" alt="image" />
 									</a>
 									{{!-- TODO: edit cart detail page --}}
 									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
+										<h4 class="media-heading"><a href="">{{this.name}}</a></h4>
 										<div class="cart-price">
-											<span>1 x</span>
-											<span>1,200,000</span>
+											<span>{{this.quantity}} x</span>
+											<span>{{this.price}}</span>
 										</div>
 									</div>
 									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
 								</div>
+								{{/each}}
+								{{/if}}
 
 								<!-- Cart Item -->
-								<div class="media">
+								<!-- <div class="media">
 									<a class="pull-left" href="#">
 										<img class="media-object" src="/static/images/cart-1.jpg" alt="image" />
 									</a>
@@ -142,7 +146,7 @@
 										</div>
 									</div>
 									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
-								</div>
+								</div> -->
 
 								<div class="cart-summary">
 									<span>Tổng cộng</span>

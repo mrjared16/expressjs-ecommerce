@@ -1,5 +1,9 @@
 function updateCart(items) {
-  $('#my-cart').html(`<i class="tf-ion-android-cart"></i>Giỏ hàng (${items.length})`);
+  if (items.length) {
+    $('#my-cart').html(`<i class="tf-ion-android-cart"></i>Giỏ hàng (${items.length})`);
+  } else {
+    $('#my-cart').html(`<i class="tf-ion-android-cart"></i>Giỏ hàng`);
+  }
   const divDropdown = $('#cart-items-main');
   divDropdown.empty();
   let totalPrice = 0;

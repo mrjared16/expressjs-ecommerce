@@ -1,4 +1,5 @@
 const productService = require('../models/productService');
+const cartService = require('../models/cartService');
 
 exports.index = async (req, res) => {
     const query = await productService.queryIndexHome(req, res);
