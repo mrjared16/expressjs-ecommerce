@@ -26,9 +26,8 @@ exports.postLogin = (req, res, next) => {
             return res.render('user/login', { alert: { type: 'danger', message: `${message}` } });
         }
         req.logIn(user, async function (err) {
-            req.session.username = req.body.username;
-            if (req.session.username != null && req.session.cart != null) {
-              await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+            if (req.session.cart != null) {
+              await cartService.setItemsInOrderUser(req.session.cart, req.user.id);
             }
             if (err) {
                 return next(err);
@@ -77,8 +76,8 @@ exports.getForgetPass = (req, res) => {
 
 //TODO
 exports.postForgetPass = async (req, res) => {
-  req.session.email = req.body.email;
-  if (await userService.forgetPassword(req.body)) {
+  // req.session.email = req.body.email;
+  if (await userService.forgetPassword(req.body.email)) {
       res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
   }
   else {
@@ -89,7 +88,6 @@ exports.postForgetPass = async (req, res) => {
 exports.logout = (req, res) => {
     if (isAuthenticated(req, res)) {
         req.logout();
-        req.session.username = null;
         req.session.cart = null;
         req.app.locals.itemsInMyCart = null;
         req.app.locals.totalPrice = null;
@@ -115,17 +113,20 @@ exports.address = (req, res) => {
     res.render('dashboard/address');
 };
 
-exports.profile = (req, res) => {
-    if (!isAuthenticated(req, res)) {
-        res.redirect('/');
-        return;
-    }
-
-    res.render('dashboard/profile');
-};
+// exports.profile = (req, res) => {
+//     if (!isAuthenticated(req, res)) {
+//         res.redirect('/');
+//         return;
+//     }
+//
+//     res.render('dashboard/profile');
+// };
 
 exports.getProfile = async (req, res) => {
-    const userInfo = await userService.getUserInfo(req.session.username);
+    if (!isAuthenticated(req, res)) {
+      res.redirect('/');
+    }
+    const userInfo = await userService.getUserInfo(req.user.id);
     if (userInfo != false) {
       res.render('dashboard/profile', {fullname: userInfo.fullname, phone: userInfo.phone}); // address: userInfo.address
     } else {
@@ -134,7 +135,7 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.postProfile = async (req, res) => {
-    const userInfo = await userService.postUserInfo(req.session.username, {fullname: req.body.full_name, phone: req.body.phone_number}); //address: req.body.user_adress
+    const userInfo = await userService.postUserInfo(req.user.id, {fullname: req.body.full_name, phone: req.body.phone_number}); //address: req.body.user_adress
     if (userInfo != false) {
       res.render('dashboard/profile', {fullname: req.body.full_name, phone: req.body.phone_number, alert: { type: 'success', message: 'Đã lưu lại thông tin' }}); // address: req.body.user_adress
     } else {
@@ -143,7 +144,8 @@ exports.postProfile = async (req, res) => {
 };
 
 exports.getResetPass = (req, res) => {
-    if (req.session.email != null) {
+    // Xu ly lai
+    if (true) {
       res.render('user/resetPassword');
     } else {
       res.redirect('/');
@@ -151,7 +153,7 @@ exports.getResetPass = (req, res) => {
 }
 
 exports.postResetPass = async (req, res) => {
-    if (await userService.resetPassword(req.body, req.session.email)) {
+    if (await userService.resetPassword(req.body, req.params.id)) {
         res.render('user/resetPassword', { alert: { type: 'success', message: 'Làm mới mật khẩu thành công' } });
     }
     else {
@@ -160,7 +162,7 @@ exports.postResetPass = async (req, res) => {
 }
 
 exports.getChangePass = (req, res) => {
-    if (req.session.username != null) {
+    if (isAuthenticated(req, res)) {
       res.render('dashboard/changePass');
     } else {
       res.redirect('/');
@@ -168,12 +170,13 @@ exports.getChangePass = (req, res) => {
 }
 
 exports.postChangePass = async (req, res) => {
-    const isOk = await userService.postChangePassword(req.session.username, req.body.oldPass, req.body.newPass, req.body.comfirmPass);
+    const isOk = await userService.changePassword(req.user.id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
     if (isOk) {
       req.session.destroy(function(err) {
         res.redirect('/user/login');
       });
     } else {
+      console.log("3");
       res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
     }
 }

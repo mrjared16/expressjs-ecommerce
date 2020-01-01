@@ -51,15 +51,16 @@ exports.comparePassword = async (candidatePassword, hash) => {
 }
 
 // forget password
-exports.forgetPassword = async (thongtin) => {
-  if (await User.exists({email: thongtin.email})) {
+exports.forgetPassword = async (userEmail) => {
+  const userForgetPass = await User.findOne({email: userEmail});
+  if (userForgetPass) {
       const mail = {
           from: process.env.USERNAME_YANDEX,
-          to: thongtin.email,
-          subject: 'Please reset your password',
-          html: 'We heard that you lost your Aviato password. Sorry about that!<br><br>'
-          + 'But don’t worry! You can use the following link to reset your password:<br><br>'
-          + '<a href="http://localhost:4000/user/resetPassword">Click here</a>'
+          to: userEmail,
+          subject: 'Reset mật khẩu Aviato',
+          html: 'Chúng tôi vừa tiếp nhận thông tin quên mật khẩu của bạn.!<br><br>'
+          + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
+          + `<u>http://localhost:4000/user/${userForgetPass.id}/resetPassword></u>`
       }
       mailerService.transporter.sendMail(mail, function(error, info){
           if (error) {
@@ -74,8 +75,8 @@ exports.forgetPassword = async (thongtin) => {
   return false;
 }
 
-module.exports.resetPassword = async (body, userEmail) => {
-    const userReset = await User.findOne({email: userEmail});
+module.exports.resetPassword = async (body, userId) => {
+    const userReset = await User.findOne({_id: userId});
     if (body.pass == body.confirmPass) {
         userReset.password = body.pass;
         await bcrypt.genSalt(10, function (err, salt) {
@@ -89,8 +90,8 @@ module.exports.resetPassword = async (body, userEmail) => {
     return false;
 }
 
-module.exports.getUserInfo = async (usernameOfUser) => {
-    const userInfo = await User.findOne({username: usernameOfUser});
+module.exports.getUserInfo = async (userId) => {
+    const userInfo = await User.findOne({_id: userId});
     if (userInfo != null) {
       return {
         fullname: userInfo.name,
@@ -102,8 +103,8 @@ module.exports.getUserInfo = async (usernameOfUser) => {
     }
 }
 
-module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
-    const userUpdateInfo = await User.findOne({username: usernameOfUser})
+module.exports.postUserInfo = async (userId, infoOfUser) => {
+    const userUpdateInfo = await User.findOne({_id: userId})
     userUpdateInfo.name = infoOfUser.fullname
     // userUpdateInfo.address = infoOfUser.address
     userUpdateInfo.phone = infoOfUser.phone
@@ -111,8 +112,8 @@ module.exports.postUserInfo = async (usernameOfUser, infoOfUser) => {
     return true;
 }
 
-module.exports.postChangePassword = async (usernameOfUser, oldPass, newPass, confirmPass) => {
-    const userChangePass = await User.findOne({username: usernameOfUser});
+module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
+    const userChangePass = await User.findOne({_id: userId});
     var isSuccess = false;
     const comparePass = await new Promise((resolve, reject) => {
         bcrypt.compare(oldPass, userChangePass.password, async function(err, isMatch) {
@@ -139,7 +140,7 @@ exports.sendMailActiveAccount = async (userId, userEmail) => {
     const mail = {
         from: process.env.USERNAME_YANDEX,
         to: userEmail,
-        subject: 'Turn on active account',
+        subject: 'Kích hoạt tài khoản',
         html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
         + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
         + `<u>http://localhost:4000/user/${userId}/active</u>`
