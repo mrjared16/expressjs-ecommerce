@@ -53,7 +53,7 @@
                         <div class="checkout-product-details">
                             <div class="payment">
                                 <div class="card-details">
-                                    <form class="checkout-form">
+                                    <form class="checkout-form" method="POST">
                                         <div class="form-group">
                                             <label for="card-number">Số thẻ <span class="required">*</span></label>
                                             <input id="card-number" class="form-control" type="tel"
@@ -70,7 +70,8 @@
                                             <input id="card-cvc" class="form-control" type="tel" maxlength="4"
                                                 placeholder="CVC">
                                         </div>
-                                        <a href="#" class="btn btn-main mt-20">Xác nhận đặt hàng</a>
+                                        <!-- <a href="#" class="btn btn-main mt-20">Xác nhận đặt hàng</a> -->
+                                        <button type="submit" class="btn btn-main text-center">Xác nhận đặt hàng</button>
                                     </form>
                                 </div>
                             </div>

@@ -8,8 +8,8 @@ exports.postAddItemInCart = async (req, res) => {
   }
   await cartService.addItemInCart(req.session.cart, req.params.id);
   let items = await cartService.getItemsInCart(req.session.cart);
-  if (req.session.username != null) {
-    await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+  if (isAuthenticated(req, res)) {
+    await cartService.setItemsInOrderUser(req.session.cart, req.user.id);
   }
   req.app.locals.itemsInMyCart = items;
   req.app.locals.totalPrice = await cartService.totalPriceInCart(req.session.cart);
@@ -21,8 +21,8 @@ exports.postDeleteItemInCart = async (req, res) => {
   req.session.cart = await cartService.deleteItemInCart(req.session.cart, req.params.id);
   console.log(req.session.cart);
   let items = await cartService.getItemsInCart(req.session.cart);
-  if (req.session.username != null) {
-    await cartService.setItemsInOrderUser(req.session.cart, req.session.username);
+  if (isAuthenticated(req, res)) {
+    await cartService.setItemsInOrderUser(req.session.cart, req.user.id);
   }
   req.app.locals.itemsInMyCart = items;
   console.log(req.app.locals.itemsInMyCart);
@@ -38,6 +38,10 @@ exports.getPayment = async (req, res) => {
     const userInfo = await cartService.getUserInfoToPayment(req.user.id);
     res.render('checkout/payment', {fullname: userInfo.fullname, phone: userInfo.phone});
   }
+}
+
+exports.postPayment = async (req, res) => {
+
 }
 
 const isAuthenticated = (req, res) => {
