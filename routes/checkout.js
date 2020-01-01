@@ -7,5 +7,6 @@ router.get('/cart', function(req, res, next) {
 });
 
 router.get('/payment', cartController.getPayment);
+router.post('/payment', cartController.postPayment);
 
 module.exports = router;

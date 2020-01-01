@@ -64,8 +64,7 @@ exports.totalPriceInCart = async (myCart) => {
   return total;
 }
 
-exports.setItemsInOrderUser = async (myCart, userId) => {
-  const userItem = await User.findOne({_id: userId});
+async function getItemInfoFromProductModel(myCart) {
   let items = [];
   let total = 0;
   await Promise.all(myCart.map(async (item) => {
@@ -78,16 +77,24 @@ exports.setItemsInOrderUser = async (myCart, userId) => {
     total = total + parseInt(temp.price) * parseInt(item.quantity);
     items.push(itemInfo);
   }));
-  console.log(items);
+  return {items: items, totalPrice: total};
+}
+
+async function setOrderFieldUser(userOrder, myCart) {
+  let itemsAndTotalPrice = await getItemInfoFromProductModel(myCart);
   let order = {
     status: "Chưa giao",
     data: new Date(),
-    items: items,
-    total_price: total
+    items: itemsAndTotalPrice.items,
+    total_price: itemsAndTotalPrice.totalPrice
   };
-  console.log(order);
-  userItem.order.push(order);
-  await userItem.save();
+  userOrder.order.push(order);
+  await userOrder.save();
+}
+
+exports.setItemsInOrderUser = async (myCart, userId) => {
+  const userOrder = await User.findOne({_id: userId});
+  await setOrderFieldUser(userOrder, myCart);
 }
 
 exports.getUserInfoToPayment = async (userId) => {
