@@ -116,7 +116,7 @@ module.exports.postChangePassword = async (usernameOfUser, oldPass, newPass, con
     var isSuccess = false;
     const comparePass = await new Promise((resolve, reject) => {
         bcrypt.compare(oldPass, userChangePass.password, async function(err, isMatch) {
-            if (isMatch) {
+            if (isMatch && newPass == confirmPass) {
               isSuccess = true;
               await bcrypt.genSalt(10, function (err, salt) {
                 bcrypt.hash(newPass, salt, function (err, hash) {

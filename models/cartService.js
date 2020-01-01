@@ -33,12 +33,15 @@ exports.itemsInCart = async (myCart) => {
   return itemsInfo;
 }
 
-exports.deleteItemInCart = async (myCart, itemId) => {
+exports.deleteItemInCart = (myCart, itemId) => {
   await Promise.all(myCart.map((item, index) => {
     if (item.id == itemId) {
       myCart.splice(index, 1);
     }
   }))
+  // return myCart.filter((item) => {
+  //   return item.id != itemId;
+  // })
 }
 
 exports.totalPriceInCart = async (myCart) => {
@@ -85,3 +88,5 @@ exports.setItemsInOrderUser = async (myCart, userName) => {
   userItem.order.push(order);
   await userItem.save();
 }
+
+exports.
