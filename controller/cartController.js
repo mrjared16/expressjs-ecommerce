@@ -32,15 +32,10 @@ exports.postDeleteItemInCart = async (req, res) => {
 }
 
 exports.getPayment = async (req, res) => {
-  console.log("1");
   if (!isAuthenticated(req, res)) {
-    console.log("2.1");
     res.render('checkout/payment');
   } else {
-    console.log("2.2");
     const userInfo = await cartService.getUserInfoToPayment(req.user.id);
-    console.log("3");
-    console.log(userInfo);
     res.render('checkout/payment', {fullname: userInfo.fullname, phone: userInfo.phone});
   }
 }
