@@ -1,5 +1,7 @@
 const userService = require('../models/userService');
+const cartService = require('../models/cartService');
 const passport = require('passport');
+
 
 exports.getLogin = (req, res) => {
     if (isAuthenticated(req, res)) {
@@ -10,6 +12,7 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res, next) => {
+    // req.session.username = req.body.username;
     if (isAuthenticated(req, res)) {
         res.redirect('/dashboard');
         return;
@@ -22,7 +25,10 @@ exports.postLogin = (req, res, next) => {
         if (!user) {
             return res.render('user/login', { alert: { type: 'danger', message: `${message}` } });
         }
-        req.logIn(user, function (err) {
+        req.logIn(user, async function (err) {
+            if (req.session.cart != null) {
+              await cartService.setItemsInOrderUser(req.session.cart, req.user.id);
+            }
             if (err) {
                 return next(err);
             }
@@ -50,8 +56,9 @@ exports.postRegister = async (req, res) => {
     const validate = await userService.registerValidate(req.body);
     let viewModel = {};
     if (validate.result) {
-        await userService.createUser(req.body);
-        viewModel = { alert: { type: 'success', message: 'Đăng ký thành công!' } };
+        const newUser = await userService.createUser(req.body);
+        await userService.sendMailActiveAccount(newUser._id, newUser.email);
+        viewModel = { alert: { type: 'success', message: 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản' } };
     }
     else {
         viewModel = { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` }};
@@ -66,25 +73,25 @@ exports.getForgetPass = (req, res) => {
         return;
     }
 
-    res.render('user/forget-password');
+    res.render('user/forgetPassword');
 }
 
 //TODO
-exports.postForgetPass = (req, res) => {
-    if (isAuthenticated(req, res)) {
-        res.redirect('/dashboard');
-        return;
-    }
-    userService.forgetPassword(req.body);
-    const viewModel = {
-        alert: { type: 'success', message: 'Đã gửi đến email của bạn' }
-    };
-    res.render('user/register', viewModel);
+exports.postForgetPass = async (req, res) => {
+  if (await userService.forgetPassword(req.body.email)) {
+      res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
+  }
+  else {
+      res.render('user/forgetPassword', { alert: { type: 'danger', message: 'Email không tồn tại' } });;
+  }
 }
 
 exports.logout = (req, res) => {
     if (isAuthenticated(req, res)) {
         req.logout();
+        req.session.cart = null;
+        req.app.locals.itemsInMyCart = null;
+        req.app.locals.totalPrice = null;
     }
     res.redirect('/');
 }
@@ -107,16 +114,79 @@ exports.address = (req, res) => {
     res.render('dashboard/address');
 };
 
-exports.profile = (req, res) => {
-    if (!isAuthenticated(req, res)) {
-        res.redirect('/');
-        return;
-    }
+// exports.profile = (req, res) => {
+//     if (!isAuthenticated(req, res)) {
+//         res.redirect('/');
+//         return;
+//     }
+//
+//     res.render('dashboard/profile');
+// };
 
-    res.render('dashboard/profile');
+exports.getProfile = async (req, res) => {
+    if (!isAuthenticated(req, res)) {
+      res.redirect('/');
+    }
+    const userInfo = await userService.getUserInfo(req.user.id);
+    if (userInfo != false) {
+      res.render('dashboard/profile', {fullname: userInfo.fullname, phone: userInfo.phone}); // address: userInfo.address
+    } else {
+      res.redirect('/');
+    }
 };
+
+exports.postProfile = async (req, res) => {
+    const userInfo = await userService.postUserInfo(req.user.id, {fullname: req.body.full_name, phone: req.body.phone_number}); //address: req.body.user_adress
+    if (userInfo != false) {
+      res.render('dashboard/profile', {fullname: req.body.full_name, phone: req.body.phone_number, alert: { type: 'success', message: 'Đã lưu lại thông tin' }}); // address: req.body.user_adress
+    } else {
+      res.redirect('/');
+    }
+};
+
+exports.getResetPass = (req, res) => {
+    // Xu ly lai
+    if (true) {
+      res.render('user/resetPassword');
+    } else {
+      res.redirect('/');
+    }
+}
+
+exports.postResetPass = async (req, res) => {
+    if (await userService.resetPassword(req.body, req.params.id)) {
+        res.render('user/resetPassword', { alert: { type: 'success', message: 'Làm mới mật khẩu thành công' } });
+    }
+    else {
+        res.render('user/resetPassword', { alert: { type: 'danger', message: 'Làm mới mật khẩu thất bại' } });
+    }
+}
+
+exports.getChangePass = (req, res) => {
+    if (isAuthenticated(req, res)) {
+      res.render('dashboard/changePass');
+    } else {
+      res.redirect('/');
+    }
+}
+
+exports.postChangePass = async (req, res) => {
+    const isOk = await userService.changePassword(req.user.id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
+    if (isOk) {
+      req.session.destroy(function(err) {
+        res.redirect('/user/login');
+      });
+    } else {
+      console.log("3");
+      res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
+    }
+}
+
+exports.getActiveAccout = async (req, res) => {
+    await userService.activeAccout(req.params.id);
+    res.redirect('/user/login');
+}
 
 const isAuthenticated = (req, res) => {
     return (req.user) ? true : false;
 }
-
