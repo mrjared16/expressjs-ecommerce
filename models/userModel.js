@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     name: String,
     dob: Date,
     avatar: String,
+    active: Boolean,
 }, {
     timestamps: true
 });

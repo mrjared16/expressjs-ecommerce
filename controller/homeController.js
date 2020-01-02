@@ -1,5 +1,6 @@
 const productService = require('../models/productService');
 const productViewModel = require('../models/productViewModel')
+const cartService = require('../models/cartService');
 
 exports.index = async (req, res) => {
     const products = await productService.getHotProducts(req, res);
