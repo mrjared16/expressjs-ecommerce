@@ -1,4 +1,4 @@
-const User = require('./user');
+const { User } = require('./userModel');
 const bcrypt = require('bcryptjs');
 
 // services
@@ -25,13 +25,11 @@ exports.createUser = async (thongtin) => {
 exports.registerValidate = async (thongtin) => {
     let result = true;
     let message = '';
-    if (thongtin.password.length < 6)
-    {
+    if (thongtin.password.length < 6) {
         result = false;
         message = 'Mật khẩu phải dài từ 6 kí tự';
     }
-    else if (await this.getUserByUsername(thongtin.username))
-    {
+    else if (await this.getUserByUsername(thongtin.username)) {
         result = false;
         message = 'Tên đăng nhập đã được sử dụng';
     }
