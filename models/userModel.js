@@ -7,7 +7,10 @@ const UserSchema = new mongoose.Schema({
     email: String,
     name: String,
     dob: Date,
-    avatar: String
+    avatar: String,
+}, {
+    timestamps: true
 });
 
-module.exports = mongoose.model('user', UserSchema, 'user');
+
+module.exports.User = mongoose.model('user', UserSchema, 'user');

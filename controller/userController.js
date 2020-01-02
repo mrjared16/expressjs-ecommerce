@@ -48,13 +48,15 @@ exports.postRegister = async (req, res) => {
     }
 
     const validate = await userService.registerValidate(req.body);
+    let viewModel = {};
     if (validate.result) {
         await userService.createUser(req.body);
-        res.render('user/register', { alert: { type: 'success', message: 'Đăng ký thành công!' } });
+        viewModel = { alert: { type: 'success', message: 'Đăng ký thành công!' } };
     }
     else {
-        res.render('user/register', { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } });
+        viewModel = { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` }};
     }
+    res.render('user/register', viewModel);
 }
 
 
@@ -74,7 +76,10 @@ exports.postForgetPass = (req, res) => {
         return;
     }
     userService.forgetPassword(req.body);
-    res.render('user/register', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
+    const viewModel = {
+        alert: { type: 'success', message: 'Đã gửi đến email của bạn' }
+    };
+    res.render('user/register', viewModel);
 }
 
 exports.logout = (req, res) => {

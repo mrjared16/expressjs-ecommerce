@@ -1,8 +1,12 @@
 const productService = require('../models/productService');
+const productViewModel = require('../models/productViewModel')
 
 exports.index = async (req, res) => {
-    const query = await productService.queryIndexHome(req, res);
-    res.render('index', { products: query});
+    const products = await productService.getHotProducts(req, res);
+    const viewModel = {
+        products: productViewModel.getProductListViewModel(products)
+    }
+    res.render('index', viewModel);
 }
 exports.faq = (req, res) => {
     res.render('static/faq');
