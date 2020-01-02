@@ -12,15 +12,80 @@ module.exports = {
         }
         return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
     },
-    HiddenFields: (obj) => {
-        let result = '';
-        Object.entries(obj).forEach(([key, value]) => {
-            result += `<input type="hidden" name="${key}" value="${value}"/>`;
-        })
-        return result;
+    createSortOption: (option) => {
+        const { list, selected, queryString } = option;
+        if (!queryString || !list)
+            return '';
+
+        let optionElements = list.map(option => {
+            if (option.key === undefined)
+                return '';
+
+            const isSelected = (selected && selected === option.key) ? 'selected' : '';
+            return `<option value=${option.key} ${isSelected}>${option.name}</option>`;
+        }).join('\n');
+        if (selected === undefined) {
+            optionElements = `<option hidden disabled selected value> -- Sắp xếp -- </option>\n ${optionElements}`;
+        }
+        return ` 
+    <div class="widget">
+        <h4 class="widget-title">Sắp xếp</h4>
+        <select name="${queryString}" class="form-control filter-form">
+        ${optionElements}  
+        </select>
+    </div>`
     },
+    createCheckBoxOptions: (options) => {
+        const filterOptions = options.map(option => {
+            const { title, queryString, list, selected } = option;
+            if (!queryString || !list)
+                return '';
+            let optionElements = list.map(option => {
+                if (option.key === undefined)
+                    return '';
+                const isChecked = (Array.isArray(selected) && selected.includes(option.key)) || (selected && selected === option.key);
+                const check = (isChecked) ? 'checked' : '';
+
+                return `<div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="${option.key}"
+                    name=${queryString} value=${option.key} ${check} >
+                <label class="custom-control-label" for=${option.key}>${option.name}</label>
+            </div>`;
+            }).join('\n');
+            return ` 
+            <div class="panel-group commonAccordion" id="${queryString}container" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="${queryString}heading">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#${queryString}container"
+                            href="#${queryString}collapse" aria-expanded="true" aria-controls="${queryString}collapse">
+                                ${title}
+                            </a>
+                        </h4>   
+                    </div>
+                    <div id="${queryString}collapse" class="panel-collapse collapse in" role="tabpanel"
+                    aria-labelledby="${queryString}heading">
+                        <div class="filter-form custom-control panel-body ">
+                            ${optionElements}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }).join('\n');
+
+        return `<div class="widget product-category">
+                    <h4 class="widget-title">Lọc</h4>
+                    ${filterOptions}
+                </div>`
+    },
+
     createPagination: (pageOptions) => {
-        const { currentPage, url, totalPage } = pageOptions;
+        // console.log(pageOptions);
+        const { currentPage, url } = pageOptions;
+        const totalPage = Math.ceil(pageOptions.totalItems / pageOptions.itemPerPage);
+        if (totalPage <= 1)
+            return '';
+
         let params = pageOptions.queryParams;
         let queryString;
         let str = '';
@@ -115,6 +180,10 @@ module.exports = {
                     <a href='${url}?${queryString}'>Next</a>
                 </li>`;
         }
-        return str;
+        return `<div class="row">
+            <ul class="pagination post-pagination">
+                ${str}
+            </ul>
+        </div>`
     }
 }
