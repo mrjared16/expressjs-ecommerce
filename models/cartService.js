@@ -1,5 +1,6 @@
 const User = require('./user');
 const Product = require('./product')
+const userService = require('../models/userService');
 
 exports.addItemInCart = async (myCart, itemId) => {
   var itemInfo = {id: itemId, quantity: "1"}
@@ -17,7 +18,7 @@ exports.addItemInCart = async (myCart, itemId) => {
   }
 }
 
-exports.itemsInCart = async (myCart) => {
+exports.getItemsInCart = async (myCart) => {
   var itemsInfo = [];
   await Promise.all(myCart.map(async (item) => {
     let temp  = await Product.findOne({_id: item.id});
@@ -33,7 +34,7 @@ exports.itemsInCart = async (myCart) => {
   return itemsInfo;
 }
 
-exports.deleteItemInCart = (myCart, itemId) => {
+exports.deleteItemInCart = async (myCart, itemId) => {
   await Promise.all(myCart.map((item, index) => {
     if (item.id == itemId) {
       myCart.splice(index, 1);
@@ -63,8 +64,7 @@ exports.totalPriceInCart = async (myCart) => {
   return total;
 }
 
-exports.setItemsInOrderUser = async (myCart, userName) => {
-  const userItem = await User.findOne({username: userName});
+async function getItemInfoFromProductModel(myCart) {
   let items = [];
   let total = 0;
   await Promise.all(myCart.map(async (item) => {
@@ -77,16 +77,26 @@ exports.setItemsInOrderUser = async (myCart, userName) => {
     total = total + parseInt(temp.price) * parseInt(item.quantity);
     items.push(itemInfo);
   }));
-  console.log(items);
+  return {items: items, totalPrice: total};
+}
+
+async function setOrderFieldUser(userOrder, myCart) {
+  let itemsAndTotalPrice = await getItemInfoFromProductModel(myCart);
   let order = {
     status: "Chưa giao",
     data: new Date(),
-    items: items,
-    total_price: total
+    items: itemsAndTotalPrice.items,
+    total_price: itemsAndTotalPrice.totalPrice
   };
-  console.log(order);
-  userItem.order.push(order);
-  await userItem.save();
+  userOrder.order.push(order);
+  await userOrder.save();
 }
 
-exports.
+exports.setItemsInOrderUser = async (myCart, userId) => {
+  const userOrder = await User.findOne({_id: userId});
+  await setOrderFieldUser(userOrder, myCart);
+}
+
+exports.getUserInfoToPayment = async (userId) => {
+  return await userService.getUserInfo(userId);
+}
