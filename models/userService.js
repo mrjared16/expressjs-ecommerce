@@ -87,26 +87,14 @@ module.exports.resetPassword = async (body, userId) => {
     return false;
 }
 
-module.exports.getUserInfo = async (userId) => {
-    const userInfo = await User.findOne({ _id: userId });
-    if (userInfo != null) {
-        return {
-            fullname: userInfo.name,
-            // address: userInfo.address,
-            phone: userInfo.phone
-        };
-    } else {
-        return false;
-    }
-}
-
-module.exports.postUserInfo = async (userId, infoOfUser) => {
-    const userUpdateInfo = await User.findOne({ _id: userId })
-    userUpdateInfo.name = infoOfUser.fullname
-    // userUpdateInfo.address = infoOfUser.address
-    userUpdateInfo.phone = infoOfUser.phone
-    userUpdateInfo.save();
-    return true;
+module.exports.updateUserInfo = async ({ username }, newInfo) => {
+    const user = await exports.getUserByUsername(username);
+    user.name = newInfo.name;
+    user.address = newInfo.address;
+    user.phone = newInfo.phone;
+    user.dob = newInfo.dob;
+    user.avatar = newInfo.avatar;
+    return await user.save();
 }
 
 module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
