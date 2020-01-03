@@ -6,10 +6,10 @@ const CartSchema = new mongoose.Schema({
         ref: 'user'
     },
     items: [{
-        product: [{
+        product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'product'
-        }],
+        },
     
         unit_price: Number,
         quantity: Number,
