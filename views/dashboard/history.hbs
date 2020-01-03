@@ -6,6 +6,7 @@
                     <li><a class="active" href="/dashboard/history">Lịch sử mua hàng</a></li>
                     <li><a href="/dashboard/address">Địa chỉ giao hàng</a></li>
                     <li><a href="/dashboard/profile">Thông tin cá nhân</a></li>
+                    <li><a href="/dashboard/changePass">Thay đổi mật khẩu</a></li>
                 </ul>
                 <div class="dashboard-wrapper user-dashboard">
                     <div class="table-responsive">
@@ -14,53 +15,23 @@
                                 <tr>
                                     <th>Mã đơn hàng</th>
                                     <th>Thời gian</th>
-                                    <th>Số lượng</th>
                                     <th>Thành tiền</th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each order}}
                                 <tr>
-                                    <td>#451231</td>
-                                    <td>Mar 25, 2016</td>
-                                    <td>2</td>
-                                    <td>$99.00</td>
-                                    <td><span class="label label-primary">Processing</span></td>
-                                    <td><a href="#" class="btn btn-default">View</a></td>
+                                    <td>#{{this.id}}</td>
+                                    <td>{{this.date}}</td>
+                                    <td>{{this.totalPrice}} đồng</td>
+                                    <td>{{{createStatusLabel this.status}}}</td>
+                                    <td><a href="#" class="btn btn-default">Xem chi tiết</a></td>
                                 </tr>
-                                <tr>
-                                    <td>#451231</td>
-                                    <td>Mar 25, 2016</td>
-                                    <td>3</td>
-                                    <td>$150.00</td>
-                                    <td><span class="label label-success">Completed</span></td>
-                                    <td><a href="#" class="btn btn-default">View</a></td>
-                                </tr>
-                                <tr>
-                                    <td>#451231</td>
-                                    <td>Mar 25, 2016</td>
-                                    <td>3</td>
-                                    <td>$150.00</td>
-                                    <td><span class="label label-danger">Canceled</span></td>
-                                    <td><a href="#" class="btn btn-default">View</a></td>
-                                </tr>
-                                <tr>
-                                    <td>#451231</td>
-                                    <td>Mar 25, 2016</td>
-                                    <td>2</td>
-                                    <td>$99.00</td>
-                                    <td><span class="label label-info">On Hold</span></td>
-                                    <td><a href="#" class="btn btn-default">View</a></td>
-                                </tr>
-                                <tr>
-                                    <td>#451231</td>
-                                    <td>Mar 25, 2016</td>
-                                    <td>3</td>
-                                    <td>$150.00</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td><a href="#" class="btn btn-default">View</a></td>
-                                </tr>
+                                {{/each}}
+                                
+                                
                             </tbody>
                         </table>
                     </div>

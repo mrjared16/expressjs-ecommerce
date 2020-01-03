@@ -29,47 +29,29 @@
                   <thead>
                     <tr>
                       <th class="">Tên sản phẩm</th>
+											<th class="">Số lượng</th>
                       <th class="">Giá</th>
                       <th class=""></th>
                     </tr>
                   </thead>
                   <tbody>
+										{{#if itemsInMyCart}}
+										{{#each itemsInMyCart}}
                     <tr class="">
                       <td class="">
                         <div class="product-info">
-                          <img width="80" src="/static/images/cart-1.jpg" alt="" />
-                          <a href="">Kính nam</a>
+                          <img width="80" src="{{this.img}}" alt="" />
+                          <a href="/product/{{this.id}}">{{this.name}}</a>
                         </div>
                       </td>
-                      <td class="">200000 đồng</td>
+											<td class="">{{this.quantity}}</td>
+                      <td class="">{{this.price}} đồng</td>
                       <td class="">
-                        <a class="product-remove" href="">Xóa</a>
+                        <a class="product-remove" href="/checkout/cart" onclick="deleteItem('{{this.id}}')">Xóa</a>
                       </td>
                     </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="/static/images/cart-1.jpg" alt="" />
-                          <a href="">Kính nam</a>
-                        </div>
-                      </td>
-                      <td class="">200000 đồng</td>
-                      <td class="">
-                        <a class="product-remove" href="">Xóa</a>
-                      </td>
-                    </tr>
-                    <tr class="">
-                      <td class="">
-                        <div class="product-info">
-                          <img width="80" src="/static/images/cart-1.jpg" alt="" />
-                          <a href="">Kính nam</a>
-                        </div>
-                      </td>
-                      <td class="">200000 đồng</td>
-                      <td class="">
-                        <a class="product-remove" href="">Xóa</a>
-                      </td>
-                    </tr>
+										{{/each}}
+										{{/if}}
                   </tbody>
                 </table>
                 <a href="/checkout/payment" class="btn btn-main pull-right">Mua</a>

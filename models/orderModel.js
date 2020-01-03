@@ -6,10 +6,10 @@ const OrderSchema = new mongoose.Schema({
         ref: 'user'
     },
     items: [{
-        product: [{
+        product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'product'
-        }],
+        },
     
         unit_price: Number,
         quantity: Number,
@@ -17,9 +17,10 @@ const OrderSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['Đang xác nhận', 'Đang giao', 'Đã giao']
+        enum: ['Đang xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'],
+        default: 'Đang xác nhận'
     },
-    total_price: Number
+    totalPrice: Number
 }, {
     timestamps: true
 });

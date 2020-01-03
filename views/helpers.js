@@ -2,8 +2,6 @@ const qs = require('querystring');
 module.exports = {
     createAlert: ({ type, message }) => {
         // success, info, warning, danger
-        // console.log(type);
-        // console.log(message);
         const icon = {
             'success': `<i class='tf-ion-thumbsup'></i>`,
             'info': `<i class='tf-ion-android-checkbox-outline'></i>`,
@@ -11,6 +9,15 @@ module.exports = {
             'danger': `<i class='tf-ion-close-circled'></i>`
         }
         return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
+    },
+    createStatusLabel: (status) => {
+        // {{!-- primary - success - danger - info - warning --}}
+        const map = {};
+        ['Đang xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'].forEach((item, index) => {
+            map[item] = [...['primary', 'warning', 'success', 'danger']][index];
+        });
+        // console.log(map);
+        return `<span class="label label-${map[status]}">${status}</span>`;
     },
     createSortOption: (option) => {
         const { list, selected, queryString } = option;
@@ -80,7 +87,6 @@ module.exports = {
     },
 
     createPagination: (pageOptions) => {
-        // console.log(pageOptions);
         const { currentPage, url } = pageOptions;
         const totalPage = Math.ceil(pageOptions.totalItems / pageOptions.itemPerPage);
         if (totalPage <= 1)

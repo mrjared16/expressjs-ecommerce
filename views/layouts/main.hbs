@@ -85,7 +85,6 @@
 
 						{{!-- Login/Register/Profile --}}
 
-						{{!-- TODO: edit login --}}
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href={{#if user}}"/user/profile"{{else}}"/user/login"{{/if}} class="dropdown-toggle"
 								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i>
@@ -109,44 +108,32 @@
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
-								data-hover="dropdown"><i class="tf-ion-android-cart"></i> Giỏ hàng</a>
+								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if itemsInMyCart}} ({{itemsInMyCart.length}}) {{/if}} </a>
 
 							{{!-- Cart items --}}
-							<div class="dropdown-menu cart-dropdown">
+							<div class="dropdown-menu cart-dropdown" id="cart-items-main">
 								<!-- Cart Item -->
+								{{#if itemsInMyCart}}
+								{{#each itemsInMyCart}}
 								<div class="media">
-									<a class="pull-left" href="#">
-										<img class="media-object" src="/static/images/cart-1.jpg" alt="image" />
-									</a>
-									{{!-- TODO: edit cart detail page --}}
-									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
-										<div class="cart-price">
-											<span>1 x</span>
-											<span>1,200,000</span>
-										</div>
-									</div>
-									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
-								</div>
-
-								<!-- Cart Item -->
-								<div class="media">
-									<a class="pull-left" href="#">
-										<img class="media-object" src="/static/images/cart-1.jpg" alt="image" />
+									<a class="pull-left" href="/product/{{this.id}}">
+										<img class="media-object" src="{{this.img}}" alt="image" />
 									</a>
 									<div class="media-body">
-										<h4 class="media-heading"><a href="">Mắt kính nam</a></h4>
+										<h4 class="media-heading"><a href="/product/{{this.id}}">{{this.name}}</a></h4>
 										<div class="cart-price">
-											<span>1 x</span>
-											<span>800,000</span>
+											<span>{{this.quantity}} x</span>
+											<span>{{this.price}}</span>
 										</div>
 									</div>
-									<a href="#" class="remove"><i class="tf-ion-close"></i></a>
+									<a href="#" class="remove" onclick="deleteItem('{{this.id}}')"><i class="tf-ion-close"></i></a>
 								</div>
+								{{/each}}
+								{{/if}}
 
 								<div class="cart-summary">
 									<span>Tổng cộng</span>
-									<span class="total-price">2,000,000 đồng</span>
+									<span class="total-price">{{totalPrice}}</span>
 								</div>
 
 								<ul class="text-center cart-buttons">
@@ -433,13 +420,11 @@
 	<script type="text/javascript" src="/static/plugins/revolution-slider/assets/warning.js"></script>
 
 
-
 	<!-- Custom js -->
 	{{!-- <script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBItRd4sQ_aXlQG_fvEzsxvuYyaWnJKETk&callback=initMap"></script> --}}
-
+	<script src="/static/js/cart.js"></script>
 	<script src="/static/js/script.js"></script>
-
 
 
 </body>
