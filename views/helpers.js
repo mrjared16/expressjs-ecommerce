@@ -10,6 +10,15 @@ module.exports = {
         }
         return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
     },
+    createStatusLabel: (status) => {
+        // {{!-- primary - success - danger - info - warning --}}
+        const map = {};
+        ['Đang xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'].forEach((item, index) => {
+            map[item] = [...['primary', 'warning', 'success', 'danger']][index];
+        });
+        // console.log(map);
+        return `<span class="label label-${map[status]}">${status}</span>`;
+    },
     createSortOption: (option) => {
         const { list, selected, queryString } = option;
         if (!queryString || !list)
