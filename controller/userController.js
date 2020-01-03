@@ -1,5 +1,6 @@
 const userService = require('../models/userService');
 const cartService = require('../models/cartService');
+const orderService = require('../models/orderService');
 const passport = require('passport');
 
 
@@ -12,7 +13,7 @@ exports.getLogin = (req, res) => {
 }
 
 exports.postLogin = (req, res, next) => {
-    // req.session.username = req.body.username;
+
     if (userService.isAuthenticated(req, res)) {
         res.redirect('/dashboard');
         return;
@@ -74,7 +75,6 @@ exports.getForgetPass = (req, res) => {
     res.render('user/forgetPassword');
 }
 
-//TODO
 exports.postForgetPass = async (req, res) => {
     if (await userService.forgetPassword(req.body.email)) {
         res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
@@ -94,52 +94,70 @@ exports.logout = (req, res) => {
     res.redirect('/');
 }
 
-exports.history = (req, res) => {
+exports.history = async (req, res) => {
     if (!userService.isAuthenticated(req, res)) {
         res.redirect('/');
         return;
     }
-
-    res.render('dashboard/history');
+    const user = req.user;
+    const getDateFormat = (date) => {
+        const _date = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        return `${_date}/${month}/${year}, ${hour}:${minute}:${second}`;
+    }
+    const order = (await orderService.getAllOrder(user)).map(item => {
+        item.date = getDateFormat(item.createdAt);
+        return item;
+    })
+    const viewModel = {
+        order
+    };
+    res.render('dashboard/history', viewModel);
 };
 
-exports.address = (req, res) => {
+exports.address = async (req, res) => {
     if (!userService.isAuthenticated(req, res)) {
         res.redirect('/');
         return;
     }
-
-    res.render('dashboard/address');
+    const { shippingAddress } = req.user;
+    const viewModel = {
+        shippingAddress
+    }
+    res.render('dashboard/address', viewModel);
 };
-
-// exports.profile = (req, res) => {
-//     if (!userService.isAuthenticated(req, res)) {
-//         res.redirect('/');
-//         return;
-//     }
-//
-//     res.render('dashboard/profile');
-// };
 
 exports.getProfile = async (req, res) => {
     if (!userService.isAuthenticated(req, res)) {
         res.redirect('/');
     }
-    const userInfo = await userService.getUserInfo(req.user._id);
-    if (userInfo != false) {
-        res.render('dashboard/profile', { fullname: userInfo.fullname, phone: userInfo.phone }); // address: userInfo.address
-    } else {
-        res.redirect('/');
+    const { name, address, phone, dob, avatar } = req.user;
+    const viewModel = {
+        name,
+        address,
+        phone,
+        dob,
+        avatar: (avatar) ? avatar : '/static/images/avatar.jpg'
     }
+    res.render('dashboard/profile', viewModel);
 };
 
 exports.postProfile = async (req, res) => {
-    const userInfo = await userService.postUserInfo(req.user._id, { fullname: req.body.full_name, phone: req.body.phone_number }); //address: req.body.user_adress
-    if (userInfo != false) {
-        res.render('dashboard/profile', { fullname: req.body.full_name, phone: req.body.phone_number, alert: { type: 'success', message: 'Đã lưu lại thông tin' } }); // address: req.body.user_adress
-    } else {
-        res.redirect('/');
-    }
+    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body);
+    const viewModel = {
+        name,
+        address,
+        phone,
+        dob,
+        avatar: (avatar) ? avatar : '/static/images/avatar.jpg',
+        alert: { type: 'success', message: 'Đã lưu lại thông tin' }
+    };
+
+    res.render('dashboard/profile', viewModel);
 };
 
 exports.getResetPass = (req, res) => {
