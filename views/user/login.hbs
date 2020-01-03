@@ -9,9 +9,9 @@
           {{{createAlert this}}}
           {{/with}}
           {{/if}}
-          <form method='POST' class="text-left clearfix" action="#">
+          <form method='POST' class="text-left clearfix" action="/user/login">
             <div class="form-group">
-              <input name='username' type="text" class="form-control" placeholder="Ten dang nhap">
+              <input name='username' type="text" class="form-control" placeholder="Tên đăng nhập">
             </div>
             <div class="form-group">
               <input name='password' type="password" class="form-control" placeholder="Mật khẩu">
@@ -21,7 +21,7 @@
             </div>
           </form>
           <p class="mt-20">Chưa có tài khoản ?<a href="/user/register"> <u>Tạo tài khoản mới</u></a></p>
-          <p><a href="/user/forget-password"> <u>Quên mật khẩu</u></a></p>
+          <p><a href="/user/forgetPassword"> <u>Quên mật khẩu</u></a></p>
         </div>
       </div>
     </div>

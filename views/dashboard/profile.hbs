@@ -6,31 +6,42 @@
                     <li><a href="/dashboard/history">Lịch sử mua hàng</a></li>
                     <li><a href="/dashboard/address">Địa chỉ giao hàng</a></li>
                     <li><a class="active" href="/dashboard/profile">Thông tin cá nhân</a></li>
+                    <li><a href="/dashboard/changePass">Thay đổi mật khẩu</a></li>
                 </ul>
                 <div class="dashboard-wrapper dashboard-user-profile">
+                    {{#if this.alert}}
+                    {{#with alert}}
+                    {{{createAlert this}}}
+                    {{/with}}
+                    {{/if}}
                     <div class="media">
                         <div class="pull-left text-center" href="#">
-                            <img class="media-object user-img" src="/static/images/avatar.jpg" alt="Image">
+                            <img class="media-object user-img" src="{{avatar}}" alt="Image">
                             <a href="#x" class="btn btn-transparent mt-20">Thay đổi ảnh đại diện</a>
                         </div>
                         <div class="media-body">
-                            <form class="checkout-form">
+                            <form method="POST" class="checkout-form">
                                 <div class="form-group">
-                                    <label for="full_name">Họ và tên</label>
-                                    <input type="text" class="form-control" id="full_name" placeholder=""
-                                        value="Đoàn Nguyễn Tấn Phúc">
+                                    <label for="name">Họ và tên</label>
+                                    <input name="name" type="text" class="form-control" id="name"
+                                        placeholder="" value="{{name}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_address">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="user_address" placeholder=""
-                                        value="227 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, Hồ Chí Minh">
+                                    <label for="dob">Ngày sinh</label>
+                                    <input name="dob" type="date" class="form-control" id="dob" 
+                                        value="{{dob}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone_number">Số điện thoại</label>
-                                    <input type="tel" class="form-control" id="phone_number" placeholder=""
-                                        value="0949645703">
+                                    <label for="address">Địa chỉ</label>
+                                    <input name="address" type="text" class="form-control" id="address"
+                                        placeholder="" value="{{address}}">
                                 </div>
-                             <a href="#" class="btn btn-main mt-20">Lưu và sửa đổi</a>
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input name="phone" type="tel" class="form-control" id="phone"
+                                        placeholder="" value="{{phone}}">
+                                </div>
+                                <button type="submit" class="btn btn-main text-center">Lưu và sửa đổi</button>
                             </form>
                         </div>
                     </div>

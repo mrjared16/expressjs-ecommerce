@@ -6,27 +6,25 @@
                     <li><a href="/dashboard/history">Lịch sử mua hàng</a></li>
                     <li><a class="active" href="/dashboard/address">Địa chỉ giao hàng</a></li>
                     <li><a href="/dashboard/profile">Thông tin cá nhân</a></li>
+                    <li><a href="/dashboard/changePass">Thay đổi mật khẩu</a></li>
                 </ul>
                 <div class="dashboard-wrapper user-dashboard">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Công ty</th>
-                                    <th>Họ tên</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Quốc gia</th>
-                                    <th class="col-md-2 col-sm-3">Điện thoại</th>
-                                    <th></th>
+                                    <th class="col-md-3 col-sm-3">Họ tên</th>
+                                    <th class="">Địa chỉ</th>
+                                    <th class="col-md-3 col-sm-3">Điện thoại</th>
+                                    <th class="col-md-2 col-sm-3"></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each shippingAddress}}
                                 <tr>
-                                    <td>Nokia</td>
-                                    <td>Adam Smith</td>
-                                    <td>9/4 C Babor Road, Mohammad Pur, Dhaka</td>
-                                    <td>Bangladesh</td>
-                                    <td>+884 5452 6452</td>
+                                    <td>{{name}}</td>
+                                    <td>{{address}}</td>
+                                    <td>{{phone}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default"><i class="tf-pencil2"
@@ -36,36 +34,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Samsung</td>
-                                    <td>Adam Smith</td>
-                                    <td>9/4 C Babor Road, Mohammad Pur, Dhaka</td>
-                                    <td>Bangladesh</td>
-                                    <td>+884 5452 6452</td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default"><i class="tf-pencil2"
-                                                    aria-hidden="true"></i></button>
-                                            <button type="button" class="btn btn-default"><i class="tf-ion-close"
-                                                    aria-hidden="true"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Motorola</td>
-                                    <td>Adam Smith</td>
-                                    <td>9/4 C Babor Road, Mohammad Pur, Dhaka</td>
-                                    <td>Bangladesh</td>
-                                    <td>+884 5452 6452</td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default"><i class="tf-pencil2"
-                                                    aria-hidden="true"></i></button>
-                                            <button type="button" class="btn btn-default"><i class="tf-ion-close"
-                                                    aria-hidden="true"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>
