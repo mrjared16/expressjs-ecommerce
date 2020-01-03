@@ -2,8 +2,6 @@ const qs = require('querystring');
 module.exports = {
     createAlert: ({ type, message }) => {
         // success, info, warning, danger
-        // console.log(type);
-        // console.log(message);
         const icon = {
             'success': `<i class='tf-ion-thumbsup'></i>`,
             'info': `<i class='tf-ion-android-checkbox-outline'></i>`,
@@ -80,7 +78,6 @@ module.exports = {
     },
 
     createPagination: (pageOptions) => {
-        // console.log(pageOptions);
         const { currentPage, url } = pageOptions;
         const totalPage = Math.ceil(pageOptions.totalItems / pageOptions.itemPerPage);
         if (totalPage <= 1)

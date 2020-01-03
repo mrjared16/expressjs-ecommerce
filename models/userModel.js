@@ -4,11 +4,20 @@ const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     phone: String,
+    address: String,
     email: String,
     name: String,
     dob: Date,
     avatar: String,
-    active: Boolean,
+    shippingAddress: [{
+        name: String,
+        address: String,
+        phone: String
+    }],
+    active: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 });
