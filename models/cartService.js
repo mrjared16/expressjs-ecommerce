@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 
 
 exports.updateCart = async (req, res) => {
-  // sync session to database
-  if (userService.isAuthenticated(req, res)) {
-    req.session.cart = await exports.syncLocalCartToDatabase(req.session.cart, req.user);
-  }
-
+  
   // get cart item view model
   let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
+  // sync session to database
+  if (userService.isAuthenticated(req, res)) {
+    await exports.syncLocalCartToDatabase(req.session.cart, req.user);
+  }
+
   // console.log(totalPrice, items);
   req.app.locals.itemsInMyCart = items;
   req.app.locals.totalPrice = totalPrice;
@@ -64,14 +65,16 @@ exports.getItemsDetailInCart = async (myCart) => {
     myCart = [];
   }
   const items = await Promise.all(
-    myCart.map((item) => new Promise(
+    myCart.map((item, index) => new Promise(
       async (resolve, reject) => {
         const product = await Product.findOne({ _id: item.product });
+        myCart[index].unit_price = product.price;
         totalPrice += product.price * item.quantity;
         resolve(exports.getCartItemViewModel(product, item));
       }
     ))
   );
+  console.log(myCart);
   return { items, totalPrice };
 }
 
@@ -112,7 +115,6 @@ exports.syncLocalCartToDatabase = async (myCart, { _id }) => {
 
   cart.items = myCart;
   await cart.save();
-  return myCart;
 }
 
 exports.insertLocalToDatabase = async (req) => {
@@ -164,20 +166,4 @@ exports.insertLocalToDatabase = async (req) => {
   req.app.locals.totalPrice = totalPrice;
 }
 
-// async function setOrderFieldUser(userOrder, myCart) {
-//   let itemsAndTotalPrice = await getItemInfoFromProductModel(myCart);
-//   let order = {
-//     status: "Chưa giao",
-//     data: new Date(),
-//     items: itemsAndTotalPrice.items,
-//     total_price: itemsAndTotalPrice.totalPrice
-//   };
-//   //userOrder.order.push(order);
-//   await userOrder.save();
-// }
 
-
-
-exports.getUserInfoToPayment = async (userId) => {
-  return await userService.getUserInfo(userId);
-}
