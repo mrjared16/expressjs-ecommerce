@@ -85,7 +85,6 @@
 
 						{{!-- Login/Register/Profile --}}
 
-						{{!-- TODO: edit login --}}
 						<li class="dropdown cart-nav dropdown-slide">
 							<a href={{#if user}}"/user/profile"{{else}}"/user/login"{{/if}} class="dropdown-toggle"
 								data-toggle="dropdown" data-hover="dropdown"><i class="tf-profile-male"></i>
@@ -117,12 +116,11 @@
 								{{#if itemsInMyCart}}
 								{{#each itemsInMyCart}}
 								<div class="media">
-									<a class="pull-left" href="#">
+									<a class="pull-left" href="/product/{{this.id}}">
 										<img class="media-object" src="{{this.img}}" alt="image" />
 									</a>
-									{{!-- TODO: edit cart detail page --}}
 									<div class="media-body">
-										<h4 class="media-heading"><a href="">{{this.name}}</a></h4>
+										<h4 class="media-heading"><a href="/product/{{this.id}}">{{this.name}}</a></h4>
 										<div class="cart-price">
 											<span>{{this.quantity}} x</span>
 											<span>{{this.price}}</span>
