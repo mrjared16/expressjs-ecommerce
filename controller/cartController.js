@@ -1,6 +1,6 @@
 const cartService = require('../models/cartService');
 const userService = require('../models/userService');
-
+const orderService = require('../models/orderService');
 
 exports.postAddItemInCart = async (req, res) => {
   if (req.session.cart == null) {
@@ -22,16 +22,31 @@ exports.postDeleteItemInCart = async (req, res) => {
 }
 
 exports.getPayment = async (req, res) => {
-  let viewModel = {};
 
-  if (userService.isAuthenticated(req, res)) {
-    const userInfo = await cartService.getUserInfoToPayment(req.user._id);
-    viewModel = { fullname: userInfo.fullname, phone: userInfo.phone };
+  if (!userService.isAuthenticated(req, res)) {
+    const viewModel = {
+      alert: {
+        type: 'danger',
+        message: 'Bạn cần đăng nhập để có để đặt hàng!'
+      }
+    }
+    // TODO: /user/login not checkout/cart
+    res.render('user/login', viewModel);
+    return;
   }
+
+  const { name, phone, address } = req.user; 
+
+  const viewModel = {
+    name: name ? name : '',
+    phone: phone ? phone : '',
+    address: address ? address : ''
+  };
 
   res.render('checkout/payment', viewModel);
 }
 
 exports.postPayment = async (req, res) => {
-
+  await orderService.placeOrder(req);
+  res.render('checkout/confirmation');
 }
