@@ -14,37 +14,40 @@
                     {{{createAlert this}}}
                     {{/with}}
                     {{/if}}
-                    <div class="media">
-                        <div class="pull-left text-center" href="#">
-                            <img class="media-object user-img" src="{{avatar}}" alt="Image">
-                            <a href="#x" class="btn btn-transparent mt-20">Thay đổi ảnh đại diện</a>
+                    <form method="POST" class="checkout-form" enctype="multipart/form-data">
+                        <div class="media">
+                            <div class="pull-left text-center" href="#">
+                                <img class="media-object user-img" src="{{avatar}}" alt="Image">
+                                <!-- <a href="#x" class="btn btn-transparent mt-20">Thay đổi ảnh đại diện</a> -->
+                                <input type="file" name="avatar" class="form-control-file border" accept="image/png, image/jpeg">
+                            </div>
+                            <div class="media-body">
+                                <!-- <form method="POST" class="checkout-form" enctype="multipart/form-data"> -->
+                                    <div class="form-group">
+                                        <label for="name">Họ và tên</label>
+                                        <input name="name" type="text" class="form-control" id="name"
+                                            placeholder="" value="{{name}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dob">Ngày sinh</label>
+                                        <input name="dob" type="date" class="form-control" id="dob"
+                                            value="{{dob}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Địa chỉ</label>
+                                        <input name="address" type="text" class="form-control" id="address"
+                                            placeholder="" value="{{address}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input name="phone" type="tel" class="form-control" id="phone"
+                                            placeholder="" value="{{phone}}">
+                                    </div>
+                                    <button type="submit" class="btn btn-main text-center">Lưu và sửa đổi</button>
+                                <!-- </form> -->
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <form method="POST" class="checkout-form">
-                                <div class="form-group">
-                                    <label for="name">Họ và tên</label>
-                                    <input name="name" type="text" class="form-control" id="name"
-                                        placeholder="" value="{{name}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="dob">Ngày sinh</label>
-                                    <input name="dob" type="date" class="form-control" id="dob" 
-                                        value="{{dob}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Địa chỉ</label>
-                                    <input name="address" type="text" class="form-control" id="address"
-                                        placeholder="" value="{{address}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Số điện thoại</label>
-                                    <input name="phone" type="tel" class="form-control" id="phone"
-                                        placeholder="" value="{{phone}}">
-                                </div>
-                                <button type="submit" class="btn btn-main text-center">Lưu và sửa đổi</button>
-                            </form>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

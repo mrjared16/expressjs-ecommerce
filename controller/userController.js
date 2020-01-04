@@ -4,6 +4,23 @@ const orderService = require('../models/orderService');
 const passport = require('passport');
 
 
+// upload file
+// ==========
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+    destination: './public/images',
+    filename: function(req, file, callback) {
+        callback(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));  //path file store
+    }
+});
+
+const uploadImage = multer({
+    storage: storage
+}).single('avatar');
+// ==========
+
 exports.getLogin = (req, res) => {
     if (userService.isAuthenticated(req, res)) {
         res.redirect('/dashboard');
@@ -149,7 +166,15 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.postProfile = async (req, res) => {
-    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body);
+    await new Promise(function (resolve, reject) {
+        uploadImage(req, res, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            resolve();
+        });
+    })
+    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body, req.file.filename);
     let formatDob = new Date(dob);
     formatDob = formatDob.toISOString().substring(0, 10);
     const viewModel = {
