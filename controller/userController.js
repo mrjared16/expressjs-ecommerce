@@ -135,7 +135,9 @@ exports.getProfile = async (req, res) => {
     if (!userService.isAuthenticated(req, res)) {
         res.redirect('/');
     }
-    const { name, address, phone, dob, avatar } = req.user;
+    const { name, address, phone, avatar } = req.user;
+    let dob = new Date(req.user.dob);
+    dob = dob.toISOString().substring(0, 10);
     const viewModel = {
         name,
         address,
@@ -202,4 +204,3 @@ exports.getActiveAccout = async (req, res) => {
     await userService.activeAccout(req.params.id);
     res.redirect('/user/login');
 }
-
