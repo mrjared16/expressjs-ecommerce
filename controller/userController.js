@@ -135,14 +135,14 @@ exports.getProfile = async (req, res) => {
     if (!userService.isAuthenticated(req, res)) {
         res.redirect('/');
     }
-    const { name, address, phone, avatar } = req.user;
-    let dob = new Date(req.user.dob);
-    dob = dob.toISOString().substring(0, 10);
+    const { name, address, phone, dob, avatar } = req.user;
+    let formatDob = new Date(dob);
+    formatDob = formatDob.toISOString().substring(0, 10);
     const viewModel = {
         name,
         address,
         phone,
-        dob,
+        dob: formatDob,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg'
     }
     res.render('dashboard/profile', viewModel);
@@ -150,11 +150,13 @@ exports.getProfile = async (req, res) => {
 
 exports.postProfile = async (req, res) => {
     const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body);
+    let formatDob = new Date(dob);
+    formatDob = formatDob.toISOString().substring(0, 10);
     const viewModel = {
         name,
         address,
         phone,
-        dob,
+        dob: formatDob,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg',
         alert: { type: 'success', message: 'Đã lưu lại thông tin' }
     };
