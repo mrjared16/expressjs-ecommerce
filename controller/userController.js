@@ -116,14 +116,14 @@ exports.address = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
-    const { name, address, phone, avatar } = req.user;
-    let dob = new Date(req.user.dob);
-    dob = dob.toISOString().substring(0, 10);
+    const { name, address, phone, dob, avatar } = req.user;
+    let formatDob = new Date(dob);
+    formatDob = formatDob.toISOString().substring(0, 10);
     const viewModel = {
         name,
         address,
         phone,
-        dob,
+        dob: formatDob,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg'
     }
     res.render('dashboard/profile', viewModel);
@@ -131,7 +131,6 @@ exports.getProfile = async (req, res) => {
 
 exports.postProfile = async (req, res) => {
     await userService.updateUserInfo(req.user, req.body);
-
     req.flash('alert', 'success');
     req.flash('alert', 'Đã lưu lại thông tin');
 
