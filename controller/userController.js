@@ -183,8 +183,8 @@ exports.getChangePass = (req, res) => {
 }
 
 exports.postChangePass = async (req, res) => {
-    const isOk = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
-    if (isOk) {
+    const result = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
+    if (result.isSucess) {
         // req.session.destroy(function (err) {
         //     res.redirect('/user/login');
         // });
