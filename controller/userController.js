@@ -116,7 +116,9 @@ exports.address = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
-    const { name, address, phone, dob, avatar } = req.user;
+    const { name, address, phone, avatar } = req.user;
+    let dob = new Date(req.user.dob);
+    dob = dob.toISOString().substring(0, 10);
     const viewModel = {
         name,
         address,
