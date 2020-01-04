@@ -99,26 +99,31 @@ module.exports.updateUserInfo = async ({ username }, newInfo) => {
 
 module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
     const userChangePass = await User.findOne({ _id: userId });
-    var isSuccess = false;
-    const comparePass = await new Promise((resolve, reject) => {
-        bcrypt.compare(oldPass, userChangePass.password, async function (err, isMatch) {
-            if (isMatch && newPass == confirmPass) {
-                isSuccess = true;
-                await bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(newPass, salt, function (err, hash) {
-                        userChangePass.password = hash;
-                        userChangePass.save();
-                    });
-                });
-            }
-            resolve(isSuccess);
+    let result = {isSucess: false, message: ''};
+    const passValid = await bcrypt.compare(oldPass, userChangePass.password);
+
+    if (!passValid) {
+        result.message = 'Mật khẩu cũ không đúng';
+        return result;
+    }
+    if (newPass != confirmPass) {
+        result.message = 'Mật khẩu mới và xác nhận mật khẩu không giống nhau';
+        return result;
+    }
+    if (oldPass == newPass) {
+        result.message = 'Mật khẩu cũ và mật khẩu mới giống nhau';
+        return result;
+    }
+
+    await bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(newPass, salt, function (err, hash) {
+            userChangePass.password = hash;
+            userChangePass.save();
         });
     });
-    if (isSuccess) {
-        return true;
-    } else {
-        return false;
-    }
+    result.isSucess = true;
+    result.message = 'Thay đổi mật khẩu thành công';
+    return result;
 };
 
 exports.sendMailActiveAccount = async (userId, userEmail) => {

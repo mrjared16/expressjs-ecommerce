@@ -187,14 +187,11 @@ exports.getChangePass = (req, res) => {
 }
 
 exports.postChangePass = async (req, res) => {
-    const isOk = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
-    if (isOk) {
-        req.session.destroy(function (err) {
-            res.redirect('/user/login');
-        });
+    const result = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
+    if (result.isSucess) {
+        res.render('dashboard/changePass', { alert: { type: 'success', message: result.message } });
     } else {
-        console.log("3");
-        res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
+        res.render('dashboard/changePass', { alert: { type: 'danger', message: result.message } });
     }
 }
 
@@ -202,4 +199,3 @@ exports.getActiveAccout = async (req, res) => {
     await userService.activeAccout(req.params.id);
     res.redirect('/user/login');
 }
-
