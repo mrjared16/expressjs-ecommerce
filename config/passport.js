@@ -19,6 +19,10 @@ module.exports = (passport, express) => {
             if (!await userService.comparePassword(password, user.password)) {
                 return done(null, false, 'Sai mật khẩu');
             }
+
+            if (!user.active) {
+              return done(null, false, 'Tài khoản chưa kích hoạt');
+            }
             return done(null, user);
         }
     ));
