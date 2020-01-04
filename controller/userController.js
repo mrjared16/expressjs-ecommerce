@@ -5,6 +5,23 @@ const Util = require('../util');
 const passport = require('passport');
 
 
+// upload file
+// ==========
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+    destination: './public/images',
+    filename: function(req, file, callback) {
+        callback(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));  //path file store
+    }
+});
+
+const uploadImage = multer({
+    storage: storage
+}).single('avatar');
+// ==========
+
 exports.getLogin = (req, res) => {
     res.render('user/login');
 }
