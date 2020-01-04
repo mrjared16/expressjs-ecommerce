@@ -21,7 +21,7 @@ module.exports = (passport) => {
             }
 
             if (!user.active) {
-              return done(null, false, 'Tài khoản chưa kích hoạt');
+                return done(null, false, 'Tài khoản chưa kích hoạt');
             }
             return done(null, user);
         }
