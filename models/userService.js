@@ -150,7 +150,7 @@ exports.sendMailActiveAccount = async (userId, userEmail) => {
 
 exports.activeAccout = async (userId) => {
     const newUser = await User.findOne({ _id: userId });
-    newUser.active = true;
+    newUser.status = 'active';
     await newUser.save();
 }
 
