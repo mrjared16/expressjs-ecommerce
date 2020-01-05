@@ -48,7 +48,7 @@ exports.comparePassword = async (candidatePassword, hash) => {
 }
 
 // forget password
-exports.forgetPassword = async (userEmail) => {
+exports.forgetPassword = async (userEmail, hostname) => {
     const userForgetPass = await User.findOne({ email: userEmail });
     if (userForgetPass) {
         const mail = {
@@ -57,7 +57,7 @@ exports.forgetPassword = async (userEmail) => {
             subject: 'Reset mật khẩu Aviato',
             html: 'Chúng tôi vừa tiếp nhận thông tin quên mật khẩu của bạn.!<br><br>'
                 + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
-                + `<u>http://localhost:4000/user/${userForgetPass.id}/resetPassword></u>`
+                + `<u>http://${hostname}/user/${userForgetPass.id}/resetPassword></u>`
         }
         mailerService.transporter.sendMail(mail, function (error, info) {
             if (error) {
@@ -121,23 +121,24 @@ module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) =>
     }
 };
 
-exports.sendMailActiveAccount = async (userId, userEmail) => {
+exports.sendMailActiveAccount = async (userId, userEmail, hostname) => {
     const mail = {
         from: process.env.USERNAME_YANDEX,
         to: userEmail,
         subject: 'Kích hoạt tài khoản',
         html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
             + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-            + `<u>https://localhost:4000/user/${userId}/active</u>`
+            + `<u>https://${hostname}/user/${userId}/active</u>`
     }
-    mailerService.transporter.sendMail(mail, function (error, info) {
-        if (error) {
-            console.log("loi la: " + error);
-        }
-        else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    for (i = 0; i <= 2; i++) {
+        mailerService.transporter.sendMail(mail, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
     }
 }
 

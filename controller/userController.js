@@ -56,11 +56,8 @@ exports.postRegister = async (req, res) => {
     let viewModel = {};
     if (validate.result) {
         const newUser = await userService.createUser(req.body);
-        console.log("1");
-        await userService.sendMailActiveAccount(newUser._id, newUser.email);
+        await userService.sendMailActiveAccount(newUser._id, newUser.email, req.headers.host);
         viewModel = { alert: { type: 'success', message: 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản' } };
-        console.log("1");
-        
     }
     else {
         viewModel = { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } };
@@ -79,7 +76,8 @@ exports.getForgetPass = (req, res) => {
 }
 
 exports.postForgetPass = async (req, res) => {
-    if (await userService.forgetPassword(req.body.email)) {
+  console.log("Host is: " + req.headers.host);
+    if (await userService.forgetPassword(req.body.email, req.headers.host)) {
         res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
     }
     else {
