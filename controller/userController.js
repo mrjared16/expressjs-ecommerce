@@ -59,7 +59,7 @@ exports.postRegister = async (req, res) => {
     if (validate.result) {
         const newUser = await userService.createUser(req.body);
         console.log("1");
-        await userService.sendMailActiveAccount(newUser._id, newUser.email);
+        await userService.sendMailActiveAccount(newUser._id, newUser.email, req.headers.host);
         req.flash('alert', 'success');
         req.flash('alert', 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản');
     }
@@ -77,7 +77,7 @@ exports.getForgetPass = (req, res) => {
 }
 
 exports.postForgetPass = async (req, res) => {
-    if (await userService.forgetPassword(req.body.email)) {
+    if (await userService.forgetPassword(req.body.email, req.headers.host)) {
         req.flash('alert', 'success');
         req.flash('alert', 'Đã gửi đến email của bạn');
     }
