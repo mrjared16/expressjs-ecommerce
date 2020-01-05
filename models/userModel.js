@@ -14,9 +14,10 @@ const UserSchema = new mongoose.Schema({
         address: String,
         phone: String
     }],
-    active: {
-        type: Boolean,
-        default: false
+    status : {
+        type : String,
+        enum: ['active', 'inactive', 'banned', 'deleted'],
+        default : 'inactive'
     }
 }, {
     timestamps: true
