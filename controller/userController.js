@@ -56,8 +56,11 @@ exports.postRegister = async (req, res) => {
     let viewModel = {};
     if (validate.result) {
         const newUser = await userService.createUser(req.body);
+        console.log("1");
         await userService.sendMailActiveAccount(newUser._id, newUser.email);
         viewModel = { alert: { type: 'success', message: 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản' } };
+        console.log("1");
+        
     }
     else {
         viewModel = { alert: { type: 'danger', message: `Đăng ký thất bại! ${validate.message}` } };
@@ -202,4 +205,3 @@ exports.getActiveAccout = async (req, res) => {
     await userService.activeAccout(req.params.id);
     res.redirect('/user/login');
 }
-
