@@ -136,7 +136,7 @@ exports.sendMailActiveAccount = async (userId, userEmail, hostname) => {
         subject: 'Kích hoạt tài khoản',
         html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
             + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-            + `<u>https://${hostname}/user/${userId}/active</u>`
+            + `<u>http://${hostname}/user/${userId}/active</u>`
     }
     for (i = 0; i <= 2; i++) {
         mailerService.transporter.sendMail(mail, function (error, info) {
