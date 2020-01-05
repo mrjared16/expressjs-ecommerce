@@ -134,13 +134,16 @@ exports.address = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
     const { name, address, phone, dob, avatar } = req.user;
-    let formatDob = new Date(dob);
-    formatDob = formatDob.toISOString().substring(0, 10);
+    let formatDob;
+    if (dob) {
+        formatDob = new Date(dob);
+        formatDob = formatDob.toISOString().substring(0, 10);
+    }
     const viewModel = {
         name,
         address,
         phone,
-        dob: formatDob,
+        dob: (formatDob) ? formatDob : null,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg'
     }
     res.render('dashboard/profile', viewModel);

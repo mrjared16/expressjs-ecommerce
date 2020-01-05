@@ -97,9 +97,6 @@ exports.updateUserInfo = async ({ username }, newInfo, imageFile) => {
     if (imageFile) {
         user.avatar = `/static/images/${imageFile}`;
     }
-    else {
-        user.avatar = newInfo.avatar;
-    }
     return await user.save();
 }
 
