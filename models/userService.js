@@ -59,14 +59,20 @@ exports.forgetPassword = async (userEmail) => {
                 + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
                 + `<u>http://localhost:4000/user/${userForgetPass.id}/resetPassword></u>`
         }
-        mailerService.transporter.sendMail(mail, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+        var i;
+        for (i = 0; i < 1; i++) {
+            mailerService.transporter.sendMail(mail, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    i = 0;
+                }
+                else {
+                    i = 2;
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        }
+
         return true;
     }
     return false;
@@ -130,14 +136,19 @@ exports.sendMailActiveAccount = async (userId, userEmail) => {
             + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
             + `<u>http://localhost:4000/user/${userId}/active</u>`
     }
-    mailerService.transporter.sendMail(mail, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    var i;
+    for (i = 0; i < 1; i++) {
+        mailerService.transporter.sendMail(mail, function (error, info) {
+            if (error) {
+                console.log(error);
+                i = 0;
+            }
+            else {
+                i = 2;
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    }
 }
 
 exports.activeAccout = async (userId) => {
