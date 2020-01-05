@@ -153,13 +153,16 @@ exports.getProfile = async (req, res) => {
         res.redirect('/');
     }
     const { name, address, phone, dob, avatar } = req.user;
-    let formatDob = new Date(dob);
-    formatDob = formatDob.toISOString().substring(0, 10);
+    let formatDob;
+    if (dob) {
+        formatDob = new Date(dob);
+        formatDob = formatDob.toISOString().substring(0, 10);
+    }
     const viewModel = {
         name,
         address,
         phone,
-        dob: formatDob,
+        dob: (formatDob) ? formatDob : null,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg'
     }
     res.render('dashboard/profile', viewModel);
@@ -173,15 +176,25 @@ exports.postProfile = async (req, res) => {
             }
             resolve();
         });
-    })
-    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body, req.file.filename);
-    let formatDob = new Date(dob);
-    formatDob = formatDob.toISOString().substring(0, 10);
+    });
+    let imageFile;
+    if (req.file) {
+        imageFile = req.file.filename;
+    }
+    else {
+        imageFile = null;
+    }
+    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body, imageFile);
+    let formatDob;
+    if (dob) {
+        formatDob = new Date(dob);
+        formatDob = formatDob.toISOString().substring(0, 10);
+    }
     const viewModel = {
         name,
         address,
         phone,
-        dob: formatDob,
+        dob: (formatDob) ? formatDob : null,
         avatar: (avatar) ? avatar : '/static/images/avatar.jpg',
         alert: { type: 'success', message: 'Đã lưu lại thông tin' }
     };
