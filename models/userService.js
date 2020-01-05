@@ -59,20 +59,14 @@ exports.forgetPassword = async (userEmail) => {
                 + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
                 + `<u>http://localhost:4000/user/${userForgetPass.id}/resetPassword></u>`
         }
-        var i;
-        for (i = 0; i < 1; i++) {
-            mailerService.transporter.sendMail(mail, function (error, info) {
-                if (error) {
-                    console.log(error);
-                    i = 0;
-                }
-                else {
-                    i = 2;
-                    console.log('Email sent: ' + info.response);
-                }
-            });
-        }
-
+        mailerService.transporter.sendMail(mail, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
         return true;
     }
     return false;
@@ -134,20 +128,16 @@ exports.sendMailActiveAccount = async (userId, userEmail) => {
         subject: 'Kích hoạt tài khoản',
         html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
             + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-            + `<u>http://localhost:4000/user/${userId}/active</u>`
+            + `<u>https://localhost:4000/user/${userId}/active</u>`
     }
-    var i;
-    for (i = 0; i < 1; i++) {
-        mailerService.transporter.sendMail(mail, function (error, info) {
-            if (error) {
-                console.log(error);
-                i = 0;
-            }
-            else {
-                i = 2;
-                console.log('Email sent: ' + info.response);
-            }
-        });
+    mailerService.transporter.sendMail(mail, function (error, info) {
+        if (error) {
+            console.log("loi la: " + error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
     }
 }
 
