@@ -71,8 +71,8 @@
                     <div class="product-checkout-details">
                         <div class="block">
                             <h4 class="widget-title">Thông tin đơn hàng</h4>
-                            {{#if itemsInMyCart}}
-                            {{#each itemsInMyCart}}
+                            {{#if items}}
+                            {{#each items}}
                             <div class="media product-card">
                                 <a class="pull-left" href="/product/{{this.id}}">
                                     <img class="media-object" src="{{this.img}}" alt="Image" />

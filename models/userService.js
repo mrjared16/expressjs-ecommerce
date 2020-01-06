@@ -1,6 +1,7 @@
 const { User } = require('./userModel');
 const bcrypt = require('bcryptjs');
 const mailerService = require('../models/mailerService');
+const { Product } = require('./productModel');
 
 // services
 exports.getUserByUsername = async (username) => {
@@ -144,4 +145,12 @@ exports.activeAccout = async (userId) => {
     const newUser = await User.findOne({ _id: userId });
     newUser.active = true;
     await newUser.save();
+}
+
+exports.getInfoProduct = async (productId) => {
+    const product = await Product.findOne({_id: productId});
+    return {
+      name: product.name,
+      img: product.assert.img
+    }
 }

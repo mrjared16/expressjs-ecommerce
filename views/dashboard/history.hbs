@@ -27,11 +27,15 @@
                                     <td>{{this.date}}</td>
                                     <td>{{this.totalPrice}} đồng</td>
                                     <td>{{{createStatusLabel this.status}}}</td>
-                                    <td><a href="#" class="btn btn-default">Xem chi tiết</a></td>
+                                    <td>
+                                      <span class="btn btn-default" data-toggle="modal" data-target="#order-{{this.id}}-modal">
+                        								Xem chi tiết
+                        							</span>
+                                    </td>
                                 </tr>
                                 {{/each}}
-                                
-                                
+
+
                             </tbody>
                         </table>
                     </div>
@@ -40,3 +44,5 @@
         </div>
     </div>
 </section>
+
+{{>orderModal}}

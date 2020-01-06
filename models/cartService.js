@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 
 exports.updateCart = async (req, res) => {
-
   // get cart item view model
   let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
   // sync session to database
@@ -161,8 +160,8 @@ exports.insertLocalToDatabase = async (req) => {
     // update view
     let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
     // console.log(totalPrice, items);
-    req.app.locals.itemsInMyCart = items;
-    req.app.locals.totalPrice = totalPrice;
+    //req.app.locals.itemsInMyCart = items;
+   // req.app.locals.totalPrice = totalPrice;
 }
 
 exports.getUserCart = async (userId) => {

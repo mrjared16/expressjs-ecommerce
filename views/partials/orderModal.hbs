@@ -1,0 +1,45 @@
+<!-- Modal -->
+{{#each data}}
+<div class="modal product-modal fade" id="order-{{this.orderid}}-modal">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<i class="tf-ion-close"></i>
+	</button>
+  	<div class="modal-dialog " role="document">
+    	<div class="modal-content">
+	      	<div class="modal-body">
+	        	<div class="row">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="">Tên sản phẩm</th>
+                    <th class="">Số lượng</th>
+                    <th class="">Giá</th>
+                    <th class=""></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#if this.products}}
+                  {{#each this.products}}
+                  <tr class="">
+                    <td class="">
+                      <div class="product-info">
+                        <img width="80" src="{{this.img}}" alt="" />
+                        <a href="/product/{{this.id}}">{{this.name}}</a>
+                      </div>
+                    </td>
+                    <td class="">{{this.quantity}}</td>
+                    <td class="">{{this.price}} đồng</td>
+                    <!-- <td class="">
+                      <a class="product-remove" href="/checkout/cart" onclick="deleteItem('{{this.id}}')">Xóa</a>
+                    </td> -->
+                  </tr>
+                  {{/each}}
+                  {{/if}}
+                </tbody>
+              </table>
+	        	</div>
+	        </div>
+    	</div>
+  	</div>
+</div>
+{{/each}}

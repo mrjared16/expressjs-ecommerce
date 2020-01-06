@@ -108,13 +108,28 @@
 
 						<!-- Cart -->
 						<li class="dropdown cart-nav dropdown-slide">
-							<a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
-								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if itemsInMyCart}} ({{itemsInMyCart.length}}) {{/if}} </a>
-
+							<!-- <a href="/checkout/cart" class="dropdown-toggle" data-toggle="dropdown"
+								data-hover="dropdown" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if cart}} ({{cart.length}}) {{/if}} </a> -->
+								<a href="/checkout/cart" id="my-cart"><i class="tf-ion-android-cart"></i> Giỏ hàng {{#if cart}} ({{cart.length}}) {{/if}} </a>
 							{{!-- Cart items --}}
-							<div class="dropdown-menu cart-dropdown" id="cart-items-main">
+							<!-- <div class="dropdown-menu cart-dropdown" id="cart-items-main"> -->
 								<!-- Cart Item -->
-								{{#if itemsInMyCart}}
+								<!-- {{#if itemsInMyCart}}
+								{{#each itemsInMyCart}}
+								<div class="media">
+									<a class="pull-left" href="/product/{{this.id}}">
+										<img class="media-object" src="{{this.img}}" alt="image" />
+									</a>
+									<div class="media-body">
+										<h4 class="media-heading"><a href="/product/{{this.id}}">{{this.name}}</a></h4>
+										<div class="cart-price">
+											<span>{{this.quantity}} x</span{{#if itemsInMyCart}}
+								{{#each itemsInMyCart}}
+								<div class="media">
+									<a class="pull-left" href="/product/{{this.id}}">
+										<img class="media-object" src="{{this.img}}" alt="image" />
+									</a>
+									<div class="media-body">{{#if itemsInMyCart}}
 								{{#each itemsInMyCart}}
 								<div class="media">
 									<a class="pull-left" href="/product/{{this.id}}">
@@ -143,6 +158,47 @@
 									</li>
 								</ul>
 							</div>
+										<h4 class="media-heading"><a href="/product/{{this.id}}">{{this.name}}</a></h4>
+										<div class="cart-price">
+											<span>{{this.quantity}} x</span>
+											<span>{{this.price}}</span>
+										</div>
+									</div>
+									<a href="#" class="remove" onclick="deleteItem('{{this.id}}')"><i class="tf-ion-close"></i></a>
+								</div>
+								{{/each}}
+								{{/if}}
+
+								<div class="cart-summary">
+									<span>Tổng cộng</span>
+									<span class="total-price">{{totalPrice}}</span>
+								</div>
+
+								<ul class="text-center cart-buttons">
+									<li><a href="/checkout/cart" class="btn btn-small">Chi tiết</a></li>
+									<li><a href="/checkout/payment" class="btn btn-small btn-solid-border">Mua hàng</a>
+									</li>
+								</ul>
+							</div>>
+											<span>{{this.price}}</span>
+										</div>
+									</div>
+									<a href="#" class="remove" onclick="deleteItem('{{this.id}}')"><i class="tf-ion-close"></i></a>
+								</div>
+								{{/each}}
+								{{/if}}
+
+								<div class="cart-summary">
+									<span>Tổng cộng</span>
+									<span class="total-price">{{totalPrice}}</span>
+								</div>
+
+								<ul class="text-center cart-buttons">
+									<li><a href="/checkout/cart" class="btn btn-small">Chi tiết</a></li>
+									<li><a href="/checkout/payment" class="btn btn-small btn-solid-border">Mua hàng</a>
+									</li>
+								</ul>
+							</div> -->
 						</li>
 
 					</ul>

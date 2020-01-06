@@ -83,8 +83,26 @@ exports.history = async (req, res) => {
         item.date = Util.getDateFormat(item.createdAt);
         return item;
     })
+
+    let data = [];
+    await Promise.all(order.map(async (eachOrder, index) => {
+          let store = {
+            orderid: eachOrder.id,
+            products: []
+          }
+          await Promise.all(eachOrder.items.map(async (item) => {
+            let product = await userService.getInfoProduct(item.product);
+            product.quantity = item.quantity;
+            product.price = item.unit_price;
+            store.products.push(product);
+          }))
+          data.push(store);
+        }
+    ));
+
     const viewModel = {
-        order
+        order,
+        data
     };
     res.render('dashboard/history', viewModel);
 };
