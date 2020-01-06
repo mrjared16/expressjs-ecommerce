@@ -8,17 +8,9 @@ exports.logOrder = async (order) => {
         for (let relate of order.items) {
             if (item._id === relate._id)
                 continue;
-
-            let promise = new Promise(async (resolve) => {
-                console.log('log ', relate.product, ' to ', item.product);
-                await exports.logProduct(item.product, relate.product);
-                console.log('log ', relate.product, ' to ', item.product, ' done!');
-                resolve();
-            });
-            promises.push(promise);
+            await exports.logProduct(item.product, relate.product);
         }
     }
-    return Promise.all(promises);
 }
 
 exports.getRelatedProducts = async (product, quantity) => {
@@ -29,7 +21,6 @@ exports.getRelatedProducts = async (product, quantity) => {
 // increase counter of related product in product
 exports.logProduct = async (productId, relatedProductId) => {
     let log = await exports.getLogRecord(productId);
-
     if (log == null) {
         log = new Recommendation({
             productId: productId,
@@ -50,8 +41,11 @@ exports.logProduct = async (productId, relatedProductId) => {
             productId: relatedProductId
         })
     }
-
-    return log.save();
+    // sort decen
+    log.relatedProduct.sort((a, b) => b.boughtTogetherCount - a.boughtTogetherCount);
+    console.log(log.relatedProduct);
+    await log.save();
+    return
 }
 
 exports.getLogRecord = async (product) => {

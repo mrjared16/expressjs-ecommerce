@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const recommendationSchema = new mongoose.Schema({
     productId: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'product'
+        ref: 'product',
+        unique: true
     },
     relatedProduct: [{
         productId: {
