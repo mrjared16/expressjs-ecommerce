@@ -197,6 +197,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 .section {
   padding: 80px 0;
 }
+.products.section {
+  padding: 0 0 40px 0;
+}
 
 .title {
   padding: 20px 0 30px;
@@ -2034,6 +2037,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   border: 1px solid #000;
 }
 
+.product-list {
+  margin: 15px -15px;
+}
 /*=================================================================
   Latest Posts
 ==================================================================*/
@@ -2117,7 +2123,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-pagination {
-
+  margin: 0;
 }
 
 .post-pagination > li {
