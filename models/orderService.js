@@ -1,9 +1,9 @@
 const { Order } = require('./orderModel');
-const { Cart } = require('./cartModel');
+const cartService = require('./cartService');
 
 exports.placeOrder = async (req) => {
     console.log(req.baseUrl + req.path);
-    const cart = await Cart.findOne({ user: req.user._id });
+    const cart = await cartService(req.user._id);
     let totalPrice = cart.items.reduce((total, item) => {
         return total + item.unit_price * item.quantity
     }, 0);
