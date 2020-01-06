@@ -1,9 +1,10 @@
 const { Order } = require('./orderModel');
 const cartService = require('./cartService');
+const recommendationService = require('./recommendationService');
 
 exports.placeOrder = async (req) => {
     console.log(req.baseUrl + req.path);
-    const cart = await cartService(req.user._id);
+    const cart = await cartService.getUserCart(req.user._id);
     let totalPrice = cart.items.reduce((total, item) => {
         return total + item.unit_price * item.quantity
     }, 0);
@@ -12,6 +13,9 @@ exports.placeOrder = async (req) => {
         items: cart.items,
         totalPrice
     });
+    
+    await recommendationService.logOrder(newOrder);
+
     await newOrder.save();
 
     cart.items = [];
