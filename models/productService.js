@@ -17,7 +17,19 @@ exports.getProducts = async (query, { page, sort }) => {
 }
 
 exports.getProductDetail = async (id) => {
-    return await Product.findByIdAndUpdate(id, { $inc: { 'view': 1 } });
+    const products = await Product.findByIdAndUpdate(id, { $inc: { 'view': 1 } })
+        .populate([
+            {
+                path: 'review',
+                populate: {
+                    path: 'author',
+                    select: ['_id', 'avatar', 'name']
+                }
+            },
+            { path: 'option.color' },
+            { path: 'option.size' }
+        ]);
+    return products;
 }
 
 exports.getHotProducts = async (req, res) => {
@@ -116,4 +128,8 @@ exports.getFilterOptionsData = async () => {
             })
         )]);
     return result;
+}
+
+exports.getProduct = async (id) => {
+    return await Product.findOne({ _id: id })
 }

@@ -1725,15 +1725,16 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-comments .comment-author a {
-  color: #000;
-  font-weight: 400;
-  font-size: 12px;
-  text-transform: uppercase;
+  color: rgb(41, 41, 41);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .post-comments p {
-  margin-bottom: 30px;
+  color: rgb(115, 115, 115);
+  margin-bottom: 5px;
   font-size: 14px;
+  font-weight: 400;
 }
 
 .post-comments time {
@@ -1950,10 +1951,10 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   background-repeat: no-repeat;
 }
 
-.widget {
-  /* margin-bottom: 30px;
-  padding-bottom: 35px; */
-}
+/* .widget {
+  margin-bottom: 30px;
+  padding-bottom: 35px; 
+} */
 
 .widget .widget-title {
   margin: 0;
@@ -2116,9 +2117,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   font-size: 10px;
 }
 
-.post-pagination {
+/* .post-pagination {
 
-}
+} */
 
 .post-pagination > li {
   margin: 0 2px;
