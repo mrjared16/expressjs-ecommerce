@@ -2,8 +2,6 @@ const { Recommendation } = require('./recommendationModel');
 
 
 exports.logOrder = async (order) => {
-    const promises = [];
-    // console.log(order);
     for (let item of order.items) {
         for (let relate of order.items) {
             if (item._id === relate._id)
@@ -15,7 +13,9 @@ exports.logOrder = async (order) => {
 
 exports.getRelatedProducts = async (product, quantity) => {
     const record = await Recommendation.findOne({ productId: product }).slice('relatedProduct', quantity).populate('relatedProduct.productId');
-    return record ? record.relatedProduct.map(record => record.productId) : null;
+    return record ?
+        record.relatedProduct.map(record => record.productId) :
+        null;
 }
 
 // increase counter of related product in product
@@ -41,11 +41,10 @@ exports.logProduct = async (productId, relatedProductId) => {
             productId: relatedProductId
         })
     }
-    // sort decen
+    // sort descending
     log.relatedProduct.sort((a, b) => b.boughtTogetherCount - a.boughtTogetherCount);
-    console.log(log.relatedProduct);
+    // console.log(log.relatedProduct);
     await log.save();
-    return
 }
 
 exports.getLogRecord = async (product) => {
