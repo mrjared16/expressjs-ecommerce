@@ -191,5 +191,8 @@ module.exports = {
                 ${str}
             </ul>
         </div>`
+    },
+    getGridLayoutStyle: (column) => {
+        return `col-md-${Math.ceil(12/column)} col-sm-6`;
     }
 }
