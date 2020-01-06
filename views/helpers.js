@@ -1,65 +1,68 @@
 const qs = require('querystring');
-module.exports = {
-    createAlert: ({ type, message }) => {
-        // success, info, warning, danger
-        const icon = {
-            'success': `<i class='tf-ion-thumbsup'></i>`,
-            'info': `<i class='tf-ion-android-checkbox-outline'></i>`,
-            'warning': `<i class='tf-ion-alert-circled'></i>`,
-            'danger': `<i class='tf-ion-close-circled'></i>`
-        }
-        return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
-    },
-    createStatusLabel: (status) => {
-        // {{!-- primary - success - danger - info - warning --}}
-        const map = {};
-        ['Đang xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'].forEach((item, index) => {
-            map[item] = [...['primary', 'warning', 'success', 'danger']][index];
-        });
-        // console.log(map);
-        return `<span class="label label-${map[status]}">${status}</span>`;
-    },
-    createSortOption: (option) => {
-        const { list, selected, queryString } = option;
-        if (!queryString || !list)
+
+exports.createAlert = ({ type, message }) => {
+    // success, info, warning, danger
+    const icon = {
+        'success': `<i class='tf-ion-thumbsup'></i>`,
+        'info': `<i class='tf-ion-android-checkbox-outline'></i>`,
+        'warning': `<i class='tf-ion-alert-circled'></i>`,
+        'danger': `<i class='tf-ion-close-circled'></i>`
+    }
+    return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
+};
+
+exports.createStatusLabel = (status) => {
+    // {{!-- primary - success - danger - info - warning --}}
+    const map = {};
+    ['Đang xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'].forEach((item, index) => {
+        map[item] = [...['primary', 'warning', 'success', 'danger']][index];
+    });
+    // console.log(map);
+    return `<span class="label label-${map[status]}">${status}</span>`;
+}
+
+exports.createSortOption = (option) => {
+    const { list, selected, queryString } = option;
+    if (!queryString || !list)
+        return '';
+
+    let optionElements = list.map(option => {
+        if (option.key === undefined)
             return '';
 
-        let optionElements = list.map(option => {
-            if (option.key === undefined)
-                return '';
-
-            const isSelected = (selected && selected === option.key) ? 'selected' : '';
-            return `<option value=${option.key} ${isSelected}>${option.name}</option>`;
-        }).join('\n');
-        if (selected === undefined) {
-            optionElements = `<option hidden disabled selected value> -- Sắp xếp -- </option>\n ${optionElements}`;
-        }
-        return ` 
+        const isSelected = (selected && selected === option.key) ? 'selected' : '';
+        return `<option value=${option.key} ${isSelected}>${option.name}</option>`;
+    }).join('\n');
+    if (selected === undefined) {
+        optionElements = `<option hidden disabled selected value> -- Sắp xếp -- </option>\n ${optionElements}`;
+    }
+    return ` 
     <div class="widget">
         <h4 class="widget-title">Sắp xếp</h4>
         <select name="${queryString}" class="form-control filter-form">
         ${optionElements}  
         </select>
     </div>`
-    },
-    createCheckBoxOptions: (options) => {
-        const filterOptions = options.map(option => {
-            const { title, queryString, list, selected } = option;
-            if (!queryString || !list)
-                return '';
-            let optionElements = list.map(option => {
-                if (option.key === undefined)
-                    return '';
-                const isChecked = (Array.isArray(selected) && selected.includes(option.key)) || (selected && selected === option.key);
-                const check = (isChecked) ? 'checked' : '';
+}
 
-                return `<div class="custom-control custom-checkbox">
+exports.createCheckBoxOptions = (options) => {
+    const filterOptions = options.map(option => {
+        const { title, queryString, list, selected } = option;
+        if (!queryString || !list)
+            return '';
+        let optionElements = list.map(option => {
+            if (option.key === undefined)
+                return '';
+            const isChecked = (Array.isArray(selected) && selected.includes(option.key)) || (selected && selected === option.key);
+            const check = (isChecked) ? 'checked' : '';
+
+            return `<div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="${option.key}"
                     name=${queryString} value=${option.key} ${check} >
                 <label class="custom-control-label" for=${option.key}>${option.name}</label>
             </div>`;
-            }).join('\n');
-            return ` 
+        }).join('\n');
+        return ` 
             <div class="panel-group commonAccordion" id="${queryString}container" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="${queryString}heading">
@@ -78,118 +81,117 @@ module.exports = {
                     </div>
                 </div>
             </div>`;
-        }).join('\n');
+    }).join('\n');
 
-        return `<div class="widget product-category">
+    return `<div class="widget product-category">
                     <h4 class="widget-title">Lọc</h4>
                     ${filterOptions}
                 </div>`
-    },
+}
 
-    createPagination: (pageOptions) => {
-        const { currentPage, url } = pageOptions;
-        const totalPage = Math.ceil(pageOptions.totalItems / pageOptions.itemPerPage);
-        if (totalPage <= 1)
-            return '';
+exports.createPagination = (pageOptions) => {
+    const { currentPage, url } = pageOptions;
+    const totalPage = Math.ceil(pageOptions.totalItems / pageOptions.itemPerPage);
+    if (totalPage <= 1)
+        return '';
 
-        let params = pageOptions.queryParams;
-        let queryString;
-        let str = '';
-        // previous page
-        if (currentPage > 1) {
-            params.page = currentPage - 1;
-            queryString = qs.stringify(params);
-            str +=
-                `<li>
+    let params = pageOptions.queryParams;
+    let queryString;
+    let str = '';
+    // previous page
+    if (currentPage > 1) {
+        params.page = currentPage - 1;
+        queryString = qs.stringify(params);
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>Prev</a>
                 </li>`;
-        }
+    }
 
-        // first page
-        if (currentPage === 1) {
-            str +=
-                `<li class='active'>
+    // first page
+    if (currentPage === 1) {
+        str +=
+            `<li class='active'>
                     <a href='#'>1</a>
                 </li>`;
-        }
-        else {
-            params.page = 1;
-            queryString = qs.stringify(params);
-            str +=
-                `<li>
+    }
+    else {
+        params.page = 1;
+        queryString = qs.stringify(params);
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
-        }
+    }
 
-        // previous page (number)
-        if (currentPage > 2) {
-            params.page = currentPage - 1;
-            queryString = qs.stringify(params);
-            if (currentPage > 3) {
-                str +=
-                    `<li>
+    // previous page (number)
+    if (currentPage > 2) {
+        params.page = currentPage - 1;
+        queryString = qs.stringify(params);
+        if (currentPage > 3) {
+            str +=
+                `<li>
                     <a href='#'>...</a>
                 </li>`;
-            }
-            str +=
-                `<li>
+        }
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
-        }
+    }
 
-        // current page
-        if (currentPage !== 1 && currentPage !== totalPage) {
-            str +=
-                `<li class='active'>
+    // current page
+    if (currentPage !== 1 && currentPage !== totalPage) {
+        str +=
+            `<li class='active'>
                     <a href='#'>${currentPage}</a>
                 </li>`;
-        }
+    }
 
-        // next page (number)
-        if (totalPage - currentPage > 1) {
-            params.page = currentPage + 1;
-            queryString = qs.stringify(params);
-            str +=
-                `<li>
+    // next page (number)
+    if (totalPage - currentPage > 1) {
+        params.page = currentPage + 1;
+        queryString = qs.stringify(params);
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
-            if (totalPage - currentPage > 2) {
-                str +=
-                    `<li>
+        if (totalPage - currentPage > 2) {
+            str +=
+                `<li>
                     <a>...</a>
                 </li>`;
-            }
         }
+    }
 
-        // last page
-        if (currentPage === totalPage) {
-            str +=
-                `<li class='active'>
+    // last page
+    if (currentPage === totalPage) {
+        str +=
+            `<li class='active'>
                     <a href='#'>${totalPage}</a>
                 </li>`;
-        }
-        else {
-            params.page = totalPage;
-            queryString = qs.stringify(params);
-            str +=
-                `<li>
+    }
+    else {
+        params.page = totalPage;
+        queryString = qs.stringify(params);
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>${params.page}</a>
                 </li>`;
-        }
+    }
 
-        // next page
-        if (totalPage - currentPage > 0) {
-            params.page = currentPage + 1;
-            queryString = qs.stringify(params);
-            str +=
-                `<li>
+    // next page
+    if (totalPage - currentPage > 0) {
+        params.page = currentPage + 1;
+        queryString = qs.stringify(params);
+        str +=
+            `<li>
                     <a href='${url}?${queryString}'>Next</a>
                 </li>`;
-        }
-        return `<div class="row">
+    }
+    return `<div class="row">
             <ul class="pagination post-pagination">
                 ${str}
             </ul>
         </div>`
-    }
 }

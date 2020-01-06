@@ -19,4 +19,4 @@ const ProductCommentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports.ProductComment = mongoose.model('product-comment', ProductCommentSchema, 'product-comment');
+exports.ProductComment = mongoose.model('product-comment', ProductCommentSchema, 'product-comment');

@@ -1,5 +1,5 @@
 
-module.exports.getProductListViewModel = (products) => {
+exports.getProductListViewModel = (products) => {
     const productsViewModel = products.map(item => ({
         hasBage: (item.sale && item.sale > 0) ? true : false,
         imgpath: item.assert.img[0],
@@ -11,7 +11,7 @@ module.exports.getProductListViewModel = (products) => {
     return productsViewModel;
 }
 
-module.exports.getProductDetailViewModel = (product) => {
+exports.getProductDetailViewModel = (product) => {
     const productViewModel = {
         active_img: product.assert.img[0],
         img: product.assert.img.slice(1, product.assert.img.length),
@@ -28,7 +28,7 @@ module.exports.getProductDetailViewModel = (product) => {
 }
 
 
-module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
+exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
     return {
         itemPerPage,
         currentPage,
@@ -38,7 +38,7 @@ module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, que
     }
 }
 
-module.exports.getSortOption = ({ query }) => {
+exports.getSortOption = ({ query }) => {
     const option = new function () {
         this.queryString = 'sort',
             this.list = [{
@@ -65,7 +65,7 @@ module.exports.getSortOption = ({ query }) => {
     };
     return option;
 }
-module.exports.getFilterOptions = async ({ query, data }) => {
+exports.getFilterOptions = async ({ query, data }) => {
     const title = {
         gender: 'Giới tính',
         brand: 'Thương hiệu',
