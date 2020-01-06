@@ -4,16 +4,16 @@ exports.productCount = async (query) => {
     return await Product.countDocuments(query);
 }
 
-exports.getProducts = async (query, { page, sort }) => {
+exports.getProducts = async ({ object, page, sort }) => {
     //query
     return (page && sort)
         ?
-        await Product.find(query)
+        await Product.find(object)
             .skip((page.currentPage - 1) * page.itemPerPage)
             .limit(page.itemPerPage)
             .sort(sort)
         :
-        await Product.find(query);
+        await Product.find(object);
 }
 
 exports.getProductDetail = async (id) => {
@@ -26,6 +26,10 @@ exports.getHotProducts = async (req, res) => {
 
 exports.getQueryObject = async (query) => {
     const result = {};
+
+    if (query.name)
+        result.name = new RegExp(query.name, "i");
+
     const models = {
         gender: Gender,
         brand: Brand,
