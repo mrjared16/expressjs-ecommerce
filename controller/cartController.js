@@ -37,3 +37,8 @@ exports.postPayment = async (req, res) => {
   await orderService.placeOrder(req);
   res.render('checkout/confirmation');
 }
+
+exports.checkoutCart = async (req, res) => {
+    const {items, totalPrice} = await cartService.getItemsDetailInCart(req.session.cart);
+    res.render('checkout/cart', {items, totalPrice});
+}

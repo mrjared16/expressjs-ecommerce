@@ -73,8 +73,6 @@ exports.postForgetPass = async (req, res) => {
 exports.logout = (req, res) => {
     req.logout();
     req.session.cart = null;
-    req.app.locals.itemsInMyCart = null;
-    req.app.locals.totalPrice = null;
     res.redirect('/');
 }
 
@@ -166,4 +164,3 @@ exports.getActiveAccount = async (req, res) => {
     await userService.activeAccout(req.params.id);
     res.redirect('/user/login');
 }
-
