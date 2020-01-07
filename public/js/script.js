@@ -11,6 +11,10 @@
         $('#queryForm').submit();
       }
     );
+    if ($(window.location.hash).length > 0 && window.location.hash === '#reviews') {
+      $(`.nav-tabs a[href="#reviews"]`).tab('show');
+      $('html, body').animate({ scrollTop: $('.tab-content.patternbg').offset().top }, 1000);
+    }
   });
 
   // e-commerce touchspin
