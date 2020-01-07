@@ -22,20 +22,7 @@ exports.postDeleteItemInCart = async (req, res) => {
 }
 
 exports.getPayment = async (req, res) => {
-
-  if (!userService.isAuthenticated(req, res)) {
-    const viewModel = {
-      alert: {
-        type: 'danger',
-        message: 'Bạn cần đăng nhập để có để đặt hàng!'
-      }
-    }
-    // TODO: /user/login not checkout/cart
-    res.render('user/login', viewModel);
-    return;
-  }
-
-  const { name, phone, address } = req.user; 
+  const { name, phone, address } = req.user;
 
   const viewModel = {
     name: name ? name : '',
