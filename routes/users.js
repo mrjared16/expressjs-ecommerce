@@ -1,31 +1,35 @@
 var express = require('express');
 var router = express.Router();
-const passport = require('passport');
+
 const userController = require('../controller/userController');
+const { ensureLoggedIn, ensureNotLoggedIn } = require('../middlewares/auth');
 
-/* GET users listing. */
-router.get('/login', userController.getLogin);
+router.get('/:id/active', ensureNotLoggedIn, userController.getActiveAccount);
 
-router.post('/login', userController.postLogin);
+router.get('/:id/resetPassword', ensureNotLoggedIn, userController.getResetPass);
+router.post('/:id/resetPassword', ensureNotLoggedIn, userController.postResetPass);
 
+router.get('/login', ensureNotLoggedIn, userController.getLogin);
+router.post('/login', ensureNotLoggedIn, userController.postLogin);
 
+router.get('/register', ensureNotLoggedIn, userController.getRegister);
+router.post('/register', ensureNotLoggedIn, userController.postRegister);
 
-router.get('/register', userController.getRegister);
+router.get('/forgetPassword', ensureNotLoggedIn, userController.getForgetPass);
+router.post('/forgetPassword', ensureNotLoggedIn, userController.postForgetPass);
 
-router.post('/register', userController.postRegister);
+router.use(ensureLoggedIn({ isReturnTo: true, message: 'Bạn cần đăng nhập để truy cập trang này!' }));
+router.get('/', userController.history);
+router.get('/history', userController.history);
 
+router.get('/profile', userController.getProfile);
+router.post('/profile', userController.postProfile);
 
-
-router.get('/forgetPassword', userController.getForgetPass);
-
-router.post('/forgetPassword', userController.postForgetPass);
-
-
+router.get('/changePass', userController.getChangePass);
+router.post('/changePass', userController.postChangePass);
 
 router.get('/logout', userController.logout);
 
-router.get('/:id/resetPassword', userController.getResetPass);
-router.post('/:id/resetPassword', userController.postResetPass);
+router.get('/address', userController.address);
 
-router.get('/:id/active', userController.getActiveAccout);
 module.exports = router;
