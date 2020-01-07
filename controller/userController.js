@@ -12,8 +12,8 @@ const path = require("path");
 
 const storage = multer.diskStorage({
     destination: './public/images',
-    filename: function(req, file, callback) {
-        callback(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));  //path file store
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));  //path file store
     }
 });
 
@@ -96,7 +96,7 @@ exports.logout = (req, res) => {
 
 exports.history = async (req, res) => {
     const user = req.user;
-    
+
     const order = (await orderService.getAllOrder(user)).map(item => {
         item.date = Util.getDateFormat(item.createdAt);
         return item;
@@ -104,18 +104,18 @@ exports.history = async (req, res) => {
 
     let data = [];
     await Promise.all(order.map(async (eachOrder, index) => {
-          let store = {
+        let store = {
             orderid: eachOrder.id,
             products: []
-          }
-          await Promise.all(eachOrder.items.map(async (item) => {
+        }
+        await Promise.all(eachOrder.items.map(async (item) => {
             let product = await userService.getInfoProduct(item.product);
             product.quantity = item.quantity;
             product.price = item.unit_price;
             store.products.push(product);
-          }))
-          data.push(store);
-        }
+        }))
+        data.push(store);
+    }
     ));
 
     const viewModel = {
@@ -151,10 +151,58 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.postProfile = async (req, res) => {
-    await userService.updateUserInfo(req.user, req.body);
+    await new Promise(function (resolve, reject) {
+        uploadImage(req, res, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            resolve();
+        });
+    });
+    let imageFile;
+    if (req.file) {
+        imageFile = req.file.filename;
+    }
+    else {
+        imageFile = null;
+    }
+
+    let invalid = {};
+    if (req.body.name == '') {
+        invalid.name = "Họ tên không được để trống";
+    }
+    if (req.body.phone != '' && req.body.phone.length != 10) {
+        invalid.phone = "Số điện thoại không hợp lệ";
+    }
+    console.log("du lieu la", invalid.name);
+    const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body, imageFile, invalid);
+    let formatDob;
+    if (dob) {
+        formatDob = new Date(dob);
+        formatDob = formatDob.toISOString().substring(0, 10);
+    }
+    let mess = "";
+    if (invalid.name) {
+        mess += invalid.name;
+    }
+    if (invalid.phone) {
+        if (mess == "") {
+            mess += invalid.phone;
+        }
+        else {
+            mess = mess + '<br>' + invalid.phone;
+        }
+    }
+    const viewModel = {
+        name,
+        address,
+        phone,
+        dob: (formatDob) ? formatDob : null,
+        avatar: (avatar) ? avatar : '/static/images/avatar.jpg',
+        alert: (invalid.name || invalid.phone) ? { type: 'danger', message: mess } : { type: 'success', message: 'Đã lưu lại thông tin' }
+    };
     req.flash('alert', 'success');
     req.flash('alert', 'Đã lưu lại thông tin');
-
     res.redirect('/user/profile');
 };
 

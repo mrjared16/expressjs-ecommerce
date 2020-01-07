@@ -88,11 +88,15 @@ exports.resetPassword = async (body, userId) => {
     return false;
 }
 
-exports.updateUserInfo = async ({ username }, newInfo, imageFile) => {
+exports.updateUserInfo = async ({ username }, newInfo, imageFile, invalid) => {
     const user = await exports.getUserByUsername(username);
-    user.name = newInfo.name;
+    if (invalid.name == undefined) {
+        user.name = newInfo.name;
+    }
     user.address = newInfo.address;
-    user.phone = newInfo.phone;
+    if (invalid.phone == undefined) {
+        user.phone = newInfo.phone;
+    }
     user.dob = newInfo.dob;
     if (imageFile) {
         user.avatar = `/static/images/${imageFile}`;

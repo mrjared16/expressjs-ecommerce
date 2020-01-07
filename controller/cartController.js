@@ -37,6 +37,7 @@ exports.getPayment = async (req, res) => {
 }
 
 exports.postPayment = async (req, res) => {
+    console.log("ten la: ", req.body.name);
     const { items, totalPrice } = await cartService.getItemsDetailInCart(req.session.cart);
     if (items.length == 0) {
         req.flash('alert', 'danger');
@@ -44,6 +45,7 @@ exports.postPayment = async (req, res) => {
         res.redirect('checkout/payment');
         return;
     }
+
     // Check quantity of prodcut is valid
     const result = await cartService.checkCart(req.session.cart);
     if (result.isValid == false) {
