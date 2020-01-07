@@ -13,8 +13,15 @@ const passportConfig = require('./config/passport');
 const customMiddleware = require('./middlewares');
 
 const indexRouter = require('./routes/index');
+//config for stripe
+const bodyParser = require("body-parser");
+
 
 const app = express();
+
+// config for stripe
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // static file first
 app.use('/static', express.static(path.join(__dirname, 'public')));

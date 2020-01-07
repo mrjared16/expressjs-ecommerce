@@ -1,7 +1,7 @@
 const cartService = require('../models/cartService');
 const userService = require('../models/userService');
 const orderService = require('../models/orderService');
-
+const stripe = require("stripe")("sk_test_4oT1hzvutpkdsnN0jmYeVfX800MzAjh0aL");
 
 exports.postAddItemInCart = async (req, res) => {
     if (req.session.cart == null) {
@@ -37,8 +37,26 @@ exports.getPayment = async (req, res) => {
 }
 
 exports.postPayment = async (req, res) => {
-    await orderService.placeOrder(req);
-    res.render('checkout/confirmation');
+    const { items, totalPrice } = await cartService.getItemsDetailInCart(req.session.cart);
+    if (items.length == 0) {
+        req.flash('alert', 'danger');
+        req.flash('alert', 'Giỏ hàng của bạn hiện đang rỗng')
+        res.redirect('checkout/payment');
+    }
+    else {
+        const token = req.body.stripeToken;
+        const charge = stripe.charges.create({
+            amount: totalPrice,
+            currency: "vnd",
+            source: token
+        }, function (err, charge) {
+            if (err && err.type === "StripeCardError") {
+                console.log("Your card was decliend");
+            }
+        });
+        await orderService.placeOrder(req);
+        res.render('checkout/confirmation', { cart: req.session.cart });
+    }
 }
 
 exports.checkoutCart = async (req, res) => {

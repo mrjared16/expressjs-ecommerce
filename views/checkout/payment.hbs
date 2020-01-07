@@ -13,6 +13,11 @@
         </div>
     </div>
 </section>
+{{#if this.alert}}
+{{#with alert}}
+{{{createAlert this}}}
+{{/with}}
+{{/if}}
 <div class="page-wrapper">
     <div class="checkout shopping">
         <div class="container">
@@ -41,7 +46,7 @@
                         <div class="checkout-product-details">
                             <div class="payment">
                                 <div class="card-details">
-                                    <form class="checkout-form" method="POST">
+                                    <!-- <form class="checkout-form" method="POST">
                                         <div class="form-group">
                                             <label for="card-number">Số thẻ <span class="required">*</span></label>
                                             <input id="card-number" class="form-control" type="text"
@@ -57,10 +62,20 @@
                                             <label for="card-cvc">Mã thẻ <span class="required">*</span></label>
                                             <input id="card-cvc" class="form-control" type="text" maxlength="4"
                                                 placeholder="CVC">
-                                        </div>
+                                        </div> -->
                                         <!-- <a href="#" class="btn btn-main mt-20">Xác nhận đặt hàng</a> -->
-                                        <button type="submit" class="btn btn-main text-center">Xác nhận đặt
+                                        <!-- <button type="submit" class="btn btn-main text-center">Xác nhận đặt
                                             hàng</button>
+                                    </form> -->
+                                    <form method="post">
+                                        <script
+                                        src="https://checkout.stripe.com/checkout.js"
+                                        class="stripe-button"
+                                        data-key= "pk_test_84txC7qRHjJlklB3rOe5Basb00Vxj290Xh"
+                                        data-amount = "{{totalPrice}}"
+                                        data-locale = "auto"
+                                        data-currency = "vnd">
+                                        </script>
                                     </form>
                                 </div>
                             </div>
@@ -86,10 +101,10 @@
                             </div>
                             {{/each}}
                             {{/if}}
-                            <div class="discount-code">
+                            <!-- <div class="discount-code">
                                 <a class="btn btn-main" data-toggle="modal" data-target="#coupon-modal" href=""> Nhập mã
                                     giảm giá</a>
-                            </div>
+                            </div> -->
                             <ul class="summary-prices">
                                 <li>
                                     <span>Tổng cộng:</span>
@@ -105,9 +120,9 @@
                                 <span>{{totalPrice}} đồng</span>
                             </div>
 
-                            <div class="verified-icon">
+                            <!-- <div class="verified-icon">
                                 <img src="/static/images/verified.png">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

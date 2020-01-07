@@ -21,8 +21,8 @@ exports.placeOrder = async (req) => {
     await Promise.all([newOrder.save(), cart.save()]);
 
     req.session.cart = [];
-    req.app.locals.itemsInMyCart = [];
-    req.app.locals.totalPrice = 0;
+    // req.app.locals.itemsInMyCart = [];
+    // req.app.locals.totalPrice = 0;
 }
 
 exports.getAllOrder = async ({ _id }) => {
