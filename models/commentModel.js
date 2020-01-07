@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 
 const ProductCommentSchema = new mongoose.Schema({
-    title: String,
     body: String,
-    rating: Number,
+    name: String,
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+
+    title: String,
+    rating: Number,
     subcomment: [{
         author: {
             type: mongoose.Schema.Types.ObjectId,

@@ -1,6 +1,7 @@
 const userService = require('../models/userService');
 const cartService = require('../models/cartService');
 const orderService = require('../models/orderService');
+const Util = require('../util');
 const passport = require('passport');
 
 
@@ -100,17 +101,9 @@ exports.history = async (req, res) => {
         return;
     }
     const user = req.user;
-    const getDateFormat = (date) => {
-        const _date = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-        const second = date.getSeconds();
-        return `${_date}/${month}/${year}, ${hour}:${minute}:${second}`;
-    }
+    
     const order = (await orderService.getAllOrder(user)).map(item => {
-        item.date = getDateFormat(item.createdAt);
+        item.date = Util.getDateFormat(item.createdAt);
         return item;
     })
     const viewModel = {
