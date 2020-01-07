@@ -48,7 +48,7 @@ exports.comparePassword = async (candidatePassword, hash) => {
 }
 
 // forget password
-exports.forgetPassword = async (userEmail) => {
+exports.forgetPassword = async (userEmail, hostname) => {
     const userForgetPass = await User.findOne({ email: userEmail });
     if (userForgetPass) {
         const mail = {
@@ -57,7 +57,7 @@ exports.forgetPassword = async (userEmail) => {
             subject: 'Reset mật khẩu Aviato',
             html: 'Chúng tôi vừa tiếp nhận thông tin quên mật khẩu của bạn.!<br><br>'
                 + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
-                + `<u>http://localhost:4000/user/${userForgetPass.id}/resetPassword></u>`
+                + `<u>http://${hostname}/user/${userForgetPass.id}/resetPassword></u>`
         }
         mailerService.transporter.sendMail(mail, function (error, info) {
             if (error) {
@@ -101,50 +101,57 @@ module.exports.updateUserInfo = async ({ username }, newInfo, imageFile) => {
 
 module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
     const userChangePass = await User.findOne({ _id: userId });
-    var isSuccess = false;
-    const comparePass = await new Promise((resolve, reject) => {
-        bcrypt.compare(oldPass, userChangePass.password, async function (err, isMatch) {
-            if (isMatch && newPass == confirmPass) {
-                isSuccess = true;
-                await bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(newPass, salt, function (err, hash) {
-                        userChangePass.password = hash;
-                        userChangePass.save();
-                    });
-                });
-            }
-            resolve(isSuccess);
+    let result = {isSucess: false, message: ''};
+    const passValid = await bcrypt.compare(oldPass, userChangePass.password);
+
+    if (!passValid) {
+        result.message = 'Mật khẩu cũ không đúng';
+        return result;
+    }
+    if (newPass != confirmPass) {
+        result.message = 'Mật khẩu mới và xác nhận mật khẩu không giống nhau';
+        return result;
+    }
+    if (oldPass == newPass) {
+        result.message = 'Mật khẩu cũ và mật khẩu mới giống nhau';
+        return result;
+    }
+
+    await bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(newPass, salt, function (err, hash) {
+            userChangePass.password = hash;
+            userChangePass.save();
         });
     });
-    if (isSuccess) {
-        return true;
-    } else {
-        return false;
-    }
+    result.isSucess = true;
+    result.message = 'Thay đổi mật khẩu thành công';
+    return result;
 };
 
-exports.sendMailActiveAccount = async (userId, userEmail) => {
+exports.sendMailActiveAccount = async (userId, userEmail, hostname) => {
     const mail = {
         from: process.env.USERNAME_YANDEX,
         to: userEmail,
         subject: 'Kích hoạt tài khoản',
         html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
             + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-            + `<u>http://localhost:4000/user/${userId}/active</u>`
+            + `<u>http://${hostname}/user/${userId}/active</u>`
     }
-    mailerService.transporter.sendMail(mail, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    for (i = 0; i <= 2; i++) {
+        mailerService.transporter.sendMail(mail, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    }
 }
 
 exports.activeAccout = async (userId) => {
     const newUser = await User.findOne({ _id: userId });
-    newUser.active = true;
+    newUser.status = 'active';
     await newUser.save();
 }
 

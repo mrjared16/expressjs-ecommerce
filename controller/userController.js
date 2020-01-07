@@ -73,7 +73,7 @@ exports.postRegister = async (req, res) => {
     let viewModel = {};
     if (validate.result) {
         const newUser = await userService.createUser(req.body);
-        await userService.sendMailActiveAccount(newUser._id, newUser.email);
+        await userService.sendMailActiveAccount(newUser._id, newUser.email, req.headers.host);
         viewModel = { alert: { type: 'success', message: 'Đăng ký thành công! Hãy vào email của bạn để kích hoạt tài khoản' } };
     }
     else {
@@ -93,7 +93,8 @@ exports.getForgetPass = (req, res) => {
 }
 
 exports.postForgetPass = async (req, res) => {
-    if (await userService.forgetPassword(req.body.email)) {
+  console.log("Host is: " + req.headers.host);
+    if (await userService.forgetPassword(req.body.email, req.headers.host)) {
         res.render('user/forgetPassword', { alert: { type: 'success', message: 'Đã gửi đến email của bạn' } });;
     }
     else {
@@ -229,14 +230,11 @@ exports.getChangePass = (req, res) => {
 }
 
 exports.postChangePass = async (req, res) => {
-    const isOk = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
-    if (isOk) {
-        req.session.destroy(function (err) {
-            res.redirect('/user/login');
-        });
+    const result = await userService.changePassword(req.user._id, req.body.oldPass, req.body.newPass, req.body.confirmPass);
+    if (result.isSucess) {
+        res.render('dashboard/changePass', { alert: { type: 'success', message: result.message } });
     } else {
-        console.log("3");
-        res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
+        res.render('dashboard/changePass', { alert: { type: 'danger', message: result.message } });
     }
 }
 
