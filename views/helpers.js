@@ -8,7 +8,7 @@ exports.createAlert = ({ type, message }) => {
         'warning': `<i class='tf-ion-alert-circled'></i>`,
         'danger': `<i class='tf-ion-close-circled'></i>`
     }
-    return (!type) ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
+    return (!type || message === '') ? '' : `<div class='alert alert-${type} alert-common' role='alert'>${icon[type]} ${message}</div>`
 };
 
 exports.createStatusLabel = (status) => {
