@@ -5,6 +5,7 @@ const usersRouter = require('./users');
 const productRouter = require('./product');
 const checkoutRouter = require('./checkout');
 const cartRouter = require('./cart');
+const commentRouter = require('./comment');
 
 /* GET statics page. */
 router.get('/', homeController.index);
@@ -19,5 +20,6 @@ router.use('/user', usersRouter);
 router.use('/product', productRouter);
 router.use('/checkout', checkoutRouter);
 router.use('/cart', cartRouter);
+router.use('/comment', commentRouter);
 
 module.exports = router;
