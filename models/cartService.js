@@ -73,7 +73,7 @@ exports.getItemsDetailInCart = async (myCart) => {
             }
         ))
     );
-    console.log(myCart);
+    // console.log(myCart);
     return { items, totalPrice };
 }
 

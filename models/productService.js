@@ -33,7 +33,7 @@ exports.getProductDetail = async (id) => {
 }
 
 exports.getHotProducts = async (req, res) => {
-    return await Product.aggregate().sample(6);
+    return await Product.aggregate().sample(8);
 }
 
 exports.getQueryObject = async (query) => {

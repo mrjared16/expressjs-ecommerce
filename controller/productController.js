@@ -1,10 +1,11 @@
-const productService = require('../models/productService')
-const productViewModel = require('../models/productViewModel')
+const productService = require('../models/productService');
+const productViewModel = require('../models/productViewModel');
+const recommandationService = require('../models/recommendationService');
 
 exports.getList = async (req, res) => {
     const query = await productService.getQueryObject(req.query);
-    console.log('query params', req.query);
-    console.log('query mongoose: ', query);
+    // console.log('query params', req.query);
+    // console.log('query mongoose: ', query);
     const totalItems = await productService.productCount(query);
 
     const sortOption = productViewModel.getSortOption({ query: req.query });
@@ -25,6 +26,8 @@ exports.getList = async (req, res) => {
             sort: productService.getSortQueryObject(sortOption.selected),
             page: pageOptions
         })),
+        numberItemInARow: 4,
+        
         pageOptions,
         sortOption,
         filterOptions,
@@ -35,9 +38,17 @@ exports.getList = async (req, res) => {
 }
 
 exports.getDetail = async (req, res) => {
-    const product = await productService.getProductDetail(req.params.id);
+    const productId = req.params.id;
+    const quantity = 6;
+    const [product, relate] = await Promise.all([
+        productService.getProductDetail(productId),
+        recommandationService.getRelatedProducts(productId, quantity)
+    ]);
+    
     const viewModel = {
-        relate: null,
+        products: (relate) ? productViewModel.getProductListViewModel(relate) : null,
+        numberItemInARow: quantity,
+
         detail: productViewModel.getProductDetailViewModel(product)
     }
     res.render('product/detail', viewModel);

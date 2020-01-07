@@ -185,5 +185,8 @@ module.exports = {
         return `<ul class="pagination post-pagination">
                 ${str}
             </ul>`
+    },
+    getGridLayoutStyle: (column) => {
+        return `col-md-${Math.ceil(12/column)} col-sm-6`;
     }
 }

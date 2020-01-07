@@ -186,7 +186,7 @@ exports.postChangePass = async (req, res) => {
             res.redirect('/user/login');
         });
     } else {
-        console.log("3");
+        // console.log("3");
         res.render('dashboard/changePass', { alert: { type: 'danger', message: 'Thay đổi mật khẩu thất bại' } });
     }
 }

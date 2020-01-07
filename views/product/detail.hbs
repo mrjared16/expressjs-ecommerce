@@ -242,16 +242,15 @@
 
 {{/with}}
 
-{{!-- <section class="products related-products section">
+{{#if products}}
+<section class="products related-products section">
     <div class="container">
         <div class="row">
             <div class="title text-center">
-                <h2>Related Products</h2>
+                <h2>Sản phẩm thường được mua chung</h2>
             </div>
         </div>
-        {{> productList products=relate}}
+        {{> productList}}
     </div>
-</section> --}}
-
-
-{{> modal}}
+</section>
+{{/if}}

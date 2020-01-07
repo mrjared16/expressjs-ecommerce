@@ -6,7 +6,7 @@ module.exports.getProductListViewModel = (products) => {
         imgpath: item.assert.img[0],
         name: item.name,
         price: item.price,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
+        title: item.name.length > 17 ? item.name.substr(0, 17) + '...' : item.name,
         id: item._id
     }));
     return productsViewModel;
