@@ -6,7 +6,7 @@ exports.addNewReview = async (req, res) => {
     await commentService.addNewReview(new function () {
         this.product = req.body.productId;
         this.body = req.body.reviewBody;
-        if (!userService.isAuthenticated(req, res)) {
+        if (!req.isAuthenticated || !req.isAuthenticated()) {
             this.name = req.body.name;
         }
         else {
