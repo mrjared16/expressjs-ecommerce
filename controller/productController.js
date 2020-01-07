@@ -7,33 +7,33 @@ exports.getList = async (req, res) => {
     console.log('query params', req.query);
     console.log('query mongoose: ', query);
     const totalItems = await productService.productCount(query);
-    
-    const sortOption = productViewModel.getSortOption({query: req.query});
-    
-    const fitlerOptionsData = await productService.getFilterOptionsData();
-    const filterOptions = await productViewModel.getFilterOptions({query: req.query, data: fitlerOptionsData});
-    
-    const queryOption = {
-        sort: productService.getSortQueryObject(sortOption.selected),
-        page: productViewModel.getPageOption({
-            itemPerPage: 12,
-            currentPage: req.query['page'] ? parseInt(req.query['page']) : 1,
-            totalItems: totalItems,
-            url: req.baseUrl + req.path,
-            queryParams: req.query
-        })
-    }
-    // get products
-    const products = await productService.getProducts(query, queryOption);
 
+    const sortOption = productViewModel.getSortOption({ query: req.query });
+
+    const fitlerOptionsData = await productService.getFilterOptionsData();
+    const filterOptions = await productViewModel.getFilterOptions({ query: req.query, data: fitlerOptionsData });
+
+    const pageOptions = productViewModel.getPageOption({
+        itemPerPage: 12,
+        currentPage: req.query['page'] ? parseInt(req.query['page']) : 1,
+        totalItems: totalItems,
+        url: req.baseUrl + req.path,
+        queryParams: req.query
+    });
     const viewModel = {
-        products: productViewModel.getProductListViewModel(products),
+        products: productViewModel.getProductListViewModel(await productService.getProducts({
+            object: query,
+            sort: productService.getSortQueryObject(sortOption.selected),
+            page: pageOptions
+        })),
         numberItemInARow: 4,
         
-        pageOptions: queryOption.page,
+        pageOptions,
         sortOption,
-        filterOptions
+        filterOptions,
+        search: req.query.name
     }
+    
     res.render('product/list', viewModel);
 }
 

@@ -34,13 +34,9 @@ module.exports = {
         if (selected === undefined) {
             optionElements = `<option hidden disabled selected value> -- Sắp xếp -- </option>\n ${optionElements}`;
         }
-        return ` 
-    <div class="widget">
-        <h4 class="widget-title">Sắp xếp</h4>
-        <select name="${queryString}" class="form-control filter-form">
+        return `<select name="${queryString}" class="form-control filter-form">
         ${optionElements}  
-        </select>
-    </div>`
+        </select>`
     },
     createCheckBoxOptions: (options) => {
         const filterOptions = options.map(option => {
@@ -186,8 +182,7 @@ module.exports = {
                     <a href='${url}?${queryString}'>Next</a>
                 </li>`;
         }
-        return `<div class="row">
-            <ul class="pagination post-pagination">
+        return `<ul class="pagination post-pagination">
                 ${str}
             </ul>
         </div>`
