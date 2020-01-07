@@ -204,19 +204,20 @@
 
                                     <div class="row">
                                         <input type="hidden" name="productId" value={{{id}}}>
-
+                                        {{> alert alert=../alert}}
                                         {{#unless ../user}}
                                         <div class="col-md-6 form-group">
                                             <!-- Name -->
                                             <input type="text" name="name" id="name" class=" form-control"
-                                                placeholder="Name *" maxlength="100" required="">
+                                                placeholder="Tên (*)" maxlength="100" required="">
                                         </div>
                                         {{/unless}}
 
                                         <!-- Comment -->
                                         <div class="form-group col-md-12">
                                             <textarea name="reviewBody" id="form" class="form-control" rows="6"
-                                                placeholder="Danh gia chi tiet" maxlength="400"></textarea>
+                                                placeholder="Hãy nêu cảm nghĩ của mình về sản phẩm nhé ^^"
+                                                maxlength="400"></textarea>
                                         </div>
 
                                         <!-- Send Button -->
