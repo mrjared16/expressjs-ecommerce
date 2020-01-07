@@ -1,6 +1,8 @@
 const { Order } = require('./orderModel');
 const cartService = require('./cartService');
 const recommendationService = require('./recommendationService');
+const { Cart } = require('./cartModel');
+const { Product } = require('./productModel');
 
 exports.placeOrder = async (req) => {
     const cart = await cartService.getUserCart(req.user._id);
@@ -8,6 +10,12 @@ exports.placeOrder = async (req) => {
     let totalPrice = cart.items.reduce((total, item) => {
         return total + item.unit_price * item.quantity
     }, 0);
+
+    await Promise.all(cart.items.map(async (item) => {
+        const product = await Product.findOne({_id: item.product});
+        product.quantity -= item.quantity;
+        await product.save();
+    }));
 
     const newOrder = new Order({
         user: cart.user,

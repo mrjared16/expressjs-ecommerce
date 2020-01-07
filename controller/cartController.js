@@ -42,21 +42,43 @@ exports.postPayment = async (req, res) => {
         req.flash('alert', 'danger');
         req.flash('alert', 'Giỏ hàng của bạn hiện đang rỗng')
         res.redirect('checkout/payment');
+        return;
     }
-    else {
-        const token = req.body.stripeToken;
-        const charge = stripe.charges.create({
-            amount: totalPrice,
-            currency: "vnd",
-            source: token
-        }, function (err, charge) {
-            if (err && err.type === "StripeCardError") {
-                console.log("Your card was decliend");
-            }
-        });
-        await orderService.placeOrder(req);
-        res.render('checkout/confirmation', { cart: req.session.cart });
+    // Check quantity of prodcut is valid
+    const result = await cartService.checkCart(req.session.cart);
+    if (result.isValid == false) {
+        let notification = "";
+        await Promise.all(result.message.map((mess) => {
+            notification = notification + mess + "<br>";
+        }));
+
+        const { items, totalPrice } = await cartService.getItemsDetailInCart(req.session.cart);
+        const { name, phone, address } = req.user;
+
+        const viewModel = {
+            name: name ? name : '',
+            phone: phone ? phone : '',
+            address: address ? address : '',
+            items,
+            totalPrice,
+            alert: { type: 'danger', message: notification }
+        };
+        res.render('checkout/payment', viewModel);
+        return;
     }
+
+    const token = req.body.stripeToken;
+    const charge = stripe.charges.create({
+        amount: totalPrice,
+        currency: "vnd",
+        source: token
+    }, function (err, charge) {
+        if (err && err.type === "StripeCardError") {
+            console.log("Your card was decliend");
+        }
+    });
+    await orderService.placeOrder(req);
+    res.render('checkout/confirmation', { cart: req.session.cart });
 }
 
 exports.checkoutCart = async (req, res) => {

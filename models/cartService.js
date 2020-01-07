@@ -167,3 +167,19 @@ exports.insertLocalToDatabase = async (req) => {
 exports.getUserCart = async (userId) => {
     return await Cart.findOne({user: userId});
 }
+
+// Check quantity of product is valid
+exports.checkCart = async (myCart) => {
+    let result = {
+        isValid: true,
+        message: []
+    }
+    await Promise.all(myCart.map( async (item, index) => {
+          const product = await Product.findOne({_id: item.product});
+          if (item.quantity > product.quantity) {
+              result.isValid = false;
+              result.message.push(`Sản phẩm ${product.name} hiện số lượng chỉ còn ${product.quantity}`);
+          }
+    }));
+    return result;
+}
