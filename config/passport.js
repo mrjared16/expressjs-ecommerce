@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const userService = require('../models/userService');
 
-module.exports = (passport, express) => {
+module.exports = (passport) => {
     // Using LocalStrategy with passport
     passport.use(new LocalStrategy(
         async (username, password, done) => {
@@ -38,11 +38,5 @@ module.exports = (passport, express) => {
             done(e);
         }
 
-    });
-
-    express.use((req, res, next) => {
-        if (req.user)
-            res.locals.user = req.user;
-        next();
     });
 }

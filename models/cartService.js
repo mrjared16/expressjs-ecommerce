@@ -5,18 +5,18 @@ const mongoose = require('mongoose');
 
 
 exports.updateCart = async (req, res) => {
+  
+  // get cart item view model
+  let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
+  // sync session to database
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    await exports.syncLocalCartToDatabase(req.session.cart, req.user);
+  }
 
-    // get cart item view model
-    let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
-    // sync session to database
-    if (userService.isAuthenticated(req, res)) {
-        await exports.syncLocalCartToDatabase(req.session.cart, req.user);
-    }
-
-    // console.log(totalPrice, items);
-    req.app.locals.itemsInMyCart = items;
-    req.app.locals.totalPrice = totalPrice;
-    return items;
+  // console.log(totalPrice, items);
+  req.app.locals.itemsInMyCart = items;
+  req.app.locals.totalPrice = totalPrice;
+  return items;
 }
 
 exports.addItemToCart = (myCart, itemId) => {

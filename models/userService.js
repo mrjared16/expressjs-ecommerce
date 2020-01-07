@@ -72,7 +72,7 @@ exports.forgetPassword = async (userEmail) => {
     return false;
 }
 
-module.exports.resetPassword = async (body, userId) => {
+exports.resetPassword = async (body, userId) => {
     const userReset = await User.findOne({ _id: userId });
     if (body.pass == body.confirmPass) {
         userReset.password = body.pass;
@@ -87,7 +87,7 @@ module.exports.resetPassword = async (body, userId) => {
     return false;
 }
 
-module.exports.updateUserInfo = async ({ username }, newInfo) => {
+exports.updateUserInfo = async ({ username }, newInfo) => {
     const user = await exports.getUserByUsername(username);
     user.name = newInfo.name;
     user.address = newInfo.address;
@@ -97,7 +97,7 @@ module.exports.updateUserInfo = async ({ username }, newInfo) => {
     return await user.save();
 }
 
-module.exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
+exports.changePassword = async (userId, oldPass, newPass, confirmPass) => {
     const userChangePass = await User.findOne({ _id: userId });
     var isSuccess = false;
     const comparePass = await new Promise((resolve, reject) => {
@@ -144,8 +144,4 @@ exports.activeAccout = async (userId) => {
     const newUser = await User.findOne({ _id: userId });
     newUser.active = true;
     await newUser.save();
-}
-
-exports.isAuthenticated = (req, res) => {
-    return (req.user) ? true : false;
 }

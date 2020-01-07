@@ -1,6 +1,6 @@
 const Util = require('../util');
 
-module.exports.getProductListViewModel = (products) => {
+exports.getProductListViewModel = (products) => {
     const productsViewModel = products.map(item => ({
         hasBage: (item.sale && item.sale > 0) ? true : false,
         imgpath: item.assert.img[0],
@@ -12,7 +12,7 @@ module.exports.getProductListViewModel = (products) => {
     return productsViewModel;
 }
 
-module.exports.getProductDetailViewModel = (product) => {
+exports.getProductDetailViewModel = (product) => {
     let { _id, name, description, price, quantity, review, view } = product;
     // console.log(review);
     review = review.map(_review => {
@@ -45,7 +45,7 @@ module.exports.getProductDetailViewModel = (product) => {
 }
 
 
-module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
+exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
     return {
         itemPerPage,
         currentPage,
@@ -55,7 +55,7 @@ module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, que
     }
 }
 
-module.exports.getSortOption = ({ query }) => {
+exports.getSortOption = ({ query }) => {
     const option = new function () {
         this.queryString = 'sort',
             this.list = [{
@@ -82,7 +82,7 @@ module.exports.getSortOption = ({ query }) => {
     };
     return option;
 }
-module.exports.getFilterOptions = async ({ query, data }) => {
+exports.getFilterOptions = async ({ query, data }) => {
     const title = {
         gender: 'Giới tính',
         brand: 'Thương hiệu',
