@@ -10,7 +10,7 @@ exports.updateCart = async (req, res) => {
   // get cart item view model
   let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
   // sync session to database
-  if (userService.isAuthenticated(req, res)) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
     await exports.syncLocalCartToDatabase(req.session.cart, req.user);
   }
 

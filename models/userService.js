@@ -145,7 +145,3 @@ exports.activeAccout = async (userId) => {
     newUser.active = true;
     await newUser.save();
 }
-
-exports.isAuthenticated = (req, res) => {
-    return (req.user) ? true : false;
-}
