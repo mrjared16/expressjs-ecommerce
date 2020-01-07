@@ -134,20 +134,21 @@ exports.sendMailActiveAccount = async (userId, userEmail, hostname) => {
         from: process.env.USERNAME_YANDEX,
         to: userEmail,
         subject: 'Kích hoạt tài khoản',
-        html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
-            + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-            + `<u>http://${hostname}/user/${userId}/active</u>`
+        // html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
+        //     + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
+        //     + `<u>http://${hostname}/user/${userId}/active</u>`
+        html: 'Chúng tôi vừa tiếp nhận thông tin kích hoạt tài khoản của bạn.!<br><br>'
+            + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset của bạn:<br><br>'
+            + `<u>http://${hostname}/user/${userId}/active></u>`
     }
-    for (i = 0; i <= 2; i++) {
-        mailerService.transporter.sendMail(mail, function (error, info) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-    }
+    mailerService.transporter.sendMail(mail, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 }
 
 exports.activeAccout = async (userId) => {
