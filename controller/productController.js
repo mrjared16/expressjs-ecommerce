@@ -4,8 +4,8 @@ const recommandationService = require('../models/recommendationService');
 
 exports.getList = async (req, res) => {
     const query = await productService.getQueryObject(req.query);
-    console.log('query params', req.query);
-    console.log('query mongoose: ', query);
+    // console.log('query params', req.query);
+    // console.log('query mongoose: ', query);
     const totalItems = await productService.productCount(query);
 
     const sortOption = productViewModel.getSortOption({ query: req.query });

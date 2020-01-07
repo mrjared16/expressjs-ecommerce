@@ -2,7 +2,7 @@ const commentService = require('../models/commentService');
 const userService = require('../models/userService');
 //add new review to product
 exports.addNewReview = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     await commentService.addNewReview(new function () {
         this.product = req.body.productId;
         this.body = req.body.reviewBody;
