@@ -13,6 +13,13 @@ exports.postAddItemInCart = async (req, res) => {
     res.send(items);
 }
 
+exports.postSubItemInCart = async (req, res) => {
+  const productId = req.params.id;
+  req.session.cart = cartService.subItemToCart(req.session.cart, productId);
+  const items = await cartService.updateCart(req, res);
+  res.send(items);
+}
+
 exports.postDeleteItemInCart = async (req, res) => {
     const productId = req.params.id;
     req.session.cart = cartService.deleteItemInLocalCart(req.session.cart, productId);

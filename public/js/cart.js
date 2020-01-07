@@ -69,6 +69,16 @@ function addCart(itemId) {
   });
 }
 
+function subCart(itemId) {
+  $.ajax({
+    url: `/cart/${itemId}/subItem`,
+    type: 'POST',
+    success: async function(items) {
+      updateCart(items);
+    }
+  });
+}
+
 
 function deleteItem(itemId) {
   $.ajax({
@@ -79,4 +89,24 @@ function deleteItem(itemId) {
       location.reload();
     }
   })
+}
+
+function subItem(itemId) {
+    let quantity = parseInt($(`#${itemId}-quantity`).text());
+    let price = parseInt($(`#${itemId}-price`).text()) / quantity;
+    if (quantity > 1) {
+      quantity--;
+      $(`#${itemId}-quantity`).text(quantity);
+      $(`#${itemId}-price`).text(price * quantity);
+      subCart(itemId);
+    };
+}
+
+function addItem(itemId) {
+    let quantity = parseInt($(`#${itemId}-quantity`).text());
+    let price = parseInt($(`#${itemId}-price`).text()) / quantity;
+    quantity++;
+    $(`#${itemId}-quantity`).text(quantity);
+    $(`#${itemId}-price`).text(price * quantity + "đồng");
+    addCart(itemId);
 }

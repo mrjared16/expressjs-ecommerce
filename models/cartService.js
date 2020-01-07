@@ -5,17 +5,17 @@ const mongoose = require('mongoose');
 
 
 exports.updateCart = async (req, res) => {
-  // get cart item view model
-  let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
-  // sync session to database
-  if (req.isAuthenticated && req.isAuthenticated()) {
-    await exports.syncLocalCartToDatabase(req.session.cart, req.user);
-  }
+    // get cart item view model
+    let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
+    // sync session to database
+    if (req.isAuthenticated && req.isAuthenticated()) {
+        await exports.syncLocalCartToDatabase(req.session.cart, req.user);
+    }
 
-  // console.log(totalPrice, items);
-  // req.app.locals.itemsInMyCart = items;
-  // req.app.locals.totalPrice = totalPrice;
-  return items;
+    // console.log(totalPrice, items);
+    // req.app.locals.itemsInMyCart = items;
+    // req.app.locals.totalPrice = totalPrice;
+    return items;
 }
 
 exports.addItemToCart = (myCart, itemId) => {
@@ -38,6 +38,16 @@ exports.addItemToCart = (myCart, itemId) => {
     return myCart;
 }
 
+exports.subItemToCart = (myCart, itemId) => {
+    myCart.forEach((item, index) => {
+        if (item.product == itemId) {
+            myCart[index].quantity--;
+        }
+    });
+
+    return myCart;
+}
+
 exports.deleteItemInLocalCart = (myCart, itemId) => {
     myCart.forEach((item, index) => {
         if (item.product == itemId) {
@@ -48,12 +58,14 @@ exports.deleteItemInLocalCart = (myCart, itemId) => {
 }
 
 exports.getCartItemViewModel = (product, { quantity }) => {
+    let total = parseInt(product.price) * parseInt(quantity);
     return {
         id: product.id,
         name: product.name,
         price: product.price,
         img: product.assert.img[0],
-        quantity
+        quantity,
+        total
     }
 }
 
@@ -161,11 +173,11 @@ exports.insertLocalToDatabase = async (req) => {
     let { totalPrice, items } = await exports.getItemsDetailInCart(req.session.cart);
     // console.log(totalPrice, items);
     //req.app.locals.itemsInMyCart = items;
-   // req.app.locals.totalPrice = totalPrice;
+    // req.app.locals.totalPrice = totalPrice;
 }
 
 exports.getUserCart = async (userId) => {
-    return await Cart.findOne({user: userId});
+    return await Cart.findOne({ user: userId });
 }
 
 // Check quantity of product is valid
@@ -174,12 +186,12 @@ exports.checkCart = async (myCart) => {
         isValid: true,
         message: []
     }
-    await Promise.all(myCart.map( async (item, index) => {
-          const product = await Product.findOne({_id: item.product});
-          if (item.quantity > product.quantity) {
-              result.isValid = false;
-              result.message.push(`Sản phẩm ${product.name} hiện số lượng chỉ còn ${product.quantity}`);
-          }
+    await Promise.all(myCart.map(async (item, index) => {
+        const product = await Product.findOne({ _id: item.product });
+        if (item.quantity > product.quantity) {
+            result.isValid = false;
+            result.message.push(`Sản phẩm ${product.name} hiện số lượng chỉ còn ${product.quantity}`);
+        }
     }));
     return result;
 }

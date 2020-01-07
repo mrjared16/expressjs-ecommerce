@@ -44,8 +44,14 @@
                           <a href="/product/{{this.id}}">{{this.name}}</a>
                         </div>
                       </td>
-											<td class="">{{this.quantity}}</td>
-                      <td class="">{{this.price}} đồng</td>
+											<td class="">
+												<span>
+												<button type="button" class="btn btn-dark" onclick="subItem('{{this.id}}')">-</button>
+												<span id="{{this.id}}-quantity">{{this.quantity}}</span>
+												<button type="button" class="btn btn-dark" onclick="addItem('{{this.id}}')">+</button>
+												</span>
+											</td>
+                      <td class="" id="{{this.id}}-price">{{this.total}} đồng</td>
                       <td class="">
                         <a class="product-remove" href="#" onclick="deleteItem('{{this.id}}')">Xóa</a>
                       </td>
