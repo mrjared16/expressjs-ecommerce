@@ -36,13 +36,9 @@ exports.createSortOption = (option) => {
     if (selected === undefined) {
         optionElements = `<option hidden disabled selected value> -- Sắp xếp -- </option>\n ${optionElements}`;
     }
-    return ` 
-    <div class="widget">
-        <h4 class="widget-title">Sắp xếp</h4>
-        <select name="${queryString}" class="form-control filter-form">
-        ${optionElements}  
-        </select>
-    </div>`
+    return `<select name="${queryString}" class="form-control filter-form">
+    ${optionElements}  
+    </select>`;
 }
 
 exports.createCheckBoxOptions = (options) => {
@@ -189,9 +185,12 @@ exports.createPagination = (pageOptions) => {
                     <a href='${url}?${queryString}'>Next</a>
                 </li>`;
     }
-    return `<div class="row">
-            <ul class="pagination post-pagination">
+    return `<ul class="pagination post-pagination">
                 ${str}
-            </ul>
-        </div>`
+            </ul>`
 }
+
+exports.getGridLayoutStyle = (column) => {
+    return `col-md-${Math.ceil(12 / column)} col-sm-6`;
+}
+

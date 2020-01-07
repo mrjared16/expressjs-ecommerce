@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./commentModel');
 
 const ProductSchema = new mongoose.Schema({
     name: String,

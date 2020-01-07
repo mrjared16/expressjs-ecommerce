@@ -4,28 +4,44 @@ exports.productCount = async (query) => {
     return await Product.countDocuments(query);
 }
 
-exports.getProducts = async (query, { page, sort }) => {
+exports.getProducts = async ({ object, page, sort }) => {
     //query
     return (page && sort)
         ?
-        await Product.find(query)
+        await Product.find(object)
             .skip((page.currentPage - 1) * page.itemPerPage)
             .limit(page.itemPerPage)
             .sort(sort)
         :
-        await Product.find(query);
+        await Product.find(object);
 }
 
 exports.getProductDetail = async (id) => {
-    return await Product.findByIdAndUpdate(id, { $inc: { 'view': 1 } });
+    const products = await Product.findByIdAndUpdate(id, { $inc: { 'view': 1 } })
+        .populate([
+            {
+                path: 'review',
+                populate: {
+                    path: 'author',
+                    select: ['_id', 'avatar', 'name']
+                }
+            },
+            { path: 'option.color' },
+            { path: 'option.size' }
+        ]);
+    return products;
 }
 
 exports.getHotProducts = async (req, res) => {
-    return await Product.aggregate().sample(6);
+    return await Product.aggregate().sample(8);
 }
 
 exports.getQueryObject = async (query) => {
     const result = {};
+
+    if (query.name)
+        result.name = new RegExp(query.name, "i");
+
     const models = {
         gender: Gender,
         brand: Brand,
@@ -116,4 +132,8 @@ exports.getFilterOptionsData = async () => {
             })
         )]);
     return result;
+}
+
+exports.getProduct = async (id) => {
+    return await Product.findOne({ _id: id })
 }

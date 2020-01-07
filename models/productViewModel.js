@@ -1,3 +1,4 @@
+const Util = require('../util');
 
 exports.getProductListViewModel = (products) => {
     const productsViewModel = products.map(item => ({
@@ -5,24 +6,40 @@ exports.getProductListViewModel = (products) => {
         imgpath: item.assert.img[0],
         name: item.name,
         price: item.price,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
+        title: item.name.length > 17 ? item.name.substr(0, 17) + '...' : item.name,
         id: item._id
     }));
     return productsViewModel;
 }
 
 exports.getProductDetailViewModel = (product) => {
+    let { _id, name, description, price, quantity, review, view } = product;
+    // console.log(review);
+    review = review.map(_review => {
+        return {
+            body: _review.body,
+            createdAt: Util.getDateFormat(_review.createdAt),
+            author: _review.author,
+            name: (_review.author) ? _review.author.name :  _review.name,
+            avatar: (_review.author) ? _review.author.avatar : ""
+        };
+    });
+    // console.log(review);
+    let color, size;
+    [color, size] = ['color', 'size'].map(field => product.option[field].map(option => option.name));
+
     const productViewModel = {
         active_img: product.assert.img[0],
         img: product.assert.img.slice(1, product.assert.img.length),
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        color: product.option.color,
-        size: product.option.size,
-        quantity: product.quantity,
-        tag: product.tag,
-        view: product.view
+        name,
+        description,
+        price,
+        color,
+        size,
+        quantity,
+        view,
+        review,
+        id: _id
     }
     return productViewModel;
 }
