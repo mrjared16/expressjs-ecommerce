@@ -140,22 +140,6 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.postProfile = async (req, res) => {
-    // await new Promise(function (resolve, reject) {
-    //     uploadImage(req, res, (err) => {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //         resolve();
-    //     });
-    // });
-    // let imageFile;
-    // if (req.file) {
-    //     imageFile = req.file.filename;
-    // }
-    // else {
-    //     imageFile = null;
-    // }
-    // console.log("here~~~", req.file.originalname, path.extname(req.file.originalname).toString());
     let imageFile = null;
     const dUri = new Datauri();
     dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);

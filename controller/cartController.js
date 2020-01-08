@@ -85,19 +85,9 @@ exports.postPayment = async (req, res) => {
         await Promise.all(result.message.map((mess) => {
             notification = notification + mess + "<br>";
         }));
-
-        const { items, totalPrice } = await cartService.getItemsDetailInCart(req.session.cart);
-        const { name, phone, address } = req.user;
-
-        const viewModel = {
-            name: name ? name : '',
-            phone: phone ? phone : '',
-            address: address ? address : '',
-            items,
-            totalPrice,
-            alert: { type: 'danger', message: notification }
-        };
-        res.render('checkout/payment', viewModel);
+        req.flash('alert', 'danger');
+        req.flash('alert', notification);
+        res.redirect('/checkout/payment');
         return;
     }
 
