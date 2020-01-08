@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./productModel');
 
 const recommendationSchema = new mongoose.Schema({
     productId: {
