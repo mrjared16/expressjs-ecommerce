@@ -18,6 +18,7 @@ exports.placeOrder = async (req) => {
         await product.save();
     }));
 
+
     const newOrder = new Order({
         user: cart.user,
         items: cart.items,
