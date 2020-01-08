@@ -26,11 +26,18 @@ exports.addNewReview = async (req, res) => {
 }
 
 exports.getReviews = async (req, res, next) => {
-    const [id, page, limit] = [req.params.id, ...[req.query.page, req.query.limit].map(x => parseInt(x))];
+    if (req.params.id == null) {
+        res.send([]);
+        return;
+    }
+    
+    const page = (req.query.page) ? parseInt(req.query.page) : 1;
+    const limit = (req.query.limit) ? parseInt(req.query.limit) : 5;
+    const id = req.params.id;
 
     const { review } = await commentService.getReviews(id, page, limit);
 
-    if (!review){
+    if (!review) {
         console.log('get reviews error');
         res.send(new Error('error'));
     }
