@@ -1710,6 +1710,8 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   margin-bottom: 50px;
 }
 
+
+
 .post-comments {
   margin: 30px 0;
 }
@@ -1728,9 +1730,17 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-comments .comment-author a {
-  color: rgb(41, 41, 41);
-  font-weight: 600;
   font-size: 14px;
+  color: rgb(41, 41, 41);
+}
+
+.post-comments .comment-author a:not(.guest-comment) {
+  font-weight: 600;
+  color: #000;
+}
+
+.post-comments hr {
+  margin: 5px;
 }
 
 .post-comments p {
@@ -1762,6 +1772,10 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 
 .post-comments .comment-button:hover {
   color: #000;
+}
+
+.post-comments .guest-comment {
+  color: #333;
 }
 
 .post-excerpt {

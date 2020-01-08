@@ -14,17 +14,6 @@ exports.getProductListViewModel = (products) => {
 
 exports.getProductDetailViewModel = (product) => {
     let { _id, name, description, price, quantity, review, view } = product;
-    // console.log(review);
-    review = review.map(_review => {
-        return {
-            body: _review.body,
-            createdAt: Util.getDateFormat(_review.createdAt),
-            author: _review.author,
-            name: (_review.author) ? _review.author.name :  _review.name,
-            avatar: (_review.author) ? _review.author.avatar : ""
-        };
-    });
-    // console.log(review);
     let color, size;
     [color, size] = ['color', 'size'].map(field => product.option[field].map(option => option.name));
 

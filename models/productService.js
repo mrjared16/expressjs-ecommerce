@@ -19,13 +19,6 @@ exports.getProducts = async ({ object, page, sort }) => {
 exports.getProductDetail = async (id) => {
     const products = await Product.findByIdAndUpdate(id, { $inc: { 'view': 1 } })
         .populate([
-            {
-                path: 'review',
-                populate: {
-                    path: 'author',
-                    select: ['_id', 'avatar', 'name']
-                }
-            },
             { path: 'option.color' },
             { path: 'option.size' }
         ]);
