@@ -14,6 +14,7 @@ exports.placeOrder = async (req) => {
     await Promise.all(cart.items.map(async (item) => {
         const product = await Product.findOne({_id: item.product});
         product.quantity -= item.quantity;
+        product.sold+= item.quantity;
         await product.save();
     }));
 
