@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { singleUpload } = require('../models/cloudService');
 
 const userController = require('../controller/userController');
 const { ensureLoggedIn, ensureNotLoggedIn } = require('../middlewares/auth');
@@ -23,7 +24,7 @@ router.get('/', userController.history);
 router.get('/history', userController.history);
 
 router.get('/profile', userController.getProfile);
-router.post('/profile', userController.postProfile);
+router.post('/profile', singleUpload.single('avatar'), userController.postProfile);
 
 router.get('/changePass', userController.getChangePass);
 router.post('/changePass', userController.postChangePass);

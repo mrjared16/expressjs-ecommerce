@@ -4,7 +4,10 @@ module.exports = (req, res, next) => {
         res.locals.user = req.user;
         // console.log(req.user);
     }
-    
+    if (req.session.cart)
+    {
+        res.locals.cart = req.session.cart;
+    }
     const alert = req.flash('alert');
     if (alert && alert.length) {
         // console.log(alert);

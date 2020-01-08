@@ -1,4 +1,6 @@
 const { Cart } = require('./cartModel');
+const { Product } = require('./productModel');
+
 const productService = require('./productService');
 const userService = require('../models/userService');
 const mongoose = require('mongoose');
@@ -34,7 +36,6 @@ exports.addItemToCart = (myCart, itemId) => {
         }
         myCart.push(newItem)
     }
-
     return myCart;
 }
 

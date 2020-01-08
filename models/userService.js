@@ -58,7 +58,7 @@ exports.forgetPassword = async (userEmail, hostname) => {
             subject: 'Reset mật khẩu Aviato',
             html: 'Chúng tôi vừa tiếp nhận thông tin quên mật khẩu của bạn.!<br><br>'
                 + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset mật khẩu của bạn:<br><br>'
-                + `<u>http://${hostname}/user/${userForgetPass.id}/resetPassword></u>`
+                + `<u>http://${hostname}/user/${userForgetPass.id}/resetPassword</u>`
         }
         mailerService.transporter.sendMail(mail, function (error, info) {
             if (error) {
@@ -85,6 +85,7 @@ exports.resetPassword = async (body, userId) => {
         });
         return true;
     }
+    
     return false;
 }
 
@@ -138,12 +139,9 @@ exports.sendMailActiveAccount = async (userId, userEmail, hostname) => {
         from: process.env.USERNAME_YANDEX,
         to: userEmail,
         subject: 'Kích hoạt tài khoản',
-        // html: 'Chaò mừng bạn đến với Aviato shop!<br><br>'
-        //     + 'Xin vui lòng bấm vào đường link bên dưới để kích hoạt tài khoản của bạn:<br><br>'
-        //     + `<u>http://${hostname}/user/${userId}/active</u>`
         html: 'Chúng tôi vừa tiếp nhận thông tin kích hoạt tài khoản của bạn.!<br><br>'
             + 'Đừng lo lắng! Bạn có thể nhấn vào liên kết dưới đây để reset của bạn:<br><br>'
-            + `<u>http://${hostname}/user/${userId}/active></u>`
+            + `<u>http://${hostname}/user/${userId}/active</u>`
     }
     mailerService.transporter.sendMail(mail, function (error, info) {
         if (error) {

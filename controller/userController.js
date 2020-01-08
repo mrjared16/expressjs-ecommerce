@@ -141,21 +141,23 @@ exports.getProfile = async (req, res) => {
 
 exports.postProfile = async (req, res) => {
     let imageFile = null;
-    const dUri = new Datauri();
-    dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
-    await cloudinary.uploader.upload(dUri.content, { public_id: `avatar/${req.user.id}` })
-        .then(result => {
-            imageFile = result.url;
-            console.log("file: ", result.url);
-            // newProduct.assert.img.push(result.url);
-        })
-        .catch(err => {
-            console.log(err);
-            return {
-                type: 'error',
-                message: 'Đã có lỗi xảy ra'
-            }
-        })
+    if (req.file) {
+        const dUri = new Datauri();
+        dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+        await cloudinary.uploader.upload(dUri.content, { public_id: `avatar/${req.user.id}` })
+            .then(result => {
+                imageFile = result.url;
+                console.log("file: ", result.url);
+                // newProduct.assert.img.push(result.url);
+            })
+            .catch(err => {
+                console.log(err);
+                return {
+                    type: 'error',
+                    message: 'Đã có lỗi xảy ra'
+                }
+            })
+    }
 
     let invalid = {};
     if (req.body.name == '') {
@@ -182,16 +184,15 @@ exports.postProfile = async (req, res) => {
             mess = mess + '<br>' + invalid.phone;
         }
     }
-    const viewModel = {
-        name,
-        address,
-        phone,
-        dob: (formatDob) ? formatDob : null,
-        avatar: (avatar) ? avatar : '/static/images/avatar.jpg',
-        alert: (invalid.name || invalid.phone) ? { type: 'danger', message: mess } : { type: 'success', message: 'Đã lưu lại thông tin' }
-    };
-    req.flash('alert', 'success');
-    req.flash('alert', 'Đã lưu lại thông tin');
+
+    if (invalid.name || invalid.phone) {
+        req.flash('alert', 'danger');
+        req.flash('alert', mess);
+    }
+    else {
+        req.flash('alert', 'success');
+        req.flash('alert', 'Đã lưu lại thông tin');
+    }
     res.redirect('/user/profile');
 };
 
@@ -213,7 +214,7 @@ exports.postResetPass = async (req, res) => {
         req.flash('alert', 'danger');
         req.flash('alert', 'Làm mới mật khẩu thất bại');
     }
-    res.redirect('/user/resetPassword');
+    res.redirect(`/user/${req.params.id}/resetPassword`);
 }
 
 exports.getChangePass = (req, res) => {
@@ -231,7 +232,7 @@ exports.postChangePass = async (req, res) => {
     }
     else {
         req.flash('alert', 'danger');
-        req.flash('alert', 'Thay đổi mật khẩu thất bại');
+        req.flash('alert', result.message);
     }
     res.redirect('/user/changePass');
 }

@@ -48,7 +48,7 @@ blockquote {
   background: #000;
 }
 
-input[type="email"], input[type="password"], input[type="text"], input[type="tel"], input[type="date"] {
+input[type="email"], input[type="password"], input[type="text"], input[type="tel"], input[type="date"], input[type="number"]{
   border-radius: 0;
   box-shadow: none;
   height: 45px;
