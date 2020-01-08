@@ -99,7 +99,7 @@ exports.updateUserInfo = async ({ username }, newInfo, imageFile, invalid) => {
     }
     user.dob = newInfo.dob;
     if (imageFile) {
-        user.avatar = `/static/images/${imageFile}`;
+        user.avatar = `${imageFile}`;
     }
     return await user.save();
 }

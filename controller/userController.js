@@ -3,24 +3,13 @@ const cartService = require('../models/cartService');
 const orderService = require('../models/orderService');
 const Util = require('../util');
 const passport = require('passport');
+const cloudinary = require('../config/cloudinary');
+const Datauri = require('datauri');
 
-
-// upload file
-// ==========
-const multer = require("multer");
+// // upload file
+// // ==========
+// const multer = require("multer");
 const path = require("path");
-
-const storage = multer.diskStorage({
-    destination: './public/images',
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));  //path file store
-    }
-});
-
-const uploadImage = multer({
-    storage: storage
-}).single('avatar');
-// ==========
 
 exports.getLogin = (req, res) => {
     res.render('user/login');
@@ -151,21 +140,38 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.postProfile = async (req, res) => {
-    await new Promise(function (resolve, reject) {
-        uploadImage(req, res, (err) => {
-            if (err) {
-                console.log(err);
+    // await new Promise(function (resolve, reject) {
+    //     uploadImage(req, res, (err) => {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //         resolve();
+    //     });
+    // });
+    // let imageFile;
+    // if (req.file) {
+    //     imageFile = req.file.filename;
+    // }
+    // else {
+    //     imageFile = null;
+    // }
+    // console.log("here~~~", req.file.originalname, path.extname(req.file.originalname).toString());
+    let imageFile = null;
+    const dUri = new Datauri();
+    dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+    await cloudinary.uploader.upload(dUri.content, { public_id: `avatar/${req.user.id}` })
+        .then(result => {
+            imageFile = result.url;
+            console.log("file: ", result.url);
+            // newProduct.assert.img.push(result.url);
+        })
+        .catch(err => {
+            console.log(err);
+            return {
+                type: 'error',
+                message: 'Đã có lỗi xảy ra'
             }
-            resolve();
-        });
-    });
-    let imageFile;
-    if (req.file) {
-        imageFile = req.file.filename;
-    }
-    else {
-        imageFile = null;
-    }
+        })
 
     let invalid = {};
     if (req.body.name == '') {
@@ -174,7 +180,6 @@ exports.postProfile = async (req, res) => {
     if (req.body.phone != '' && req.body.phone.length != 10) {
         invalid.phone = "Số điện thoại không hợp lệ";
     }
-    console.log("du lieu la", invalid.name);
     const { name, address, phone, dob, avatar } = await userService.updateUserInfo(req.user, req.body, imageFile, invalid);
     let formatDob;
     if (dob) {
