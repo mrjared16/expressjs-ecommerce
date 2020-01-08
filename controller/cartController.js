@@ -44,14 +44,39 @@ exports.getPayment = async (req, res) => {
 }
 
 exports.postPayment = async (req, res) => {
-    console.log("ten la: ", req.body.name);
-    const { items, totalPrice } = await cartService.getItemsDetailInCart(req.session.cart);
-    if (items.length == 0) {
-        req.flash('alert', 'danger');
-        req.flash('alert', 'Giỏ hàng của bạn hiện đang rỗng')
-        res.redirect('checkout/payment');
-        return;
-    }
+  const {items, totalPrice} = await cartService.getItemsDetailInCart(req.session.cart);
+  const { name, phone, address } = req.user;
+  const viewModel = {
+    name: name ? name : '',
+    phone: phone ? phone : '',
+    address: address ? address : '',
+    items,
+    totalPrice
+  };
+
+  if (items.length == 0) {
+      viewModel.alert = { type: 'danger', message: "Giỏ hàng của bạn hiện đang rỗng" };
+      res.render('checkout/payment', viewModel);
+      return;
+  }
+
+  if (req.body.name == '') {
+      viewModel.alert = { type: 'danger', message: "Họ tên không được để trống" };
+      res.render('checkout/payment', viewModel);
+      return;
+  }
+
+  if (req.body.address == '') {
+      viewModel.alert = { type: 'danger', message: "Địa chỉ không được để trống" };
+      res.render('checkout/payment', viewModel);
+      return;
+  }
+
+  if (req.body.phone == '') {
+      viewModel.alert = { type: 'danger', message: "Số điện thoại không được để trống" };
+      res.render('checkout/payment', viewModel);
+      return;
+  }
 
     // Check quantity of prodcut is valid
     const result = await cartService.checkCart(req.session.cart);
