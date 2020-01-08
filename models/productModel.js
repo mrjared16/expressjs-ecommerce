@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./commentModel');
 
 const ProductSchema = new mongoose.Schema({
     name: String,
@@ -41,7 +42,7 @@ const ProductSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports.Product = mongoose.model('product', ProductSchema, 'product');
+exports.Product = mongoose.model('product', ProductSchema, 'product');
 
 const GenderSchema = new mongoose.Schema({
     name: String,
@@ -68,9 +69,9 @@ const SizeOptionSchema = new mongoose.Schema({
     key: String
 });
 
-module.exports.Gender = mongoose.model('gender', GenderSchema, 'gender');
-module.exports.Brand = mongoose.model('brand', BrandSchema, 'brand');
-module.exports.Category = mongoose.model('category', CategorySchema, 'category');
-module.exports.Group = mongoose.model('group', GroupSchema, 'group');
-module.exports.ColorOption = mongoose.model('color', ColorOptionSchema, 'color');
-module.exports.SizeOption = mongoose.model('size', SizeOptionSchema, 'size');
+exports.Gender = mongoose.model('gender', GenderSchema, 'gender');
+exports.Brand = mongoose.model('brand', BrandSchema, 'brand');
+exports.Category = mongoose.model('category', CategorySchema, 'category');
+exports.Group = mongoose.model('group', GroupSchema, 'group');
+exports.ColorOption = mongoose.model('color', ColorOptionSchema, 'color');
+exports.SizeOption = mongoose.model('size', SizeOptionSchema, 'size');

@@ -1,34 +1,40 @@
+const Util = require('../util');
 
-module.exports.getProductListViewModel = (products) => {
+exports.getProductListViewModel = (products) => {
     const productsViewModel = products.map(item => ({
         hasBage: (item.sale && item.sale > 0) ? true : false,
         imgpath: item.assert.img[0],
         name: item.name,
         price: item.price,
-        title: item.name.length > 20 ? item.name.substr(0, 19) + '...' : item.name,
+        title: item.name.length > 17 ? item.name.substr(0, 17) + '...' : item.name,
         id: item._id
     }));
     return productsViewModel;
 }
 
-module.exports.getProductDetailViewModel = (product) => {
+exports.getProductDetailViewModel = (product) => {
+    let { _id, name, description, price, quantity, review, view } = product;
+    let color, size;
+    [color, size] = ['color', 'size'].map(field => product.option[field].map(option => option.name));
+
     const productViewModel = {
         active_img: product.assert.img[0],
         img: product.assert.img.slice(1, product.assert.img.length),
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        color: product.option.color,
-        size: product.option.size,
-        quantity: product.quantity,
-        tag: product.tag,
-        view: product.view
+        name,
+        description,
+        price,
+        color,
+        size,
+        quantity,
+        view,
+        review,
+        id: _id
     }
     return productViewModel;
 }
 
 
-module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
+exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, queryParams }) => {
     return {
         itemPerPage,
         currentPage,
@@ -38,7 +44,7 @@ module.exports.getPageOption = ({ itemPerPage, currentPage, totalItems, url, que
     }
 }
 
-module.exports.getSortOption = ({ query }) => {
+exports.getSortOption = ({ query }) => {
     const option = new function () {
         this.queryString = 'sort',
             this.list = [{
@@ -65,7 +71,7 @@ module.exports.getSortOption = ({ query }) => {
     };
     return option;
 }
-module.exports.getFilterOptions = async ({ query, data }) => {
+exports.getFilterOptions = async ({ query, data }) => {
     const title = {
         gender: 'Giới tính',
         brand: 'Thương hiệu',

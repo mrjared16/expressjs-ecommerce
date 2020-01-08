@@ -48,7 +48,7 @@ blockquote {
   background: #000;
 }
 
-input[type="email"], input[type="password"], input[type="text"], input[type="tel"], input[type="date"] {
+input[type="email"], input[type="password"], input[type="text"], input[type="tel"], input[type="date"], input[type="number"]{
   border-radius: 0;
   box-shadow: none;
   height: 45px;
@@ -196,6 +196,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 
 .section {
   padding: 80px 0;
+}
+.products.section {
+  padding: 0 0 40px 0;
 }
 
 .title {
@@ -1707,6 +1710,8 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   margin-bottom: 50px;
 }
 
+
+
 .post-comments {
   margin: 30px 0;
 }
@@ -1725,15 +1730,24 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-comments .comment-author a {
+  font-size: 14px;
+  color: rgb(41, 41, 41);
+}
+
+.post-comments .comment-author a:not(.guest-comment) {
+  font-weight: 600;
   color: #000;
-  font-weight: 400;
-  font-size: 12px;
-  text-transform: uppercase;
+}
+
+.post-comments hr {
+  margin: 5px;
 }
 
 .post-comments p {
-  margin-bottom: 30px;
+  color: rgb(115, 115, 115);
+  margin-bottom: 5px;
   font-size: 14px;
+  font-weight: 400;
 }
 
 .post-comments time {
@@ -1758,6 +1772,10 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 
 .post-comments .comment-button:hover {
   color: #000;
+}
+
+.post-comments .guest-comment {
+  color: #333;
 }
 
 .post-excerpt {
@@ -1950,10 +1968,10 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   background-repeat: no-repeat;
 }
 
-.widget {
-  /* margin-bottom: 30px;
-  padding-bottom: 35px; */
-}
+/* .widget {
+  margin-bottom: 30px;
+  padding-bottom: 35px; 
+} */
 
 .widget .widget-title {
   margin: 0;
@@ -2034,6 +2052,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
   border: 1px solid #000;
 }
 
+.product-list {
+  margin: 15px -15px;
+}
 /*=================================================================
   Latest Posts
 ==================================================================*/
@@ -2117,7 +2138,7 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .post-pagination {
-
+  margin: 0;
 }
 
 .post-pagination > li {

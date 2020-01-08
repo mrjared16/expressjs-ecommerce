@@ -4,16 +4,36 @@
         <div class="row">
             <form id="queryForm" method="get">
                 <div class="col-md-3">
-                    {{{createSortOption sortOption}}}
                     {{{createCheckBoxOptions filterOptions}}}
                 </div>
                 <div class="col-md-9">
-                    <div class="text-right">
-                        {{{createPagination pageOptions}}}
+                    {{!-- name  --}}
+                    <div class="row widget">
+                        <h4 class="col-md-3 widget-title">Sắp xếp</h4>
                     </div>
+
+                    {{!-- sort, search, pagination --}}
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{{createSortOption sortOption}}}
+                        </div>
+                        <div class="col-md-3">
+                            <input type="search" name="name" class="form-control" placeholder="Nhập tên sản phẩm" value="{{search}}">
+                        </div>
+                        <div class="col-md-6 text-right">
+                            {{{createPagination pageOptions}}}
+                        </div>
+                    </div>
+
+                    {{!-- products --}}
                     {{> productList}}
-                    <div class="text-right">
-                        {{{createPagination pageOptions}}}
+
+                    {{!-- pagination --}}
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6 text-right">
+                            {{{createPagination pageOptions}}}
+                        </div>
                     </div>
                 </div>
             </form>

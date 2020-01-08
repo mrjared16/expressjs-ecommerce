@@ -4,20 +4,24 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-require('dotenv').config();
 const session = require('express-session');
+const flash = require('connect-flash');
+require('dotenv').config();
 const passport = require('passport');
 const passportConfig = require('./config/passport');
 
+const customMiddleware = require('./middlewares');
+
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const productRouter = require('./routes/product');
-const checkoutRouter = require('./routes/checkout');
-const dashboardRouter = require('./routes/dashboard');
-const cartRouter = require('./routes/cart');
+//config for stripe
+const bodyParser = require("body-parser");
 
 
 const app = express();
+
+// config for stripe
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // static file first
 app.use('/static', express.static(path.join(__dirname, 'public')));
@@ -47,23 +51,23 @@ app.use(session({
   resave: true
 }));
 
+// flash
+app.use(flash());
+
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
 // config passport
-passportConfig(passport, app);
+passportConfig(passport);
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(customMiddleware);
+
 app.use('/', indexRouter);
-app.use('/user', usersRouter);
-app.use('/product', productRouter);
-app.use('/checkout', checkoutRouter);
-app.use('/dashboard', dashboardRouter);
-app.use('/cart', cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

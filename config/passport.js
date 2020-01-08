@@ -1,14 +1,14 @@
 const LocalStrategy = require('passport-local').Strategy;
 const userService = require('../models/userService');
 
-module.exports = (passport, express) => {
+module.exports = (passport) => {
     // Using LocalStrategy with passport
     passport.use(new LocalStrategy(
         async (username, password, done) => {
             let user;
             try {
                 user = await userService.getUserByUsername(username);
-                if (!user) {
+                if (!user || user.status == 'deleted') {
                     return done(null, false, 'Không tìm thấy tên tài khoản');
                 }
             } catch (err) {
@@ -19,6 +19,15 @@ module.exports = (passport, express) => {
             if (!await userService.comparePassword(password, user.password)) {
                 return done(null, false, 'Sai mật khẩu');
             }
+
+            if (user.status == 'inactive') {
+                return done(null, false, 'Tài khoản chưa kích hoạt');
+            }
+
+            if (user.status == 'banned') {
+                return done(null, false, 'Tài khoản bị khóa');
+            }
+
             return done(null, user);
         }
     ));
@@ -38,11 +47,5 @@ module.exports = (passport, express) => {
             done(e);
         }
 
-    });
-
-    express.use((req, res, next) => {
-        if (req.user)
-            res.locals.user = req.user;
-        next();
     });
 }

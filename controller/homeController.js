@@ -5,7 +5,8 @@ const cartService = require('../models/cartService');
 exports.index = async (req, res) => {
     const products = await productService.getHotProducts(req, res);
     const viewModel = {
-        products: productViewModel.getProductListViewModel(products)
+        products: productViewModel.getProductListViewModel(products),
+        numberItemInARow: 4
     }
     res.render('index', viewModel);
 }
